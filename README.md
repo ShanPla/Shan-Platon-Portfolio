@@ -72,14 +72,19 @@ vercel
 Or drag the `dist/` folder into [Vercel](https://vercel.com/new) or
 [Netlify Drop](https://app.netlify.com/drop).
 
+## Adding a profile photo
+
+1. Add a photo to `public/` (e.g. `public/profile.jpg`). Square images work best.
+2. In `src/data/content.js`, set `profile.image` to the path, e.g. `"/profile.jpg"`.
+3. If left as `null`, the hero shows initials in a circle instead.
+
 ## Adding project screenshots
 
-Project cards currently use a status-badge design rather than screenshots.
-To add real screenshots:
-
-1. Add image files to `public/` (e.g. `public/projects/example.png`).
-2. In `src/components/Projects.jsx`, add an `<img>` element pointing to
-   `/projects/example.png` above the card content.
+1. Add image files to `public/projects/` (e.g. `public/projects/lipaaction.png`).
+2. In `src/data/content.js`, set the `image` field on the relevant project entry,
+   e.g. `"/projects/lipaaction.png"`.
+3. If left as `null`, that project card falls back to the status-badge design
+   with no screenshot.
 
 ## Adding a downloadable resume
 

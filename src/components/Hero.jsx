@@ -1,4 +1,30 @@
+import { useState } from "react";
 import { profile, stats } from "../data/content.js";
+
+const initials = profile.name
+  .split(" ")
+  .map((part) => part[0])
+  .join("")
+  .slice(0, 2)
+  .toUpperCase();
+
+function Avatar() {
+  const [imgError, setImgError] = useState(false);
+  const hasImage = Boolean(profile.image) && !imgError;
+
+  return hasImage ? (
+    <img
+      src={profile.image}
+      alt={profile.name}
+      onError={() => setImgError(true)}
+      className="h-24 w-24 shrink-0 rounded-full border-2 border-line object-cover shadow-sm sm:h-28 sm:w-28"
+    />
+  ) : (
+    <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-line bg-surface font-display text-xl font-semibold text-inkmuted sm:h-28 sm:w-28 sm:text-2xl">
+      {initials}
+    </div>
+  );
+}
 
 export default function Hero() {
   return (
@@ -11,12 +37,18 @@ export default function Hero() {
           {profile.availability}
         </div>
 
-        <h1 className="max-w-3xl font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-6xl">
-          {profile.name}
-        </h1>
-        <p className="mt-3 font-mono text-sm uppercase tracking-wider text-signal sm:text-base">
-          {profile.role}
-        </p>
+        <div className="flex flex-wrap items-center gap-5 sm:gap-6">
+          <Avatar />
+          <div>
+            <h1 className="max-w-3xl font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-6xl">
+              {profile.name}
+            </h1>
+            <p className="mt-3 font-mono text-sm uppercase tracking-wider text-signal sm:text-base">
+              {profile.role}
+            </p>
+          </div>
+        </div>
+
         <p className="mt-6 max-w-xl text-base leading-relaxed text-inkmuted sm:text-lg">
           {profile.tagline}
         </p>

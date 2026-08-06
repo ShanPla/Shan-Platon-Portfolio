@@ -8,6 +8,9 @@ export const profile = {
   phone: "0956 893 2434",
   github: "https://github.com/ShanPla",
   availability: "OPEN FOR OJT",
+  // Set to a path in public/ once a photo is available, e.g. "/profile.jpg".
+  // Leave as null to show initials instead.
+  image: null,
 };
 
 export const stats = [
@@ -47,6 +50,8 @@ export const projects = [
     stack: ["React Native", "Expo", "Supabase"],
     status: "IN PROGRESS",
     accent: "signal",
+    // Set to a path in public/projects/ once a screenshot is available, e.g. "/projects/lipaaction.png".
+    image: null,
   },
   {
     id: "iris",
@@ -58,6 +63,7 @@ export const projects = [
     stack: ["React", "TypeScript", "Tailwind CSS", "React Native", "Expo"],
     status: "SHIPPED",
     accent: "ok",
+    image: null,
   },
   {
     id: "luxestay",
@@ -69,7 +75,6 @@ export const projects = [
     stack: ["React Native", "Expo", "Firebase"],
     status: "SHIPPED",
     accent: "amber",
+    image: null,
   },
 ];
-
-
