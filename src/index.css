@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-ink font-body antialiased;
+}
+
+::selection {
+  @apply bg-signal/20 text-ink;
+}
+
+:focus-visible {
+  outline: 2px solid #2f6fed;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
