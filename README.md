@@ -1,11 +1,19 @@
-# Shan Christian Platon — Portfolio
+# Developer Portfolio
 
 A single-page developer portfolio built with React, Vite, and Tailwind CSS.
+Features a status-dashboard visual style, section-based layout (About,
+Skills, Projects, Contact), and a content file separated from the UI code
+for easy editing.
+
+## Tech stack
+
+- [React](https://react.dev) — UI library
+- [Vite](https://vitejs.dev) — build tool and dev server
+- [Tailwind CSS](https://tailwindcss.com) — utility-first styling
 
 ## Project structure
 
 ```
-shan-platon-portfolio/
 ├── index.html              # HTML entry point, fonts, meta tags
 ├── package.json
 ├── vite.config.js
@@ -16,25 +24,18 @@ shan-platon-portfolio/
 │   ├── App.jsx               # Composes all page sections
 │   ├── index.css             # Tailwind directives + base styles
 │   ├── data/
-│   │   └── content.js        # ALL editable content lives here
+│   │   └── content.js        # All editable content lives here
 │   └── components/
 │       ├── Nav.jsx
 │       ├── Hero.jsx
 │       ├── About.jsx
 │       ├── Skills.jsx
 │       ├── Projects.jsx
-│       ├── Experience.jsx
 │       └── Contact.jsx
-└── public/                   # Static assets (add images/resume PDF here)
+└── public/                   # Static assets (images, resume, etc.)
 ```
 
-## Editing content
-
-Almost everything you'd want to change — name, bio, skills, projects,
-experience, seminars, contact info — lives in **`src/data/content.js`**.
-You shouldn't need to touch the component files for text changes.
-
-## Running locally
+## Getting started
 
 Requires [Node.js](https://nodejs.org) 18+.
 
@@ -43,7 +44,13 @@ npm install
 npm run dev
 ```
 
-Then open the URL shown in the terminal (usually `http://localhost:5173`).
+Open the URL shown in the terminal (usually `http://localhost:5173`).
+
+## Editing content
+
+Site text — name, bio, skills, project descriptions, contact info — lives
+in `src/data/content.js`. Component files under `src/components/` handle
+layout and styling only, so most updates don't require touching them.
 
 ## Building for production
 
@@ -51,32 +58,35 @@ Then open the URL shown in the terminal (usually `http://localhost:5173`).
 npm run build
 ```
 
-This outputs a static site to the `dist/` folder.
+Outputs a static site to the `dist/` folder.
 
-## Deploying
+## Deployment
 
-The `dist/` folder is a static site and can be deployed anywhere. Since you
-already use Vercel for other projects:
+The `dist/` folder is a static site and can be deployed to any static host:
 
 ```bash
 npm install -g vercel
 vercel
 ```
 
-Or just drag the `dist/` folder into [vercel.com/new](https://vercel.com/new)
-or [Netlify Drop](https://app.netlify.com/drop).
+Or drag the `dist/` folder into [Vercel](https://vercel.com/new) or
+[Netlify Drop](https://app.netlify.com/drop).
 
-## Adding real project screenshots
+## Adding project screenshots
 
-Currently the project cards use a status-badge design instead of screenshots
-(since none were provided). To add real screenshots:
+Project cards currently use a status-badge design rather than screenshots.
+To add real screenshots:
 
-1. Drop images into `public/` (e.g. `public/projects/lipaaction.png`).
-2. In `src/components/Projects.jsx`, add an `<img>` above the card content
-   pointing to `/projects/lipaaction.png`.
+1. Add image files to `public/` (e.g. `public/projects/example.png`).
+2. In `src/components/Projects.jsx`, add an `<img>` element pointing to
+   `/projects/example.png` above the card content.
 
-## Adding your resume as a download
+## Adding a downloadable resume
 
-1. Drop your resume PDF/DOCX into `public/` (e.g. `public/resume.pdf`).
+1. Add a resume file to `public/` (e.g. `public/resume.pdf`).
 2. Add a link in `src/components/Contact.jsx` or `Hero.jsx`:
    `<a href="/resume.pdf" download>Download Resume</a>`
+
+## License
+
+This project is available for personal use and modification.
