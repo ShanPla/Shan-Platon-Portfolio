@@ -1,21 +1,66 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { projects } from "../data/content.js";
 
 const ACCENTS = {
-  signal: { dot: "bg-signal", text: "text-signal", border: "hover:border-signal/50" },
-  ok: { dot: "bg-ok", text: "text-ok", border: "hover:border-ok/50" },
-  amber: { dot: "bg-amber", text: "text-amber", border: "hover:border-amber/50" },
+  signal: { dot: "bg-signal", text: "text-signal", border: "hover:border-signal/50", glow: "47,111,237" },
+  ok: { dot: "bg-ok", text: "text-ok", border: "hover:border-ok/50", glow: "47,168,112" },
+  amber: { dot: "bg-amber", text: "text-amber", border: "hover:border-amber/50", glow: "242,153,74" },
 };
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function ProjectCard({ project }) {
   const accent = ACCENTS[project.accent];
   const [imgError, setImgError] = useState(false);
   const hasImage = Boolean(project.image) && !imgError;
 
+  const cardRef = useRef(null);
+  const reduceMotion = prefersReducedMotion();
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
+
+  const handleMouseMove = (e) => {
+    if (reduceMotion || !cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    setTilt({
+      rotateX: (0.5 - py) * 6,
+      rotateY: (px - 0.5) * 6,
+      glowX: px * 100,
+      glowY: py * 100,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
+  };
+
   return (
     <article
-      className={`group overflow-hidden rounded-xl border border-line bg-surface transition-colors ${accent.border}`}
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={
+        reduceMotion
+          ? undefined
+          : {
+              transform: `perspective(700px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
+              transition: "transform 150ms ease-out",
+            }
+      }
+      className={`group relative overflow-hidden rounded-xl border border-line bg-surface transition-colors ${accent.border}`}
     >
+      {!reduceMotion && (
+        <div
+          className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background: `radial-gradient(220px circle at ${tilt.glowX}% ${tilt.glowY}%, rgba(${accent.glow},0.10), transparent 70%)`,
+          }}
+        />
+      )}
+
       {hasImage && (
         <img
           src={project.image}
@@ -25,7 +70,7 @@ function ProjectCard({ project }) {
         />
       )}
 
-      <div className="p-6">
+      <div className="relative p-6">
         <div className="flex items-center justify-between">
           <span className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
             {project.tag}

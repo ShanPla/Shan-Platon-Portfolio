@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { profile, stats } from "../data/content.js";
 
 const initials = profile.name
@@ -7,6 +7,10 @@ const initials = profile.name
   .join("")
   .slice(0, 2)
   .toUpperCase();
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function Avatar() {
   const [imgError, setImgError] = useState(false);
@@ -27,9 +31,39 @@ function Avatar() {
 }
 
 export default function Hero() {
+  const sectionRef = useRef(null);
+  const [spotlight, setSpotlight] = useState({ x: 50, y: 0 });
+  const reduceMotion = prefersReducedMotion();
+
+  const handleMouseMove = useCallback(
+    (e) => {
+      if (reduceMotion || !sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      setSpotlight({
+        x: ((e.clientX - rect.left) / rect.width) * 100,
+        y: ((e.clientY - rect.top) / rect.height) * 100,
+      });
+    },
+    [reduceMotion]
+  );
+
   return (
-    <section id="top" className="relative overflow-hidden border-b border-line">
+    <section
+      id="top"
+      ref={sectionRef}
+      onMouseMove={handleMouseMove}
+      className="relative overflow-hidden border-b border-line"
+    >
       <div className="pointer-events-none absolute inset-0 bg-grid bg-grid opacity-40 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_70%)]" />
+
+      {!reduceMotion && (
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: `radial-gradient(420px circle at ${spotlight.x}% ${spotlight.y}%, rgba(47,111,237,0.13), transparent 70%)`,
+          }}
+        />
+      )}
 
       <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-20 sm:pt-28">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-ok/30 bg-ok/10 px-3 py-1 font-mono text-xs uppercase tracking-wider text-ok">
