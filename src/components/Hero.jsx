@@ -66,12 +66,21 @@ export default function Hero() {
       )}
 
       <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-20 sm:pt-28">
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-ok/30 bg-ok/10 px-3 py-1 font-mono text-xs uppercase tracking-wider text-ok">
+        <div
+          className={`mb-6 inline-flex items-center gap-2 rounded-full border border-ok/30 bg-ok/10 px-3 py-1 font-mono text-xs uppercase tracking-wider text-ok ${
+            reduceMotion ? "" : "opacity-0 animate-fade-up"
+          }`}
+        >
           <span className="h-1.5 w-1.5 rounded-full bg-ok" />
           {profile.availability}
         </div>
 
-        <div className="flex flex-wrap items-center gap-5 sm:gap-6">
+        <div
+          className={`flex flex-wrap items-center gap-5 sm:gap-6 ${
+            reduceMotion ? "" : "opacity-0 animate-fade-up"
+          }`}
+          style={reduceMotion ? undefined : { animationDelay: "90ms" }}
+        >
           <Avatar />
           <div>
             <h1 className="max-w-3xl font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-6xl">
@@ -83,11 +92,19 @@ export default function Hero() {
           </div>
         </div>
 
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-inkmuted sm:text-lg">
+        <p
+          className={`mt-6 max-w-xl text-base leading-relaxed text-inkmuted sm:text-lg ${
+            reduceMotion ? "" : "opacity-0 animate-fade-up"
+          }`}
+          style={reduceMotion ? undefined : { animationDelay: "180ms" }}
+        >
           {profile.tagline}
         </p>
 
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div
+          className={`mt-8 flex flex-wrap gap-3 ${reduceMotion ? "" : "opacity-0 animate-fade-up"}`}
+          style={reduceMotion ? undefined : { animationDelay: "270ms" }}
+        >
           <a
             href="#projects"
             className="rounded-full bg-ink px-5 py-2.5 font-mono text-xs uppercase tracking-wider text-paper transition-colors hover:bg-signal"
@@ -103,7 +120,12 @@ export default function Hero() {
         </div>
 
         {/* Signature element: system-status readout strip */}
-        <div className="mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4">
+        <div
+          className={`mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4 ${
+            reduceMotion ? "" : "opacity-0 animate-fade-up"
+          }`}
+          style={reduceMotion ? undefined : { animationDelay: "360ms" }}
+        >
           {stats.map((stat) => (
             <div key={stat.label} className="bg-surface px-4 py-4">
               <p className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">

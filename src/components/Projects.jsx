@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { projects } from "../data/content.js";
+import Reveal from "./Reveal.jsx";
 
 const ACCENTS = {
   signal: { dot: "bg-signal", text: "text-signal", border: "hover:border-signal/50", glow: "47,111,237" },
@@ -107,14 +108,18 @@ export default function Projects() {
   return (
     <section id="projects" className="border-b border-line">
       <div className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
-        <p className="font-mono text-xs uppercase tracking-widest text-signal">03 — Projects</p>
-        <h2 className="mt-3 font-display text-2xl font-semibold text-ink sm:text-3xl">
-          Systems I've helped build
-        </h2>
+        <Reveal>
+          <p className="font-mono text-xs uppercase tracking-widest text-signal">03 — Projects</p>
+          <h2 className="mt-3 font-display text-2xl font-semibold text-ink sm:text-3xl">
+            Systems I've helped build
+          </h2>
+        </Reveal>
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+          {projects.map((project, i) => (
+            <Reveal key={project.id} delay={i * 100}>
+              <ProjectCard project={project} />
+            </Reveal>
           ))}
         </div>
       </div>

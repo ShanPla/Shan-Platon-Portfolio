@@ -1,17 +1,20 @@
 import { skills } from "../data/content.js";
+import Reveal from "./Reveal.jsx";
 
 export default function Skills() {
   return (
     <section id="skills" className="border-b border-line bg-surface">
       <div className="mx-auto max-w-5xl px-6 py-16 sm:py-20">
-        <p className="font-mono text-xs uppercase tracking-widest text-signal">02 — Skills</p>
-        <h2 className="mt-3 font-display text-2xl font-semibold text-ink sm:text-3xl">
-          Toolkit
-        </h2>
+        <Reveal>
+          <p className="font-mono text-xs uppercase tracking-widest text-signal">02 — Skills</p>
+          <h2 className="mt-3 font-display text-2xl font-semibold text-ink sm:text-3xl">
+            Toolkit
+          </h2>
+        </Reveal>
 
         <div className="mt-10 grid gap-8 sm:grid-cols-2">
-          {skills.map((group) => (
-            <div key={group.group}>
+          {skills.map((group, i) => (
+            <Reveal key={group.group} delay={i * 100}>
               <h3 className="font-mono text-xs uppercase tracking-wider text-inkmuted">
                 {group.group}
               </h3>
@@ -25,7 +28,7 @@ export default function Skills() {
                   </span>
                 ))}
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
