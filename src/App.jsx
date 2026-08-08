@@ -1,21 +1,12 @@
-import Nav from "./components/Nav.jsx";
-import Hero from "./components/Hero.jsx";
-import About from "./components/About.jsx";
-import Skills from "./components/Skills.jsx";
-import Projects from "./components/Projects.jsx";
-import Contact from "./components/Contact.jsx";
+import { Route, Routes } from "react-router-dom";
+import Home from "./Home.jsx";
+import ProjectDetail from "./ProjectDetail.jsx";
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-paper">
-      <Nav />
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Contact />
-      </main>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/projects/:id" element={<ProjectDetail />} />
+    </Routes>
   );
 }

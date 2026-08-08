@@ -46,6 +46,24 @@ npm run dev
 
 Open the URL shown in the terminal (usually `http://localhost:5173`).
 
+## Routing
+
+The site has two routes, handled by React Router:
+
+- `/` — the single-page home (Hero, About, Skills, Projects, Contact)
+- `/projects/:id` — a detail page per project, generated from the same
+  `projects` array in `src/data/content.js` (matched by each project's `id`)
+
+Each project card's "View Details" link points to its `/projects/:id` route.
+`src/ProjectDetail.jsx` is currently a clean template (title, description,
+stack, role, image if set) — expand it with a fuller write-up, more images,
+or repo/demo links as needed. There's a `TODO` comment marking where to
+extend it.
+
+`vercel.json` includes a rewrite rule so direct links like
+`yoursite.com/projects/iris` work correctly in production (without it,
+only in-app navigation would work, and refreshing the page would 404).
+
 ## Editing content
 
 Site text — name, bio, skills, project descriptions, contact info — lives

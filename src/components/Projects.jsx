@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { projects } from "../data/content.js";
 import Reveal from "./Reveal.jsx";
 
@@ -99,6 +100,16 @@ function ProjectCard({ project }) {
             </span>
           ))}
         </div>
+
+        <Link
+          to={`/projects/${project.id}`}
+          className={`relative z-20 mt-5 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider ${accent.text} transition-opacity hover:opacity-70`}
+        >
+          View Details
+          <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
+            →
+          </span>
+        </Link>
       </div>
     </article>
   );
