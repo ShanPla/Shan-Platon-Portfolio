@@ -8,6 +8,7 @@ export const profile = {
   phone: "0956 893 2434",
   github: "https://github.com/ShanPla",
   availability: "OPEN FOR OJT",
+
   // Set to a path in public/ once a photo is available, e.g. "/profile.jpg".
   // Leave as null to show initials instead.
   image: null,
@@ -15,27 +16,106 @@ export const profile = {
 
 export const stats = [
   { label: "STACK", value: "React / RN / Supabase" },
-  { label: "FOCUS", value: "Frontend \u2192 Backend" },
+  { label: "FOCUS", value: "Frontend → Backend" },
   { label: "STATUS", value: "OJT-Ready" },
   { label: "BASED IN", value: "Tanauan City, PH" },
 ];
 
 export const skills = [
   {
+    number: "01",
     group: "Frontend",
-    items: ["React", "TypeScript", "JavaScript", "Tailwind CSS", "Vite"],
+    description:
+      "Building responsive interfaces and reusable web experiences.",
+
+    items: [
+      {
+        name: "React",
+        detail: "Component architecture · state · routing",
+      },
+      {
+        name: "TypeScript",
+        detail: "Typed components · interfaces · safer refactors",
+      },
+      {
+        name: "JavaScript",
+        detail: "ES6+ · async logic · browser APIs",
+      },
+      {
+        name: "Tailwind CSS",
+        detail: "Responsive UI · design systems · utility styling",
+      },
+      {
+        name: "Vite",
+        detail: "Fast development · builds · project tooling",
+      },
+    ],
   },
+
   {
+    number: "02",
     group: "Mobile",
-    items: ["React Native", "Expo (SDK 54)"],
+    description:
+      "Creating cross-platform mobile interfaces with a focus on usability.",
+
+    items: [
+      {
+        name: "React Native",
+        detail: "Cross-platform UI · navigation · native components",
+      },
+      {
+        name: "Expo",
+        detail: "Development workflow · EAS · device testing",
+      },
+    ],
   },
+
   {
-    group: "Backend & Data",
-    items: ["Supabase", "Python", "NumPy"],
+    number: "03",
+    group: "Backend",
+    description:
+      "Connecting interfaces to data, authentication, APIs, and backend logic.",
+
+    items: [
+      {
+        name: "Supabase",
+        detail: "Auth · database · realtime",
+      },
+      {
+        name: "Firebase",
+        detail: "Authentication · data · app services",
+      },
+      {
+        name: "Python",
+        detail: "Backend logic · scripting · data processing",
+      },
+    ],
   },
+
   {
-    group: "Tools & Platforms",
-    items: ["Git / GitHub", "Vercel", "EAS Build", "Cisco Packet Tracer", "Node-RED"],
+    number: "04",
+    group: "Tooling",
+    description:
+      "The tools I use to build, ship, test, and manage projects.",
+
+    items: [
+      {
+        name: "Git / GitHub",
+        detail: "Version control · collaboration · repositories",
+      },
+      {
+        name: "Vercel",
+        detail: "Deployment · previews · production hosting",
+      },
+      {
+        name: "EAS",
+        detail: "Mobile builds · submissions · releases",
+      },
+      {
+        name: "Node-RED",
+        detail: "Visual workflows · integrations · automation",
+      },
+    ],
   },
 ];
 
@@ -50,9 +130,12 @@ export const projects = [
     stack: ["React Native", "Expo", "Supabase"],
     status: "IN PROGRESS",
     accent: "signal",
-    // Set to a path in public/projects/ once a screenshot is available, e.g. "/projects/lipaaction.png".
+
+    // Set to a path in public/projects/ once a screenshot is available,
+    // e.g. "/projects/lipaaction.png".
     image: null,
   },
+
   {
     id: "iris",
     name: "IRIS",
@@ -60,11 +143,18 @@ export const projects = [
     description:
       "A full-stack home security system with an admin web dashboard and a homeowner mobile app, covering authentication and real-time API integration.",
     role: "Frontend Development",
-    stack: ["React", "TypeScript", "Tailwind CSS", "React Native", "Expo"],
+    stack: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "React Native",
+      "Expo",
+    ],
     status: "SHIPPED",
     accent: "ok",
     image: null,
   },
+
   {
     id: "luxestay",
     name: "LuxeStay",
