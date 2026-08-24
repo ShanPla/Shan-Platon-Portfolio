@@ -21,10 +21,10 @@ function Avatar() {
       src={profile.image}
       alt={profile.name}
       onError={() => setImgError(true)}
-      className="h-24 w-24 shrink-0 rounded-full border-2 border-line object-cover shadow-sm sm:h-28 sm:w-28"
+      className="h-16 w-16 shrink-0 rounded-full border border-line object-cover sm:h-20 sm:w-20"
     />
   ) : (
-    <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-line bg-surface font-display text-xl font-semibold text-inkmuted sm:h-28 sm:w-28 sm:text-2xl">
+    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-base font-semibold text-inkmuted sm:h-20 sm:w-20 sm:text-lg">
       {initials}
     </div>
   );
@@ -38,7 +38,9 @@ export default function Hero() {
   const handleMouseMove = useCallback(
     (e) => {
       if (reduceMotion || !sectionRef.current) return;
+
       const rect = sectionRef.current.getBoundingClientRect();
+
       setSpotlight({
         x: ((e.clientX - rect.left) / rect.width) * 100,
         y: ((e.clientY - rect.top) / rect.height) * 100,
@@ -54,84 +56,106 @@ export default function Hero() {
       onMouseMove={handleMouseMove}
       className="relative overflow-hidden border-b border-line"
     >
-      <div className="pointer-events-none absolute inset-0 bg-grid bg-grid opacity-40 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_10%,transparent_70%)]" />
+      {/* Background grid */}
+      <div className="pointer-events-none absolute inset-0 bg-grid opacity-40 [mask-image:radial-gradient(ellipse_70%_65%_at_50%_0%,#000_10%,transparent_75%)]" />
 
+      {/* Subtle spotlight */}
       {!reduceMotion && (
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background: `radial-gradient(420px circle at ${spotlight.x}% ${spotlight.y}%, rgba(47,111,237,0.13), transparent 70%)`,
+            background: `radial-gradient(500px circle at ${spotlight.x}% ${spotlight.y}%, rgba(47,111,237,0.10), transparent 70%)`,
           }}
         />
       )}
 
-      <div className="relative mx-auto max-w-5xl px-6 pb-16 pt-20 sm:pt-28">
+      <div className="relative mx-auto max-w-5xl px-6 pb-10 pt-14 sm:pb-12 sm:pt-18">
+        {/* Identity */}
         <div
-          className={`mb-6 inline-flex items-center gap-2 rounded-full border border-ok/30 bg-ok/10 px-3 py-1 font-mono text-xs uppercase tracking-wider text-ok ${
-            reduceMotion ? "" : "opacity-0 animate-fade-up"
-          }`}
+          className={
+            reduceMotion ? "" : "animate-fade-up opacity-0"
+          }
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-ok" />
-          {profile.availability}
-        </div>
+          <div className="flex items-center gap-4">
+            <Avatar />
 
-        <div
-          className={`flex flex-wrap items-center gap-5 sm:gap-6 ${
-            reduceMotion ? "" : "opacity-0 animate-fade-up"
-          }`}
-          style={reduceMotion ? undefined : { animationDelay: "90ms" }}
-        >
-          <Avatar />
-          <div>
-            <h1 className="max-w-3xl font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-6xl">
-              {profile.name}
-            </h1>
-            <p className="mt-3 font-mono text-sm uppercase tracking-wider text-signal sm:text-base">
-              {profile.role}
-            </p>
+            <div className="font-mono text-[10px] uppercase tracking-widest text-inkmuted sm:text-xs">
+              <p>Software & Web</p>
+              <p className="mt-1 text-signal">Developer</p>
+            </div>
           </div>
+
+          {/* Name */}
+          <h1 className="mt-7 whitespace-nowrap font-display text-4xl font-semibold leading-none tracking-[-0.04em] text-ink sm:text-5xl md:text-6xl lg:text-7xl">
+            Shan Platon
+          </h1>
         </div>
 
+        {/* Intro */}
         <p
-          className={`mt-6 max-w-xl text-base leading-relaxed text-inkmuted sm:text-lg ${
-            reduceMotion ? "" : "opacity-0 animate-fade-up"
+          className={`mt-5 max-w-2xl text-sm leading-6 text-inkmuted sm:mt-6 sm:text-base sm:leading-7 ${
+            reduceMotion ? "" : "animate-fade-up opacity-0"
+          }`}
+          style={reduceMotion ? undefined : { animationDelay: "100ms" }}
+        >
+          I build frontend and mobile experiences for systems that solve real
+          problems — from responsive web interfaces to connected applications.
+        </p>
+
+        {/* Actions */}
+        <div
+          className={`mt-6 flex flex-wrap items-center gap-3 ${
+            reduceMotion ? "" : "animate-fade-up opacity-0"
           }`}
           style={reduceMotion ? undefined : { animationDelay: "180ms" }}
         >
-          {profile.tagline}
-        </p>
-
-        <div
-          className={`mt-8 flex flex-wrap gap-3 ${reduceMotion ? "" : "opacity-0 animate-fade-up"}`}
-          style={reduceMotion ? undefined : { animationDelay: "270ms" }}
-        >
           <a
             href="#projects"
-            className="rounded-full bg-ink px-5 py-2.5 font-mono text-xs uppercase tracking-wider text-paper transition-colors hover:bg-signal"
+            className="rounded-full bg-ink px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-paper transition-colors hover:bg-signal"
           >
-            View Projects
+            View My Work
           </a>
+
           <a
-            href={`mailto:${profile.email}`}
-            className="rounded-full border border-ink px-5 py-2.5 font-mono text-xs uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signal"
+            href={profile.github}
+            target="_blank"
+            rel="noreferrer"
+            className="rounded-full border border-line bg-surface px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signal"
           >
-            Get In Touch
+            GitHub
           </a>
+
+          {profile.resume && (
+            <a
+              href={profile.resume}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-line bg-surface px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-inkmuted transition-colors hover:border-ink hover:text-ink"
+            >
+              Resume
+            </a>
+          )}
         </div>
 
-        {/* Signature element: system-status readout strip */}
+        {/* Stats */}
         <div
-          className={`mt-14 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-4 ${
-            reduceMotion ? "" : "opacity-0 animate-fade-up"
+          className={`mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-10 sm:grid-cols-4 ${
+            reduceMotion ? "" : "animate-fade-up opacity-0"
           }`}
-          style={reduceMotion ? undefined : { animationDelay: "360ms" }}
+          style={reduceMotion ? undefined : { animationDelay: "260ms" }}
         >
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-surface px-4 py-4">
-              <p className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+            <div
+              key={stat.label}
+              className="bg-surface px-4 py-4 transition-colors hover:bg-paper sm:px-5"
+            >
+              <p className="font-mono text-[9px] uppercase tracking-widest text-inkmuted sm:text-[10px]">
                 {stat.label}
               </p>
-              <p className="mt-1 font-display text-sm font-medium text-ink">{stat.value}</p>
+
+              <p className="mt-1.5 text-xs font-medium text-ink sm:text-sm">
+                {stat.value}
+              </p>
             </div>
           ))}
         </div>

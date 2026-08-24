@@ -7,18 +7,21 @@ export const profile = {
   email: "platonshan0@gmail.com",
   phone: "0956 893 2434",
   github: "https://github.com/ShanPla",
-  availability: "OPEN FOR OJT",
 
-  // Set to a path in public/ once a photo is available, e.g. "/profile.jpg".
-  // Leave as null to show initials instead.
+  // Add resume to /public and update this path when ready.
+  // Example: "/Shan-Platon-Resume.pdf"
+  resume: null,
+
+  // Set to a path in public/ once a photo is available.
+  // Example: "/profile.jpg"
   image: null,
 };
 
 export const stats = [
   { label: "STACK", value: "React / RN / Supabase" },
   { label: "FOCUS", value: "Frontend → Backend" },
-  { label: "STATUS", value: "OJT-Ready" },
   { label: "BASED IN", value: "Tanauan City, PH" },
+  { label: "BUILDING", value: "Web & Mobile Systems" },
 ];
 
 export const skills = [
