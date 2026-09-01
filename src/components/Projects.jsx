@@ -29,7 +29,7 @@ function ProjectImage({ project, featured = false }) {
     return (
       <div
         className={`relative overflow-hidden bg-surface ${
-          featured ? "h-52 sm:h-64" : "h-40"
+          featured ? "h-40 sm:h-48" : "h-32"
         }`}
       >
         <div className="absolute inset-0 bg-grid opacity-50" />
@@ -44,7 +44,7 @@ function ProjectImage({ project, featured = false }) {
   }
 
   return (
-    <div className={`overflow-hidden ${featured ? "h-52 sm:h-64" : "h-40"}`}>
+    <div className={`overflow-hidden ${featured ? "h-40 sm:h-48" : "h-32"}`}>
       <img
         src={project.image}
         alt={`${project.name} screenshot`}
@@ -118,29 +118,29 @@ function FeaturedProject({ project }) {
     >
       <ProjectImage project={project} featured />
 
-      <div className="p-5 sm:p-6">
+      <div className="p-4 sm:p-5">
         <ProjectMeta project={project} />
 
-        <div className="mt-4 grid gap-5 sm:grid-cols-[1fr_auto] sm:items-end">
+        <div className="mt-3 grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
           <div>
-            <h3 className="font-display text-2xl font-semibold tracking-tight text-ink">
+            <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
               {project.name}
             </h3>
 
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-inkmuted">
+            <p className="mt-1.5 max-w-2xl text-sm leading-5 text-inkmuted">
               {project.description}
             </p>
 
-            <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+            <p className="mt-2.5 font-mono text-[10px] uppercase tracking-widest text-inkmuted">
               Role: <span className="text-ink">{project.role}</span>
             </p>
 
-            <div className="mt-3">
+            <div className="mt-2.5">
               <Stack project={project} />
             </div>
           </div>
 
-          <div className="sm:pb-1">
+          <div className="sm:pb-0.5">
             <ProjectLink project={project} />
           </div>
         </div>
@@ -158,22 +158,22 @@ function CompactProject({ project }) {
     >
       <ProjectImage project={project} />
 
-      <div className="p-5">
+      <div className="p-4">
         <ProjectMeta project={project} />
 
-        <h3 className="mt-3 font-display text-lg font-semibold text-ink">
+        <h3 className="mt-2.5 font-display text-lg font-semibold text-ink">
           {project.name}
         </h3>
 
-        <p className="mt-2 line-clamp-2 text-sm leading-5 text-inkmuted">
+        <p className="mt-1.5 line-clamp-2 text-sm leading-5 text-inkmuted">
           {project.description}
         </p>
 
-        <div className="mt-4">
+        <div className="mt-3">
           <Stack project={project} />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-3">
           <ProjectLink project={project} />
         </div>
       </div>
@@ -187,15 +187,15 @@ export default function Projects() {
 
   return (
     <section id="projects" className="border-b border-line">
-      <div className="mx-auto max-w-5xl px-6 py-14 sm:py-16">
+      <div className="mx-auto max-w-5xl px-6 py-10 sm:py-12">
         <Reveal>
-          <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+          <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
             <div>
               <p className="font-mono text-xs uppercase tracking-widest text-signal">
                 03 — Projects
               </p>
 
-              <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+              <h2 className="mt-1.5 font-display text-2xl font-semibold tracking-tight text-ink sm:text-[28px]">
                 Projects
               </h2>
             </div>
@@ -206,14 +206,14 @@ export default function Projects() {
           </div>
         </Reveal>
 
-        <div className="mt-8">
+        <div className="mt-6">
           <Reveal>
             <FeaturedProject project={featuredProject} />
           </Reveal>
         </div>
 
         {otherProjects.length > 0 && (
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
             {otherProjects.map((project, i) => (
               <Reveal key={project.id} delay={(i + 1) * 100}>
                 <CompactProject project={project} />
