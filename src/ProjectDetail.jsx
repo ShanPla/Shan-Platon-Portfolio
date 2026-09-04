@@ -28,15 +28,30 @@ function SectionLabel({ children }) {
   );
 }
 
-function ProjectImage({ project }) {
-  const [primaryImage, ...additionalImages] = project.screenshots ?? [];
+function Stack({ project }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {project.stack.map((tech) => (
+        <span
+          key={tech}
+          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-[10px] text-inkmuted"
+        >
+          {tech}
+        </span>
+      ))}
+    </div>
+  );
+}
 
-  if (!primaryImage) {
+function ProjectImage({ project }) {
+  const screenshots = project.screenshots ?? [];
+
+  if (screenshots.length === 0) {
     return (
-      <div className="relative mt-8 overflow-hidden rounded-xl border border-line bg-surface animate-[fadeIn_0.6s_ease-out]">
+      <div className="relative mt-8 overflow-hidden rounded-xl border border-line bg-surface">
         <div className="absolute inset-0 bg-grid opacity-50" />
 
-        <div className="relative flex min-h-64 items-center justify-center px-6">
+        <div className="relative flex min-h-56 items-center justify-center px-6">
           <div className="text-center">
             <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkmuted">
               Project Screenshots
@@ -52,59 +67,36 @@ function ProjectImage({ project }) {
   }
 
   return (
-    <>
-      <div className="mt-8 overflow-hidden rounded-xl border border-line bg-surface">
-        <img
-          src={primaryImage}
-          alt={`${project.name} project screenshot`}
-          className="block w-full object-cover transition-transform duration-500 hover:scale-[1.01]"
-        />
-      </div>
-
-      {additionalImages.length > 0 && (
-        <div className="mt-3 grid gap-3 sm:grid-cols-2">
-          {additionalImages.map((image, index) => (
-            <div
-              key={image}
-              className="overflow-hidden rounded-xl border border-line bg-surface transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              <img
-                src={image}
-                alt={`${project.name} screenshot ${index + 2}`}
-                className="block aspect-[16/10] w-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
-      )}
-    </>
-  );
-}
-
-function Stack({ project }) {
-  return (
-    <div className="flex flex-wrap gap-1.5">
-      {project.stack.map((tech) => (
-        <span
-          key={tech}
-          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-[10px] text-inkmuted transition-colors duration-200 hover:border-signal/40 hover:text-ink"
+    <div className="mt-8 grid gap-3 sm:grid-cols-2">
+      {screenshots.map((image, index) => (
+        <div
+          key={image}
+          className="overflow-hidden rounded-xl border border-line bg-surface"
         >
-          {tech}
-        </span>
+          <img
+            src={image}
+            alt={`${project.name} screenshot ${index + 1}`}
+            className="block aspect-[16/10] w-full object-cover transition-transform duration-500 hover:scale-[1.01]"
+          />
+        </div>
       ))}
     </div>
   );
 }
 
 function ContributionList({ project }) {
+  const contribution = project.contribution ?? [];
+
+  if (contribution.length === 0) return null;
+
   return (
-    <div className="mt-5 divide-y divide-line border-y border-line">
-      {project.contribution.map((item, index) => (
+    <div className="mt-4 divide-y divide-line border-y border-line">
+      {contribution.map((item, index) => (
         <div
           key={item.title}
-          className="group grid gap-2 py-4 transition-all duration-300 hover:px-2 sm:grid-cols-[32px_150px_1fr]"
+          className="grid gap-2 py-4 sm:grid-cols-[32px_150px_1fr]"
         >
-          <span className="font-mono text-[10px] text-inkmuted transition-colors duration-200 group-hover:text-signal">
+          <span className="font-mono text-[10px] text-inkmuted">
             {String(index + 1).padStart(2, "0")}
           </span>
 
@@ -122,14 +114,18 @@ function ContributionList({ project }) {
 }
 
 function FeatureList({ project }) {
+  const features = project.features ?? [];
+
+  if (features.length === 0) return null;
+
   return (
-    <div className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-      {project.features.map((feature, index) => (
+    <div className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+      {features.map((feature, index) => (
         <div
           key={feature}
-          className="group flex items-start gap-3 transition-transform duration-200 hover:translate-x-1"
+          className="flex items-start gap-3"
         >
-          <span className="mt-0.5 font-mono text-[10px] text-inkmuted transition-colors duration-200 group-hover:text-signal">
+          <span className="font-mono text-[10px] text-inkmuted">
             {String(index + 1).padStart(2, "0")}
           </span>
 
@@ -166,7 +162,7 @@ export default function ProjectDetail() {
     );
   }
 
-  const accent = ACCENTS[project.accent];
+  const accent = ACCENTS[project.accent] ?? ACCENTS.signal;
 
   return (
     <div className="min-h-screen bg-paper">
@@ -174,14 +170,14 @@ export default function ProjectDetail() {
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
           <Link
             to="/"
-            className="font-display text-lg font-semibold tracking-tight text-ink transition-transform duration-200 hover:-translate-y-0.5"
+            className="font-display text-lg font-semibold tracking-tight text-ink"
           >
             Shan Platon
           </Link>
 
           <Link
             to="/#projects"
-            className="font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-all duration-200 hover:-translate-x-0.5 hover:text-signal"
+            className="font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-colors hover:text-signal"
           >
             ← Back to Projects
           </Link>
@@ -189,6 +185,7 @@ export default function ProjectDetail() {
       </header>
 
       <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+
         {/* Header */}
         <Reveal>
           <section>
@@ -205,11 +202,12 @@ export default function ProjectDetail() {
                     project.status === "IN PROGRESS" ? "animate-pulse" : ""
                   }`}
                 />
+
                 {project.status}
               </span>
             </div>
 
-            <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_280px] lg:items-end">
+            <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_260px] lg:items-end">
               <div>
                 <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
                   {project.name}
@@ -225,7 +223,9 @@ export default function ProjectDetail() {
                   Role
                 </p>
 
-                <p className="mt-2 text-sm text-ink">{project.role}</p>
+                <p className="mt-2 text-sm text-ink">
+                  {project.role}
+                </p>
 
                 <div className="mt-4">
                   <Stack project={project} />
@@ -235,7 +235,7 @@ export default function ProjectDetail() {
           </section>
         </Reveal>
 
-        {/* Main project visual */}
+        {/* Project Visual */}
         <Reveal delay={100}>
           <ProjectImage project={project} />
         </Reveal>
@@ -251,105 +251,80 @@ export default function ProjectDetail() {
               </h2>
 
               <p className="max-w-2xl text-sm leading-6 text-inkmuted">
-                {project.overview}
+                {project.overview ?? project.description}
               </p>
             </div>
           </section>
         </Reveal>
 
         {/* Contribution */}
-        <Reveal delay={200}>
-          <section className="mt-14 border-t border-line pt-8">
-            <SectionLabel>02 — My Contribution</SectionLabel>
+        {project.contribution?.length > 0 && (
+          <Reveal delay={200}>
+            <section className="mt-14 border-t border-line pt-8">
+              <SectionLabel>02 — My Contribution</SectionLabel>
 
-            <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
-              <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
-                What I worked on
-              </h2>
+              <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
+                <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
+                  What I worked on
+                </h2>
 
-              <ContributionList project={project} />
-            </div>
-          </section>
-        </Reveal>
+                <ContributionList project={project} />
+              </div>
+            </section>
+          </Reveal>
+        )}
 
         {/* Features */}
-        <Reveal delay={250}>
-          <section className="mt-14 border-t border-line pt-8">
-            <SectionLabel>03 — Key Features</SectionLabel>
+        {project.features?.length > 0 && (
+          <Reveal delay={250}>
+            <section className="mt-14 border-t border-line pt-8">
+              <SectionLabel>03 — Key Features</SectionLabel>
 
-            <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
-              <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
-                Project scope
-              </h2>
+              <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
+                <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
+                  Project scope
+                </h2>
 
-              <FeatureList project={project} />
-            </div>
-          </section>
-        </Reveal>
+                <FeatureList project={project} />
+              </div>
+            </section>
+          </Reveal>
+        )}
 
         {/* Screenshots */}
         <Reveal delay={300}>
           <section className="mt-14 border-t border-line pt-8">
             <SectionLabel>04 — Selected Screens</SectionLabel>
 
-            {project.screenshots?.length > 0 ? (
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {project.screenshots.map((image, index) => (
-                  <div
-                    key={image}
-                    className="overflow-hidden rounded-xl border border-line bg-surface transition-transform duration-300 hover:-translate-y-0.5"
-                  >
-                    <img
-                      src={image}
-                      alt={`${project.name} screen ${index + 1}`}
-                      className="block aspect-[16/10] w-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="relative mt-5 overflow-hidden rounded-xl border border-line bg-surface">
-                <div className="absolute inset-0 bg-grid opacity-50" />
-
-                <div className="relative flex min-h-56 items-center justify-center px-6">
-                  <div className="text-center">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkmuted">
-                      Project Screenshots
-                    </p>
-
-                    <p className="mt-2 max-w-sm text-xs text-inkmuted">
-                      Screenshots can be added later from the project's content data.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
+            <ProjectImage project={project} />
           </section>
         </Reveal>
 
         {/* Footer */}
         <Reveal delay={350}>
           <section className="mt-14 border-t border-line pt-8">
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
-                  Project Repository
+                  Project
                 </p>
 
                 <p className="mt-2 text-sm text-ink">
-                  {project.githubLabel}
+                  {project.name}
                 </p>
               </div>
 
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noreferrer"
-                className={`inline-flex w-fit items-center gap-2 rounded-full border border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-widest text-ink transition-all duration-200 ${accent.border} hover:-translate-y-0.5 hover:text-signal`}
-              >
-                GitHub
-                <span>↗</span>
-              </a>
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`inline-flex w-fit items-center gap-2 rounded-full border border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-widest text-ink transition-all duration-200 ${accent.border} hover:-translate-y-0.5 hover:text-signal`}
+                >
+                  GitHub
+                  <span>↗</span>
+                </a>
+              )}
             </div>
           </section>
         </Reveal>
@@ -359,12 +334,13 @@ export default function ProjectDetail() {
           <div className="mt-10 border-t border-line pt-6">
             <Link
               to="/#projects"
-              className="font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-all duration-200 hover:-translate-x-0.5 hover:text-signal"
+              className="font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-colors hover:text-signal"
             >
               ← Back to Projects
             </Link>
           </div>
         </Reveal>
+
       </main>
     </div>
   );
