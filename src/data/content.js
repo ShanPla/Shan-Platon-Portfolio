@@ -85,10 +85,6 @@ export const skills = [
         detail: "Auth · database · realtime",
       },
       {
-        name: "Firebase",
-        detail: "Authentication · data · app services",
-      },
-      {
         name: "Python",
         detail: "Backend logic · scripting · data processing",
       },
@@ -126,13 +122,14 @@ export const projects = [
   {
     id: "lipaaction",
     name: "LipaAction",
-    tag: "Thesis",
+    tag: "Thesis · Admin Web Console",
     description:
-      "A machine-learning-assisted incident reporting platform built for Lipa City, Batangas.",
-    role: "Frontend Development",
-    stack: ["React Native", "Expo", "Supabase"],
-    status: "IN PROGRESS",
+      "The officials' web console for a machine-learning-assisted incident reporting system in Lipa City, Batangas.",
+    role: "Web Console Development",
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase"],
+    status: "SHIPPED",
     accent: "signal",
+    github: "https://github.com/ShanPla/LipaAction-WebConsole",
 
     // Set to a path in public/projects/ once a screenshot is available,
     // e.g. "/projects/lipaaction.png".
@@ -159,15 +156,16 @@ export const projects = [
   },
 
   {
-    id: "luxestay",
-    name: "LuxeStay",
-    tag: "Hotel Booking App",
+    id: "chronicle",
+    name: "The Chronicle",
+    tag: "Social Media App",
     description:
-      "A mobile hotel booking app focused on clean UX and cross-platform usability.",
-    role: "Frontend Development",
-    stack: ["React Native", "Expo", "Firebase"],
+      "A full-stack social media app with posts, comments, follows, notifications, and realtime chat.",
+    role: "Full-Stack Development",
+    stack: ["React", "TypeScript", "Vite", "Supabase"],
     status: "SHIPPED",
     accent: "amber",
+    github: "https://github.com/ShanPla/mini-social-app",
     image: null,
   },
 ];
