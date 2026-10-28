@@ -43,43 +43,73 @@ function Stack({ project }) {
   );
 }
 
-function ProjectImage({ project }) {
-  const screenshots = project.screenshots ?? [];
+// Opens the full-size image in a new tab, where small UI text is readable.
+function ShotLink({ src, className = "", children }) {
+  return (
+    <a
+      href={src}
+      target="_blank"
+      rel="noreferrer"
+      className={`group block cursor-zoom-in overflow-hidden rounded-xl border border-line bg-surface ${className}`}
+    >
+      {children}
+      <span className="sr-only">(opens full size in a new tab)</span>
+    </a>
+  );
+}
 
-  if (screenshots.length === 0) {
-    return (
-      <div className="relative mt-8 overflow-hidden rounded-xl border border-line bg-surface">
-        <div className="absolute inset-0 bg-grid opacity-50" />
+function OverviewImage({ project }) {
+  return (
+    <ShotLink src={project.image} className="mt-6">
+      <img
+        src={project.image}
+        alt={project.imageAlt ?? `${project.name} screenshot`}
+        className="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.01]"
+      />
+    </ShotLink>
+  );
+}
 
-        <div className="relative flex min-h-56 items-center justify-center px-6">
-          <div className="text-center">
-            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkmuted">
-              Project Screenshots
-            </p>
+function ScreenshotGrid({ shots, className = "" }) {
+  return (
+    <div className={`grid gap-x-3 gap-y-5 ${className}`}>
+      {shots.map((shot) => (
+        <figure key={shot.src}>
+          <ShotLink src={shot.src}>
+            <img
+              src={shot.src}
+              alt={shot.alt}
+              loading="lazy"
+              decoding="async"
+              className="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.01]"
+            />
+          </ShotLink>
 
-            <p className="mt-2 max-w-sm text-xs text-inkmuted">
-              Screenshots can be added later from the project's content data.
-            </p>
-          </div>
+          <figcaption className="mt-2 text-xs leading-5 text-inkmuted">
+            {shot.caption}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+function ScreenshotPlaceholder() {
+  return (
+    <div className="relative mt-4 overflow-hidden rounded-xl border border-line bg-surface">
+      <div className="absolute inset-0 bg-grid opacity-50" />
+
+      <div className="relative flex min-h-56 items-center justify-center px-6">
+        <div className="text-center">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkmuted">
+            Project Screenshots
+          </p>
+
+          <p className="mt-2 max-w-sm text-xs text-inkmuted">
+            Screenshots can be added later from the project's content data.
+          </p>
         </div>
       </div>
-    );
-  }
-
-  return (
-    <div className="mt-8 grid gap-3 sm:grid-cols-2">
-      {screenshots.map((image, index) => (
-        <div
-          key={image}
-          className="overflow-hidden rounded-xl border border-line bg-surface"
-        >
-          <img
-            src={image}
-            alt={`${project.name} screenshot ${index + 1}`}
-            className="block aspect-[16/10] w-full object-cover transition-transform duration-500 hover:scale-[1.01]"
-          />
-        </div>
-      ))}
     </div>
   );
 }
@@ -163,6 +193,19 @@ export default function ProjectDetail() {
   }
 
   const accent = ACCENTS[project.accent] ?? ACCENTS.signal;
+  const screenshots = project.screenshots ?? [];
+  const phoneScreenshots = project.phoneScreenshots ?? [];
+
+  // Number only the sections this project shows, so labels never skip.
+  const sections = [
+    "Overview",
+    project.contribution?.length > 0 && "My Contribution",
+    project.features?.length > 0 && "Key Features",
+    "Selected Screens",
+  ].filter(Boolean);
+
+  const label = (name) =>
+    `${String(sections.indexOf(name) + 1).padStart(2, "0")} — ${name}`;
 
   return (
     <div className="min-h-screen bg-paper">
@@ -235,15 +278,10 @@ export default function ProjectDetail() {
           </section>
         </Reveal>
 
-        {/* Project Visual */}
-        <Reveal delay={100}>
-          <ProjectImage project={project} />
-        </Reveal>
-
         {/* Overview */}
         <Reveal delay={150}>
           <section className="mt-14 border-t border-line pt-8">
-            <SectionLabel>01 — Overview</SectionLabel>
+            <SectionLabel>{label("Overview")}</SectionLabel>
 
             <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
               <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
@@ -254,6 +292,8 @@ export default function ProjectDetail() {
                 {project.overview ?? project.description}
               </p>
             </div>
+
+            {project.image && <OverviewImage project={project} />}
           </section>
         </Reveal>
 
@@ -261,7 +301,7 @@ export default function ProjectDetail() {
         {project.contribution?.length > 0 && (
           <Reveal delay={200}>
             <section className="mt-14 border-t border-line pt-8">
-              <SectionLabel>02 — My Contribution</SectionLabel>
+              <SectionLabel>{label("My Contribution")}</SectionLabel>
 
               <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
                 <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
@@ -278,7 +318,7 @@ export default function ProjectDetail() {
         {project.features?.length > 0 && (
           <Reveal delay={250}>
             <section className="mt-14 border-t border-line pt-8">
-              <SectionLabel>03 — Key Features</SectionLabel>
+              <SectionLabel>{label("Key Features")}</SectionLabel>
 
               <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
                 <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
@@ -294,9 +334,20 @@ export default function ProjectDetail() {
         {/* Screenshots */}
         <Reveal delay={300}>
           <section className="mt-14 border-t border-line pt-8">
-            <SectionLabel>04 — Selected Screens</SectionLabel>
+            <SectionLabel>{label("Selected Screens")}</SectionLabel>
 
-            <ProjectImage project={project} />
+            {screenshots.length > 0 ? (
+              <ScreenshotGrid shots={screenshots} className="mt-4 sm:grid-cols-2" />
+            ) : (
+              <ScreenshotPlaceholder />
+            )}
+
+            {phoneScreenshots.length > 0 && (
+              <ScreenshotGrid
+                shots={phoneScreenshots}
+                className="mt-8 grid-cols-2 sm:grid-cols-4"
+              />
+            )}
           </section>
         </Reveal>
 

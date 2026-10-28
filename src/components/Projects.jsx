@@ -47,9 +47,11 @@ function ProjectImage({ project, featured = false }) {
     <div className={`overflow-hidden ${featured ? "h-36 sm:h-44" : "h-28"}`}>
       <img
         src={project.image}
-        alt={`${project.name} screenshot`}
+        alt={project.imageAlt ?? `${project.name} screenshot`}
+        loading="lazy"
+        decoding="async"
         onError={() => setImgError(true)}
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+        className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
       />
     </div>
   );
