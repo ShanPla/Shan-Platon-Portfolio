@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { projects } from "./data/content.js";
+import Lightbox from "./components/Lightbox.jsx";
 import Reveal from "./components/Reveal.jsx";
+import ScreenshotCarousel from "./components/ScreenshotCarousel.jsx";
 
 const ACCENTS = {
   signal: {
@@ -43,47 +46,32 @@ function Stack({ project }) {
   );
 }
 
-// Opens the full-size image in a new tab, where small UI text is readable.
-function ShotLink({ src, className = "", children }) {
+// Opens the shot in the screenshot viewer.
+function ShotButton({ shot, onOpen, eager = false, className = "" }) {
   return (
-    <a
-      href={src}
-      target="_blank"
-      rel="noreferrer"
-      className={`group block cursor-zoom-in overflow-hidden rounded-xl border border-line bg-surface ${className}`}
+    <button
+      type="button"
+      onClick={onOpen}
+      className={`group block w-full cursor-zoom-in overflow-hidden rounded-xl border border-line bg-surface ${className}`}
     >
-      {children}
-      <span className="sr-only">(opens full size in a new tab)</span>
-    </a>
-  );
-}
-
-function OverviewImage({ project }) {
-  return (
-    <ShotLink src={project.image} className="mt-6">
       <img
-        src={project.image}
-        alt={project.imageAlt ?? `${project.name} screenshot`}
+        src={shot.src}
+        alt={shot.alt}
+        loading={eager ? "eager" : "lazy"}
+        decoding="async"
         className="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.01]"
       />
-    </ShotLink>
+      <span className="sr-only">Open larger view</span>
+    </button>
   );
 }
 
-function ScreenshotGrid({ shots, className = "" }) {
+function ScreenshotGrid({ shots, onOpen, className = "" }) {
   return (
     <div className={`grid gap-x-3 gap-y-5 ${className}`}>
-      {shots.map((shot) => (
+      {shots.map((shot, index) => (
         <figure key={shot.src}>
-          <ShotLink src={shot.src}>
-            <img
-              src={shot.src}
-              alt={shot.alt}
-              loading="lazy"
-              decoding="async"
-              className="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.01]"
-            />
-          </ShotLink>
+          <ShotButton shot={shot} onOpen={() => onOpen(index)} />
 
           <figcaption className="mt-2 text-xs leading-5 text-inkmuted">
             {shot.caption}
@@ -168,6 +156,9 @@ function FeatureList({ project }) {
 
 export default function ProjectDetail() {
   const { id } = useParams();
+  // The open screenshot, tied to its project so the viewer closes if the
+  // page switches to another project.
+  const [viewer, setViewer] = useState(null);
 
   const project = projects.find((item) => item.id === id);
 
@@ -195,6 +186,20 @@ export default function ProjectDetail() {
   const accent = ACCENTS[project.accent] ?? ACCENTS.signal;
   const screenshots = project.screenshots ?? [];
   const phoneScreenshots = project.phoneScreenshots ?? [];
+
+  // Every screenshot on the page in page order, so the viewer's arrows
+  // run from the Overview shot through the carousel to the phone shots.
+  const overviewShot = project.image && {
+    src: project.image,
+    alt: project.imageAlt ?? `${project.name} screenshot`,
+    caption: project.imageCaption,
+  };
+  const viewerShots = [overviewShot, ...screenshots, ...phoneScreenshots].filter(Boolean);
+  const firstScreenshot = overviewShot ? 1 : 0;
+  const firstPhoneShot = firstScreenshot + screenshots.length;
+
+  const viewerIndex = viewer?.projectId === project.id ? viewer.index : null;
+  const openViewer = (index) => setViewer({ projectId: project.id, index });
 
   // Number only the sections this project shows, so labels never skip.
   const sections = [
@@ -293,7 +298,14 @@ export default function ProjectDetail() {
               </p>
             </div>
 
-            {project.image && <OverviewImage project={project} />}
+            {overviewShot && (
+              <ShotButton
+                shot={overviewShot}
+                eager
+                onOpen={() => openViewer(0)}
+                className="mt-6"
+              />
+            )}
           </section>
         </Reveal>
 
@@ -337,7 +349,13 @@ export default function ProjectDetail() {
             <SectionLabel>{label("Selected Screens")}</SectionLabel>
 
             {screenshots.length > 0 ? (
-              <ScreenshotGrid shots={screenshots} className="mt-4 sm:grid-cols-2" />
+              <ScreenshotCarousel
+                key={project.id}
+                shots={screenshots}
+                label={`${project.name} screenshots`}
+                onOpen={(index) => openViewer(firstScreenshot + index)}
+                className="mt-4"
+              />
             ) : (
               <ScreenshotPlaceholder />
             )}
@@ -345,6 +363,7 @@ export default function ProjectDetail() {
             {phoneScreenshots.length > 0 && (
               <ScreenshotGrid
                 shots={phoneScreenshots}
+                onOpen={(index) => openViewer(firstPhoneShot + index)}
                 className="mt-8 grid-cols-2 sm:grid-cols-4"
               />
             )}
@@ -393,6 +412,15 @@ export default function ProjectDetail() {
         </Reveal>
 
       </main>
+
+      {viewerIndex !== null && (
+        <Lightbox
+          shots={viewerShots}
+          index={viewerIndex}
+          onIndexChange={openViewer}
+          onClose={() => setViewer(null)}
+        />
+      )}
     </div>
   );
 }

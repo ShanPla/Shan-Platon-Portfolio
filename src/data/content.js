@@ -167,11 +167,14 @@ export const projects = [
 
     // Screenshots live in public/projects/<id>/.
     // image: card thumbnail and the large shot in the project page's Overview.
-    // screenshots: the captioned grid under Selected Screens.
-    // phoneScreenshots (optional): a row of phone-sized shots under the grid.
+    // imageCaption: shown under that shot in the screenshot viewer.
+    // screenshots: the captioned carousel under Selected Screens.
+    // phoneScreenshots (optional): a row of phone-sized shots under the carousel.
     image: "/projects/lipaaction/barangay-queue.webp",
     imageAlt:
       "Web console queue listing Critical Fire reports with priority scores and action buttons.",
+    imageCaption:
+      "Barangay queue: reports ranked by priority score, with Validate, Chat, and Reject on every card.",
 
     screenshots: [
       {
@@ -275,6 +278,8 @@ export const projects = [
     image: "/projects/chronicle/feed-light.webp",
     imageAlt:
       "Three-column feed with a profile card, a post with a four-photo grid, and sidebar cards.",
+    imageCaption:
+      "The feed: composer, a photo collage post, and sidebar cards for who is online, who to follow, recent chats, and the week's most active posters.",
 
     screenshots: [
       {
