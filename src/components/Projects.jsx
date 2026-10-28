@@ -6,17 +6,17 @@ import Reveal from "./Reveal.jsx";
 const ACCENTS = {
   signal: {
     dot: "bg-signal",
-    text: "text-signal",
+    text: "text-signaldeep",
     border: "hover:border-signal/50",
   },
   ok: {
     dot: "bg-ok",
-    text: "text-ok",
+    text: "text-okdeep",
     border: "hover:border-ok/50",
   },
   amber: {
     dot: "bg-amber",
-    text: "text-amber",
+    text: "text-amberdeep",
     border: "hover:border-amber/50",
   },
 };
@@ -32,22 +32,24 @@ function ProjectImage({ project, featured = false }) {
           featured ? "h-36 sm:h-44" : "h-28"
         }`}
       >
-        <div className="absolute inset-0 bg-grid opacity-50" />
+        <div className="absolute inset-0 bg-grid bg-center opacity-50" />
 
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
-            Project Preview
+            Screenshots coming soon
           </span>
         </div>
       </div>
     );
   }
 
+  // Decorative here: the card's link names the project, and the project
+  // page carries the full description of this screenshot.
   return (
     <div className={`overflow-hidden ${featured ? "h-36 sm:h-44" : "h-28"}`}>
       <img
         src={project.image}
-        alt={project.imageAlt ?? `${project.name} screenshot`}
+        alt=""
         loading="lazy"
         decoding="async"
         onError={() => setImgError(true)}
@@ -91,15 +93,18 @@ function Stack({ project }) {
   );
 }
 
+// Its ::after layer stretches over the whole card (the article is
+// relative), so clicking anywhere on the card opens the project.
 function ProjectLink({ project }) {
   const accent = ACCENTS[project.accent];
 
   return (
     <Link
       to={`/projects/${project.id}`}
-      className={`inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider ${accent.text} transition-opacity hover:opacity-70`}
+      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap font-mono text-[10px] uppercase tracking-wider after:absolute after:inset-0 after:rounded-xl ${accent.text}`}
     >
-      View Details
+      <span className="underline-offset-4 group-hover:underline">View Details</span>
+      <span className="sr-only normal-case">: {project.name}</span>
 
       <span
         aria-hidden="true"
@@ -116,7 +121,7 @@ function FeaturedProject({ project }) {
 
   return (
     <article
-      className={`group overflow-hidden rounded-xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-lg ${accent.border}`}
+      className={`group relative overflow-hidden rounded-xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${accent.border}`}
     >
       <ProjectImage project={project} featured />
 
@@ -129,7 +134,7 @@ function FeaturedProject({ project }) {
               {project.name}
             </h3>
 
-            <p className="mt-1 max-w-2xl text-sm leading-5 text-inkmuted">
+            <p className="mt-1 max-w-2xl text-pretty text-sm leading-5 text-inkmuted">
               {project.description}
             </p>
 
@@ -150,29 +155,28 @@ function CompactProject({ project }) {
 
   return (
     <article
-      className={`group overflow-hidden rounded-xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${accent.border}`}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${accent.border}`}
     >
       <ProjectImage project={project} />
 
-      <div className="p-4">
+      <div className="flex flex-1 flex-col p-4">
         <ProjectMeta project={project} />
 
-        <div className="mt-2.5 flex items-end justify-between gap-3">
-          <div className="min-w-0">
-            <h3 className="font-display text-lg font-semibold text-ink">
-              {project.name}
-            </h3>
+        <h3 className="mt-2.5 font-display text-lg font-semibold text-ink">
+          {project.name}
+        </h3>
 
-            <p className="mt-1 line-clamp-2 text-xs leading-5 text-inkmuted">
-              {project.description}
-            </p>
-          </div>
+        <p className="mt-1 text-pretty text-xs leading-5 text-inkmuted">
+          {project.description}
+        </p>
 
-          <ProjectLink project={project} />
-        </div>
-
-        <div className="mt-3">
+        {/* The link gets its own row, so the pills keep the full width. */}
+        <div className="mt-auto pt-3">
           <Stack project={project} />
+
+          <div className="mt-3 flex justify-end">
+            <ProjectLink project={project} />
+          </div>
         </div>
       </div>
     </article>
@@ -189,11 +193,15 @@ export default function Projects() {
         <Reveal>
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-signal">
+              <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
                 03 — Projects
               </p>
 
-              <h2 className="mt-1.5 font-display text-2xl font-semibold tracking-tight text-ink sm:text-[28px]">
+              {/* Takes focus when a Back to Projects link lands here. */}
+              <h2
+                tabIndex={-1}
+                className="mt-1.5 font-display text-2xl font-semibold tracking-tight text-ink focus:outline-none sm:text-[28px]"
+              >
                 Projects
               </h2>
             </div>
@@ -213,7 +221,7 @@ export default function Projects() {
         {otherProjects.length > 0 && (
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             {otherProjects.map((project, i) => (
-              <Reveal key={project.id} delay={(i + 1) * 80}>
+              <Reveal key={project.id} delay={(i + 1) * 80} className="h-full">
                 <CompactProject project={project} />
               </Reveal>
             ))}

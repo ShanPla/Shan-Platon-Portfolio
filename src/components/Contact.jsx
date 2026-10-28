@@ -6,11 +6,11 @@ export default function Contact() {
     <section id="contact">
       <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-widest text-signal">04 — Contact</p>
+          <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">04 — Contact</p>
           <h2 className="mt-3 max-w-xl font-display text-3xl font-semibold text-ink sm:text-4xl">
             Looking for an OJT intern who's ready to learn backend fast.
           </h2>
-          <p className="mt-4 max-w-lg text-inkmuted leading-relaxed">
+          <p className="mt-4 max-w-lg text-pretty text-inkmuted leading-relaxed">
             Reach out directly — I'll usually reply within a day.
           </p>
         </Reveal>
@@ -18,7 +18,7 @@ export default function Contact() {
         <Reveal delay={120} className="mt-8 flex flex-wrap gap-3">
           <a
             href={`mailto:${profile.email}`}
-            className="rounded-full bg-ink px-6 py-3 font-mono text-xs uppercase tracking-wider text-paper transition-colors hover:bg-signal"
+            className="rounded-full bg-ink px-6 py-3 font-mono text-xs normal-case tracking-normal text-paper transition-colors hover:bg-signaldeep"
           >
             {profile.email}
           </a>
@@ -26,19 +26,26 @@ export default function Contact() {
             href={profile.github}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full border border-ink px-6 py-3 font-mono text-xs uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signal"
+            className="rounded-full border border-ink px-6 py-3 font-mono text-xs uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signaldeep"
           >
             GitHub / ShanPla
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </Reveal>
 
         <div className="mt-6 font-mono text-xs text-inkmuted">
-          {profile.phone} &middot; {profile.location}
+          <a
+            href={profile.phoneHref}
+            className="underline decoration-inkmuted/50 underline-offset-4 transition-colors hover:text-signaldeep"
+          >
+            {profile.phone}
+          </a>{" "}
+          &middot; {profile.location}
         </div>
       </div>
 
       <footer className="border-t border-line">
-        <div className="mx-auto max-w-5xl px-6 py-6 font-mono text-[11px] text-inkmuted">
+        <div className="mx-auto max-w-5xl text-pretty px-6 py-6 font-mono text-[11px] text-inkmuted">
           &copy; {new Date().getFullYear()} {profile.name}. Built with React &amp; Tailwind.
         </div>
       </footer>

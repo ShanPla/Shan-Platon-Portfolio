@@ -48,17 +48,17 @@ Open the URL shown in the terminal (usually `http://localhost:5173`).
 
 ## Routing
 
-The site has two routes, handled by React Router:
+The site's routes, handled by React Router:
 
 - `/` — the single-page home (Hero, About, Skills, Projects, Contact)
 - `/projects/:id` — a detail page per project, generated from the same
   `projects` array in `src/data/content.js` (matched by each project's `id`)
+- `/projects` — redirects to the Projects section of the home page
+- anything else — a "Page not found" page (`src/NotFound.jsx`)
 
-Each project card's "View Details" link points to its `/projects/:id` route.
-`src/ProjectDetail.jsx` is currently a clean template (title, description,
-stack, role, image if set) — expand it with a fuller write-up, more images,
-or repo/demo links as needed. There's a `TODO` comment marking where to
-extend it.
+Each project card links to its `/projects/:id` page, which shows the
+overview, contribution, features, a screenshot carousel and a pop-up
+screenshot viewer, all filled from the project's entry in `content.js`.
 
 `vercel.json` includes a rewrite rule so direct links like
 `yoursite.com/projects/iris` work correctly in production (without it,
@@ -98,17 +98,21 @@ Or drag the `dist/` folder into [Vercel](https://vercel.com/new) or
 
 ## Adding project screenshots
 
-1. Add image files to `public/projects/` (e.g. `public/projects/lipaaction.png`).
-2. In `src/data/content.js`, set the `image` field on the relevant project entry,
-   e.g. `"/projects/lipaaction.png"`.
-3. If left as `null`, that project card falls back to the status-badge design
-   with no screenshot.
+1. Add image files to `public/projects/<id>/` (WebP; about 1920px wide, phone
+   shots about 780px).
+2. In `src/data/content.js`, on the project's entry, set `image` to the main
+   shot's path (card and Overview shot), with `imageAlt` and `imageCaption`
+   beside it. `screenshots` (carousel) and the optional `phoneScreenshots` are
+   lists of `{ src, caption, alt }`. Set `shotSize` / `phoneShotSize` to the
+   files' pixel size; the comments on the first project explain each field.
+3. If left empty, the card and the project page show a
+   "Screenshots coming soon" placeholder.
 
 ## Adding a downloadable resume
 
 1. Add a resume file to `public/` (e.g. `public/resume.pdf`).
-2. Add a link in `src/components/Contact.jsx` or `Hero.jsx`:
-   `<a href="/resume.pdf" download>Download Resume</a>`
+2. In `src/data/content.js`, set `profile.resume` to the path, e.g. `"/resume.pdf"`.
+   The hero then shows a Resume button next to GitHub.
 
 ## License
 

@@ -6,6 +6,8 @@ export const profile = {
   location: "Tanauan City, Batangas, PH",
   email: "platonshan0@gmail.com",
   phone: "0956 893 2434",
+  // The same number in international form, so phones can call it.
+  phoneHref: "tel:+639568932434",
   github: "https://github.com/ShanPla",
 
   // Add resume to /public and update this path when ready.
@@ -118,13 +120,16 @@ export const skills = [
   },
 ];
 
+// In the text below, \u00a0 is a non-breaking space and \u2060 (after a hyphen)
+// a word joiner. Both stop a line break there, e.g. to keep "WCAG 2.2 AA" or
+// "real-time" on one line.
 export const projects = [
   {
     id: "lipaaction",
     name: "LipaAction",
     tag: "Thesis · Admin Web Console",
     description:
-      "The officials' web console for a machine-learning-assisted incident reporting system in Lipa City, Batangas.",
+      "The officials' web console for a machine-learning-assisted incident-\u2060reporting system in Lipa\u00a0City, Batangas.",
     overview:
       "LipaAction is a community incident-reporting system for Lipa City, Batangas, built as a three-person undergraduate thesis at De La Salle Lipa. Residents file emergency and minor reports from a mobile app; a machine-learning classifier scores each report's priority; barangay officials review, validate, and route reports to the responding agencies; and the city government oversees the whole flow.",
     role: "Web Console Development",
@@ -147,7 +152,7 @@ export const projects = [
       {
         title: "Backend integration",
         description:
-          "Connected the console to the team's shared Supabase backend: two-step sign-in, row-level security, and Realtime updates.",
+          "Connected the console to the team's shared Supabase backend: two-step sign-in, row-\u2060level security, and real-time updates via Supabase Realtime.",
       },
       {
         title: "Team",
@@ -162,14 +167,18 @@ export const projects = [
       "Reporter names never shown on any screen",
       "Access log of every report an official opens",
       "Full English / Tagalog interface switch",
-      "WCAG 2.2 AA contrast and 44 px touch targets",
+      "WCAG\u00a02.2\u00a0AA contrast and 44\u00a0px touch targets",
     ],
 
     // Screenshots live in public/projects/<id>/.
     // image: card thumbnail and the large shot in the project page's Overview.
+    // imageAlt: describes that shot for screen readers.
     // imageCaption: shown under that shot in the screenshot viewer.
     // screenshots: the captioned carousel under Selected Screens.
     // phoneScreenshots (optional): a row of phone-sized shots under the carousel.
+    // shotSize / phoneShotSize: pixel size of those files, so the page keeps
+    // their space before they load. image shares shotSize.
+    shotSize: { width: 1920, height: 799 },
     image: "/projects/lipaaction/barangay-queue.webp",
     imageAlt:
       "Web console queue listing Critical Fire reports with priority scores and action buttons.",
@@ -239,7 +248,7 @@ export const projects = [
     name: "The Chronicle",
     tag: "Social Media App",
     description:
-      "A full-stack social media app with posts, comments, follows, notifications, and realtime chat.",
+      "A full-stack social media app with posts, comments, follows, notifications, and real-\u2060time chat.",
     overview:
       "The Chronicle is a full-stack social network with an editorial, newspaper-inspired look. People post text and photo collages, follow each other, comment in threads, like posts and comments, chat in real time one-on-one or in groups, and get notified about all of it. It runs entirely on Supabase with no custom backend server: the database, row-level security policies, triggers, and functions are the backend.",
     role: "Full-Stack Development",
@@ -257,7 +266,7 @@ export const projects = [
       {
         title: "Database & security",
         description:
-          "Wrote the Supabase schema: tables, row-level security on every table, notification triggers, and the feed's database functions.",
+          "Wrote the Supabase schema, its security policies, notification triggers, and the feed's database functions.",
       },
       {
         title: "Tests & deployment",
@@ -272,9 +281,11 @@ export const projects = [
       "Threaded comments, likes, follows, and notifications",
       "Row-level security on every table, enforced in the database",
       "Dark mode that follows the device, AA contrast in both themes",
-      "Lazy-loaded pages: first download cut from 540 kB to 31 kB",
+      "Lazy-loaded pages: first download cut from 540\u00a0kB to 31\u00a0kB",
     ],
 
+    shotSize: { width: 1920, height: 1200 },
+    phoneShotSize: { width: 780, height: 1688 },
     image: "/projects/chronicle/feed-light.webp",
     imageAlt:
       "Three-column feed with a profile card, a post with a four-photo grid, and sidebar cards.",
@@ -320,22 +331,22 @@ export const projects = [
       {
         src: "/projects/chronicle/feed-phone-light.webp",
         caption: "The feed on a phone.",
-        alt: "Mobile feed with the composer and a post.",
+        alt: "Post composer with a Publish button above a photo post by Shintakai, and the Feed, Messages and Profile tabs at the bottom.",
       },
       {
         src: "/projects/chronicle/chat-phone-light.webp",
         caption: "A conversation on a phone.",
-        alt: "Mobile chat thread with message bubbles.",
+        alt: "Chat thread with blurred message bubbles, a sticker, and the message box at the bottom.",
       },
       {
         src: "/projects/chronicle/profile-phone-light.webp",
         caption: "Profile on a phone.",
-        alt: "Mobile profile page.",
+        alt: "Profile of Shintakai: avatar, bio, 3 posts, 2 followers, 3 following, and Edit Profile and Settings buttons.",
       },
       {
         src: "/projects/chronicle/feed-phone-dark.webp",
-        caption: "The feed on a phone, dark theme.",
-        alt: "Dark mobile feed.",
+        caption: "The feed on a phone, in dark mode.",
+        alt: "Dark post composer with a Publish button above a photo post, and the bottom tab bar.",
       },
     ],
   },

@@ -1,6 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
+  // Hover styles only on devices with a real pointer, so a tapped button
+  // doesn't stay highlighted on phones.
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       colors: {
@@ -13,6 +18,12 @@ export default {
         signaldeep: "#1E4FC0",
         amber: "#F2994A",
         ok: "#2FA870",
+        // Darker accents for small text: about 5:1 on paper and white,
+        // where the base accents fail the 4.5:1 contrast minimum.
+        amberdeep: "#A85400",
+        okdeep: "#18794E",
+        // Near-black backdrop for the screenshot viewer.
+        scrim: "#0E0F12",
       },
       fontFamily: {
         display: ["'Space Grotesk'", "sans-serif"],

@@ -6,6 +6,18 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Room for the sticky header (63px tall). Set on the targets, not as
+   scroll-padding on html: that also counts the header's own links as
+   hidden, so tabbing to them scrolled the page. Sections land flush under
+   the header; focused links and buttons get extra room for the focus ring. */
+section[id] {
+  scroll-margin-top: 63px;
+}
+
+main :is(a, button, [tabindex]) {
+  scroll-margin-top: 5rem;
+}
+
 body {
   @apply bg-paper text-ink font-body antialiased;
 }
@@ -15,8 +27,17 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid #2f6fed;
+  outline: 2px solid theme("colors.signal");
   outline-offset: 3px;
+}
+
+/* Hero glow; Hero.jsx moves it by setting --spot-x and --spot-y. */
+.hero-spotlight {
+  background: radial-gradient(
+    500px circle at var(--spot-x, 50%) var(--spot-y, 0%),
+    theme("colors.signal / 10%"),
+    transparent 70%
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

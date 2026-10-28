@@ -1,33 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { projects } from "./data/content.js";
+import NotFound from "./NotFound.jsx";
 import Lightbox from "./components/Lightbox.jsx";
+import PageHeader from "./components/PageHeader.jsx";
 import Reveal from "./components/Reveal.jsx";
 import ScreenshotCarousel from "./components/ScreenshotCarousel.jsx";
 
 const ACCENTS = {
   signal: {
-    text: "text-signal",
+    text: "text-signaldeep",
     dot: "bg-signal",
-    border: "hover:border-signal/50",
   },
   ok: {
-    text: "text-ok",
+    text: "text-okdeep",
     dot: "bg-ok",
-    border: "hover:border-ok/50",
   },
   amber: {
-    text: "text-amber",
+    text: "text-amberdeep",
     dot: "bg-amber",
-    border: "hover:border-amber/50",
   },
 };
 
-function SectionLabel({ children }) {
+function SectionLabel({ as: Tag = "p", children, ...props }) {
   return (
-    <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-signal">
+    <Tag
+      {...props}
+      className="font-mono text-[10px] font-normal uppercase tracking-[0.18em] text-signaldeep"
+    >
       {children}
-    </p>
+    </Tag>
   );
 }
 
@@ -46,8 +48,9 @@ function Stack({ project }) {
   );
 }
 
-// Opens the shot in the screenshot viewer.
-function ShotButton({ shot, onOpen, eager = false, className = "" }) {
+// Opens the shot in the screenshot viewer. `size` ({ width, height })
+// reserves its space before it loads.
+function ShotButton({ shot, size, onOpen, eager = false, className = "" }) {
   return (
     <button
       type="button"
@@ -57,6 +60,8 @@ function ShotButton({ shot, onOpen, eager = false, className = "" }) {
       <img
         src={shot.src}
         alt={shot.alt}
+        width={size?.width}
+        height={size?.height}
         loading={eager ? "eager" : "lazy"}
         decoding="async"
         className="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.01]"
@@ -66,12 +71,12 @@ function ShotButton({ shot, onOpen, eager = false, className = "" }) {
   );
 }
 
-function ScreenshotGrid({ shots, onOpen, className = "" }) {
+function ScreenshotGrid({ shots, size, onOpen, className = "" }) {
   return (
     <div className={`grid gap-x-3 gap-y-5 ${className}`}>
       {shots.map((shot, index) => (
         <figure key={shot.src}>
-          <ShotButton shot={shot} onOpen={() => onOpen(index)} />
+          <ShotButton shot={shot} size={size} onOpen={() => onOpen(index)} />
 
           <figcaption className="mt-2 text-xs leading-5 text-inkmuted">
             {shot.caption}
@@ -85,18 +90,12 @@ function ScreenshotGrid({ shots, onOpen, className = "" }) {
 function ScreenshotPlaceholder() {
   return (
     <div className="relative mt-4 overflow-hidden rounded-xl border border-line bg-surface">
-      <div className="absolute inset-0 bg-grid opacity-50" />
+      <div className="absolute inset-0 bg-grid bg-center opacity-50" />
 
       <div className="relative flex min-h-56 items-center justify-center px-6">
-        <div className="text-center">
-          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkmuted">
-            Project Screenshots
-          </p>
-
-          <p className="mt-2 max-w-sm text-xs text-inkmuted">
-            Screenshots can be added later from the project's content data.
-          </p>
-        </div>
+        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkmuted">
+          Screenshots coming soon
+        </p>
       </div>
     </div>
   );
@@ -108,11 +107,11 @@ function ContributionList({ project }) {
   if (contribution.length === 0) return null;
 
   return (
-    <div className="mt-4 divide-y divide-line border-y border-line">
+    <div className="divide-y divide-line border-b border-line">
       {contribution.map((item, index) => (
         <div
           key={item.title}
-          className="grid gap-2 py-4 sm:grid-cols-[32px_150px_1fr]"
+          className="grid gap-2 py-4 first:pt-1 sm:grid-cols-[32px_150px_1fr]"
         >
           <span className="font-mono text-[10px] text-inkmuted">
             {String(index + 1).padStart(2, "0")}
@@ -122,7 +121,7 @@ function ContributionList({ project }) {
             {item.title}
           </h3>
 
-          <p className="text-sm leading-5 text-inkmuted">
+          <p className="text-pretty text-sm leading-5 text-inkmuted">
             {item.description}
           </p>
         </div>
@@ -137,7 +136,7 @@ function FeatureList({ project }) {
   if (features.length === 0) return null;
 
   return (
-    <div className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+    <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
       {features.map((feature, index) => (
         <div
           key={feature}
@@ -147,7 +146,7 @@ function FeatureList({ project }) {
             {String(index + 1).padStart(2, "0")}
           </span>
 
-          <span className="text-sm text-ink">{feature}</span>
+          <span className="text-pretty text-sm text-ink">{feature}</span>
         </div>
       ))}
     </div>
@@ -162,26 +161,11 @@ export default function ProjectDetail() {
 
   const project = projects.find((item) => item.id === id);
 
-  if (!project) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-paper px-6 text-center">
-        <p className="font-mono text-xs uppercase tracking-widest text-signal">
-          404
-        </p>
+  useEffect(() => {
+    if (project) document.title = `${project.name} — Shan Platon`;
+  }, [project]);
 
-        <h1 className="mt-3 font-display text-2xl font-semibold text-ink">
-          Project not found
-        </h1>
-
-        <Link
-          to="/#projects"
-          className="mt-6 rounded-full border border-ink px-5 py-2.5 font-mono text-xs uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signal"
-        >
-          ← Back to Projects
-        </Link>
-      </div>
-    );
-  }
+  if (!project) return <NotFound title="Project not found" />;
 
   const accent = ACCENTS[project.accent] ?? ACCENTS.signal;
   const screenshots = project.screenshots ?? [];
@@ -201,9 +185,13 @@ export default function ProjectDetail() {
   const viewerIndex = viewer?.projectId === project.id ? viewer.index : null;
   const openViewer = (index) => setViewer({ projectId: project.id, index });
 
+  // Overview needs its own text or the main shot; otherwise it would only
+  // repeat the description under the title.
+  const showOverview = Boolean(project.overview || overviewShot);
+
   // Number only the sections this project shows, so labels never skip.
   const sections = [
-    "Overview",
+    showOverview && "Overview",
     project.contribution?.length > 0 && "My Contribution",
     project.features?.length > 0 && "Key Features",
     "Selected Screens",
@@ -214,23 +202,7 @@ export default function ProjectDetail() {
 
   return (
     <div className="min-h-screen bg-paper">
-      <header className="border-b border-line">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-          <Link
-            to="/"
-            className="font-display text-lg font-semibold tracking-tight text-ink"
-          >
-            Shan Platon
-          </Link>
-
-          <Link
-            to="/#projects"
-            className="font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-colors hover:text-signal"
-          >
-            ← Back to Projects
-          </Link>
-        </div>
-      </header>
+      <PageHeader />
 
       <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
 
@@ -255,13 +227,16 @@ export default function ProjectDetail() {
               </span>
             </div>
 
-            <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_260px] lg:items-end">
+            <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_260px] lg:items-start">
               <div>
-                <h1 className="font-display text-4xl font-semibold tracking-tight text-ink sm:text-5xl">
+                <h1
+                  tabIndex={-1}
+                  className="font-display text-4xl font-semibold tracking-tight text-ink focus:outline-none sm:text-5xl"
+                >
                   {project.name}
                 </h1>
 
-                <p className="mt-4 max-w-2xl text-base leading-7 text-inkmuted">
+                <p className="mt-4 max-w-2xl text-pretty text-base leading-7 text-inkmuted">
                   {project.description}
                 </p>
               </div>
@@ -284,34 +259,39 @@ export default function ProjectDetail() {
         </Reveal>
 
         {/* Overview */}
-        <Reveal delay={150}>
-          <section className="mt-14 border-t border-line pt-8">
-            <SectionLabel>{label("Overview")}</SectionLabel>
+        {showOverview && (
+          <Reveal delay={150} loadStagger>
+            <section className="mt-14 border-t border-line pt-8">
+              <SectionLabel>{label("Overview")}</SectionLabel>
 
-            <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
-              <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
-                What is {project.name}?
-              </h2>
+              <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
+                <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
+                  What is {project.name}?
+                </h2>
 
-              <p className="max-w-2xl text-sm leading-6 text-inkmuted">
-                {project.overview ?? project.description}
-              </p>
-            </div>
+                {project.overview && (
+                  <p className="max-w-2xl text-pretty text-sm leading-6 text-inkmuted">
+                    {project.overview}
+                  </p>
+                )}
+              </div>
 
-            {overviewShot && (
-              <ShotButton
-                shot={overviewShot}
-                eager
-                onOpen={() => openViewer(0)}
-                className="mt-6"
-              />
-            )}
-          </section>
-        </Reveal>
+              {overviewShot && (
+                <ShotButton
+                  shot={overviewShot}
+                  size={project.shotSize}
+                  eager
+                  onOpen={() => openViewer(0)}
+                  className="mt-6"
+                />
+              )}
+            </section>
+          </Reveal>
+        )}
 
         {/* Contribution */}
         {project.contribution?.length > 0 && (
-          <Reveal delay={200}>
+          <Reveal delay={200} loadStagger>
             <section className="mt-14 border-t border-line pt-8">
               <SectionLabel>{label("My Contribution")}</SectionLabel>
 
@@ -328,13 +308,13 @@ export default function ProjectDetail() {
 
         {/* Features */}
         {project.features?.length > 0 && (
-          <Reveal delay={250}>
+          <Reveal delay={250} loadStagger>
             <section className="mt-14 border-t border-line pt-8">
               <SectionLabel>{label("Key Features")}</SectionLabel>
 
               <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
                 <h2 className="font-display text-xl font-semibold tracking-tight text-ink">
-                  Project scope
+                  What it does
                 </h2>
 
                 <FeatureList project={project} />
@@ -344,14 +324,19 @@ export default function ProjectDetail() {
         )}
 
         {/* Screenshots */}
-        <Reveal delay={300}>
+        <Reveal delay={300} loadStagger>
           <section className="mt-14 border-t border-line pt-8">
-            <SectionLabel>{label("Selected Screens")}</SectionLabel>
+            {/* The label doubles as this section's heading; aria-label keeps
+                the number and the capitals out of its spoken name. */}
+            <SectionLabel as="h2" aria-label="Selected screens">
+              {label("Selected Screens")}
+            </SectionLabel>
 
             {screenshots.length > 0 ? (
               <ScreenshotCarousel
                 key={project.id}
                 shots={screenshots}
+                size={project.shotSize}
                 label={`${project.name} screenshots`}
                 onOpen={(index) => openViewer(firstScreenshot + index)}
                 className="mt-4"
@@ -363,6 +348,7 @@ export default function ProjectDetail() {
             {phoneScreenshots.length > 0 && (
               <ScreenshotGrid
                 shots={phoneScreenshots}
+                size={project.phoneShotSize}
                 onOpen={(index) => openViewer(firstPhoneShot + index)}
                 className="mt-8 grid-cols-2 sm:grid-cols-4"
               />
@@ -371,7 +357,7 @@ export default function ProjectDetail() {
         </Reveal>
 
         {/* Footer */}
-        <Reveal delay={350}>
+        <Reveal delay={350} loadStagger>
           <section className="mt-14 border-t border-line pt-8">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -389,10 +375,13 @@ export default function ProjectDetail() {
                   href={project.github}
                   target="_blank"
                   rel="noreferrer"
-                  className={`inline-flex w-fit items-center gap-2 rounded-full border border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-widest text-ink transition-all duration-200 ${accent.border} hover:-translate-y-0.5 hover:text-signal`}
+                  className="inline-flex w-fit items-center gap-2 rounded-full border border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-widest text-ink transition-colors duration-200 hover:border-signal hover:text-signaldeep"
                 >
                   GitHub
-                  <span>↗</span>
+                  <span className="sr-only normal-case">
+                    : {project.name} repository (opens in a new tab)
+                  </span>
+                  <span aria-hidden="true">↗</span>
                 </a>
               )}
             </div>
@@ -400,13 +389,13 @@ export default function ProjectDetail() {
         </Reveal>
 
         {/* Navigation */}
-        <Reveal delay={400}>
+        <Reveal delay={400} loadStagger>
           <div className="mt-10 border-t border-line pt-6">
             <Link
               to="/#projects"
-              className="font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-colors hover:text-signal"
+              className="relative inline-block font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-colors after:absolute after:inset-x-0 after:-inset-y-3.5 hover:text-signaldeep"
             >
-              ← Back to Projects
+              <span aria-hidden="true">←</span> Back to Projects
             </Link>
           </div>
         </Reveal>
@@ -417,6 +406,7 @@ export default function ProjectDetail() {
         <Lightbox
           shots={viewerShots}
           index={viewerIndex}
+          label={`${project.name} screenshots`}
           onIndexChange={openViewer}
           onClose={() => setViewer(null)}
         />

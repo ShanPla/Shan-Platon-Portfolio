@@ -8,7 +8,7 @@ export default function Skills() {
         <Reveal>
           <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-signal">
+              <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
                 02 — Skills
               </p>
 
@@ -26,10 +26,10 @@ export default function Skills() {
         <div className="mt-6 grid gap-3 lg:grid-cols-2">
           {skills.map((group, i) => (
             <Reveal key={group.group} delay={i * 80}>
-              <article className="group overflow-hidden rounded-xl border border-line bg-paper transition-colors duration-300 hover:border-signal/40">
+              <article className="overflow-hidden rounded-xl border border-line bg-paper">
                 {/* Category header */}
                 <div className="flex items-center gap-3 border-b border-line px-4 py-3.5 sm:px-5">
-                  <span className="font-mono text-[10px] tracking-widest text-signal">
+                  <span className="font-mono text-[10px] tracking-widest text-signaldeep">
                     {group.number}
                   </span>
 
@@ -38,23 +38,19 @@ export default function Skills() {
                   </h3>
                 </div>
 
-                {/* Technologies */}
-                <div className="grid grid-cols-2 divide-x divide-line sm:grid-cols-3">
-                  {group.items.map((item, index) => (
-                    <div
+                {/* Technologies: a table of cells. The grid hangs 1px past
+                    the card edge, which the card clips, so the outer cells
+                    lose their right and bottom lines. */}
+                <ul role="list" className="-mb-px -mr-px grid grid-cols-2 sm:grid-cols-3">
+                  {group.items.map((item) => (
+                    <li
                       key={item.name}
-                      className={`px-4 py-3 transition-colors duration-200 hover:bg-surface sm:px-5 ${
-                        index >= group.items.length - (group.items.length % 2)
-                          ? ""
-                          : ""
-                      }`}
+                      className="border-b border-r border-line px-4 py-3 text-sm font-medium text-ink last:border-r-0 sm:px-5"
                     >
-                      <p className="text-sm font-medium text-ink">
-                        {item.name}
-                      </p>
-                    </div>
+                      {item.name}
+                    </li>
                   ))}
-                </div>
+                </ul>
               </article>
             </Reveal>
           ))}

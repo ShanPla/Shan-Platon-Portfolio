@@ -1,12 +1,12 @@
-import { useCallback, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile, stats } from "../data/content.js";
 
-const initials = profile.name
-  .split(" ")
-  .map((part) => part[0])
-  .join("")
-  .slice(0, 2)
-  .toUpperCase();
+// First and last name, so "Shan Christian M. Platon" gives "SP". Stray
+// spaces are ignored, and a one-word name gives one letter.
+const nameParts = profile.name.trim().split(/\s+/);
+const initials = (
+  nameParts[0][0] + (nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : "")
+).toUpperCase();
 
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
@@ -24,36 +24,48 @@ function Avatar() {
       className="h-16 w-16 shrink-0 rounded-full border border-line object-cover sm:h-20 sm:w-20"
     />
   ) : (
-    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-base font-semibold text-inkmuted sm:h-20 sm:w-20 sm:text-lg">
+    <div
+      aria-hidden="true"
+      className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-line bg-surface font-display text-base font-semibold text-inkmuted sm:h-20 sm:w-20 sm:text-lg"
+    >
       {initials}
     </div>
   );
 }
 
 export default function Hero() {
-  const sectionRef = useRef(null);
-  const [spotlight, setSpotlight] = useState({ x: 50, y: 0 });
+  const spotlightRef = useRef(null);
+  const frame = useRef(0);
   const reduceMotion = prefersReducedMotion();
 
-  const handleMouseMove = useCallback(
-    (e) => {
-      if (reduceMotion || !sectionRef.current) return;
+  useEffect(() => () => cancelAnimationFrame(frame.current), []);
 
-      const rect = sectionRef.current.getBoundingClientRect();
+  // Moves the glow through CSS variables, at most once per frame, instead
+  // of re-rendering the hero on every mouse move.
+  function moveSpotlight(e) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-      setSpotlight({
-        x: ((e.clientX - rect.left) / rect.width) * 100,
-        y: ((e.clientY - rect.top) / rect.height) * 100,
-      });
-    },
-    [reduceMotion]
-  );
+    cancelAnimationFrame(frame.current);
+    frame.current = requestAnimationFrame(() => {
+      spotlightRef.current?.style.setProperty("--spot-x", `${x}%`);
+      spotlightRef.current?.style.setProperty("--spot-y", `${y}%`);
+    });
+  }
+
+  // Back to the resting spot instead of staying where the mouse left.
+  function resetSpotlight() {
+    cancelAnimationFrame(frame.current);
+    spotlightRef.current?.style.removeProperty("--spot-x");
+    spotlightRef.current?.style.removeProperty("--spot-y");
+  }
 
   return (
     <section
       id="top"
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
+      onMouseMove={reduceMotion ? undefined : moveSpotlight}
+      onMouseLeave={reduceMotion ? undefined : resetSpotlight}
       className="relative overflow-hidden border-b border-line"
     >
       {/* Background grid */}
@@ -62,14 +74,12 @@ export default function Hero() {
       {/* Subtle spotlight */}
       {!reduceMotion && (
         <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background: `radial-gradient(500px circle at ${spotlight.x}% ${spotlight.y}%, rgba(47,111,237,0.10), transparent 70%)`,
-          }}
+          ref={spotlightRef}
+          className="hero-spotlight pointer-events-none absolute inset-0"
         />
       )}
 
-      <div className="relative mx-auto max-w-5xl px-6 pb-10 pt-14 sm:pb-12 sm:pt-18">
+      <div className="relative mx-auto max-w-5xl px-6 pb-10 pt-14 sm:pb-12">
         {/* Identity */}
         <div
           className={
@@ -81,25 +91,29 @@ export default function Hero() {
 
             <div className="font-mono text-[10px] uppercase tracking-widest text-inkmuted sm:text-xs">
               <p>Software & Web</p>
-              <p className="mt-1 text-signal">Developer</p>
+              <p className="mt-1 text-signaldeep">Developer</p>
             </div>
           </div>
 
           {/* Name */}
-          <h1 className="mt-7 whitespace-nowrap font-display text-4xl font-semibold leading-none tracking-[-0.04em] text-ink sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1
+            tabIndex={-1}
+            className="mt-7 whitespace-nowrap font-display text-4xl font-semibold leading-none tracking-[-0.04em] text-ink focus:outline-none sm:text-5xl md:text-6xl lg:text-7xl"
+          >
             Shan Platon
           </h1>
         </div>
 
         {/* Intro */}
         <p
-          className={`mt-5 max-w-2xl text-sm leading-6 text-inkmuted sm:mt-6 sm:text-base sm:leading-7 ${
+          className={`mt-5 max-w-2xl text-pretty text-sm leading-6 text-inkmuted sm:mt-6 sm:text-base sm:leading-7 ${
             reduceMotion ? "" : "animate-fade-up opacity-0"
           }`}
           style={reduceMotion ? undefined : { animationDelay: "100ms" }}
         >
+          {/* &nbsp; keeps the dash at the end of a line, never the start. */}
           I build frontend and mobile experiences for systems that solve real
-          problems — from responsive web interfaces to connected applications.
+          problems&nbsp;— from responsive web interfaces to connected applications.
         </p>
 
         {/* Actions */}
@@ -111,7 +125,7 @@ export default function Hero() {
         >
           <a
             href="#projects"
-            className="rounded-full bg-ink px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-paper transition-colors hover:bg-signal"
+            className="rounded-full bg-ink px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-paper transition-colors hover:bg-signaldeep"
           >
             View My Work
           </a>
@@ -120,9 +134,10 @@ export default function Hero() {
             href={profile.github}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full border border-line bg-surface px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signal"
+            className="rounded-full border border-line bg-surface px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signaldeep"
           >
             GitHub
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
 
           {profile.resume && (
@@ -133,13 +148,14 @@ export default function Hero() {
               className="rounded-full border border-line bg-surface px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-inkmuted transition-colors hover:border-ink hover:text-ink"
             >
               Resume
+              <span className="sr-only"> (opens in a new tab)</span>
             </a>
           )}
         </div>
 
         {/* Stats */}
         <div
-          className={`mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-10 sm:grid-cols-4 ${
+          className={`mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-10 lg:grid-cols-4 ${
             reduceMotion ? "" : "animate-fade-up opacity-0"
           }`}
           style={reduceMotion ? undefined : { animationDelay: "260ms" }}
@@ -147,7 +163,7 @@ export default function Hero() {
           {stats.map((stat) => (
             <div
               key={stat.label}
-              className="bg-surface px-4 py-4 transition-colors hover:bg-paper sm:px-5"
+              className="bg-surface px-2.5 py-4 sm:px-5"
             >
               <p className="font-mono text-[9px] uppercase tracking-widest text-inkmuted sm:text-[10px]">
                 {stat.label}
