@@ -152,6 +152,8 @@ export const projects = [
     overview:
       "LipaAction is a community incident-reporting system for Lipa City, Batangas, built as a three-person undergraduate thesis at De La Salle Lipa. Residents file emergency and minor reports from a mobile app, and a machine-learning classifier scores each report's priority. Barangay officials review and validate the reports, then route them to the responding agencies. The city government oversees the whole flow.",
     role: "Web Console Development",
+    // team (optional): team size and adviser, shown under Role.
+    team: "Team of 3\u00a0· Adviser:\u00a0Franze\u00a0V.\u00a0Garcia",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase"],
     status: "SHIPPED",
     accent: "signal",
@@ -176,11 +178,6 @@ export const projects = [
         title: "Backend integration",
         description:
           "Connected the console to the team's shared Supabase backend: two-step sign-in, row-\u2060level security, and real-time updates via Supabase Realtime.",
-      },
-      {
-        title: "Team",
-        description:
-          "Teammates built the resident mobile app, the agency console, the machine-learning classifier, and the database. Thesis adviser: Franze V. Garcia.",
       },
     ],
 
@@ -256,6 +253,7 @@ export const projects = [
     overview:
       "ESP32 Fire Detection is the final project for an IoT course at De La Salle Lipa. An ESP32 reads gas, temperature, humidity, and sound sensors and sets one of four hazard stages, from Normal to Critical, shown on five LEDs and a buzzer and sent to a Blynk dashboard. It builds on the team's midterm prototype with the same hardware. The final version ignores brief sensor spikes but still sounds the alarm at once for a critical reading, and it detects failed sensors and dropped connections.",
     role: "Firmware, Hardware & Dashboard",
+    team: "Team of 3",
     stack: ["ESP32", "Arduino", "C++", "Blynk"],
     status: "COMPLETED",
     accent: "ok",
@@ -305,6 +303,7 @@ export const projects = [
     overview:
       "The Chronicle is a full-stack social network with an editorial, newspaper-inspired look. People post text and photo collages, follow each other, comment in threads, like posts and comments, chat in real time one-on-one or in groups, and get notified about all of it. It runs entirely on Supabase with no custom backend server: the database, row-level security policies, triggers, and functions are the backend.",
     role: "Full-Stack Development",
+    team: "Solo project",
     stack: ["React", "TypeScript", "Vite", "Supabase"],
     status: "SHIPPED",
     accent: "amber",

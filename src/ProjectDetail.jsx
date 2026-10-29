@@ -248,13 +248,27 @@ export default function ProjectDetail() {
               </div>
 
               <div className="lg:border-l lg:border-line lg:pl-6">
-                <p className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
-                  Role
-                </p>
+                <dl>
+                  <dt className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+                    Role
+                  </dt>
 
-                <p className="mt-2 text-sm text-ink">
-                  {project.role}
-                </p>
+                  <dd className="mt-2 text-sm text-ink">
+                    {project.role}
+                  </dd>
+
+                  {project.team && (
+                    <>
+                      <dt className="mt-4 font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+                        Team
+                      </dt>
+
+                      <dd className="mt-2 text-sm text-ink">
+                        {project.team}
+                      </dd>
+                    </>
+                  )}
+                </dl>
 
                 <div className="mt-4">
                   <Stack project={project} />
