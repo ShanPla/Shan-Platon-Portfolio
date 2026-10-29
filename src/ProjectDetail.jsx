@@ -182,12 +182,17 @@ export default function ProjectDetail() {
 
   // Every screenshot on the page in page order, so the viewer's arrows
   // run from the Overview shot through the carousel to the phone shots.
+  // Each carries its pixel size, so the viewer can list its smaller copies.
   const overviewShot = project.image && {
     src: project.image,
     alt: project.imageAlt ?? `${project.name} screenshot`,
     caption: project.imageCaption,
   };
-  const viewerShots = [overviewShot, ...screenshots, ...phoneScreenshots].filter(Boolean);
+  const viewerShots = [
+    overviewShot && { ...overviewShot, size: project.shotSize },
+    ...screenshots.map((shot) => ({ ...shot, size: project.shotSize })),
+    ...phoneScreenshots.map((shot) => ({ ...shot, size: project.phoneShotSize })),
+  ].filter(Boolean);
   const firstScreenshot = overviewShot ? 1 : 0;
   const firstPhoneShot = firstScreenshot + screenshots.length;
 

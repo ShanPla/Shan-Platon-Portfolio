@@ -1,8 +1,13 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { srcSet } from "../imageCopies.js";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "./icons.jsx";
 
 const pad = (n) => String(n).padStart(2, "0");
+
+// The picture is limited by the window's height as well as its width, so
+// the full width is a safe upper bound: it never picks a copy too small.
+const VIEWER_SIZES = "100vw";
 
 /**
  * Full-screen viewer for project screenshots. The arrow keys, the arrow
@@ -73,11 +78,17 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
     };
   }, []);
 
-  // Fetch the neighbouring shots so the next picture is ready.
+  // Fetch the neighbouring shots so the next picture is ready. srcset and
+  // sizes go on before src, so the browser fetches the same copy the
+  // viewer will show.
   useEffect(() => {
     if (count < 2) return;
     for (const by of [1, -1]) {
-      new Image().src = shots[(index + by + count) % count].src;
+      const next = shots[(index + by + count) % count];
+      const img = new Image();
+      img.sizes = VIEWER_SIZES;
+      img.srcset = srcSet(next.src, next.size) ?? "";
+      img.src = next.src;
     }
   }, [index, count, shots]);
 
@@ -253,6 +264,8 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
           <img
             key={shot.src}
             src={shot.src}
+            srcSet={srcSet(shot.src, shot.size)}
+            sizes={VIEWER_SIZES}
             alt={shot.alt}
             draggable={false}
             style={pulled ? { transform: `translateX(${pull.x}px)` } : undefined}
