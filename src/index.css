@@ -58,6 +58,54 @@ body {
   );
 }
 
+/* Hero intro, once per page load: the label fades in, the name and then
+   each line of the headline rise out of a mask, and the buttons and tiles
+   fade up last. Hero.jsx starts it with .hero-intro and sets each piece's
+   delay. Transforms and opacity only, so nothing else on the page moves. */
+.hero-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* Room for descenders; the margins give it back, so the text sits where
+     it would without the mask. */
+  padding: 0 0.05em 0.1em;
+  margin: 0 -0.05em -0.1em;
+}
+
+.hero-mask > span {
+  display: inline-block;
+  /* Keeps the space at the end of each word (Hero.jsx). */
+  white-space: pre;
+}
+
+.hero-intro .hero-mask > span {
+  animation: hero-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-intro .hero-fade {
+  animation: hero-fade 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes hero-rise {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes hero-fade {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-intro .hero-mask > span,
+  .hero-intro .hero-fade {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

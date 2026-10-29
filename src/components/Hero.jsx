@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { profile, stats } from "../data/content.js";
 
 // First and last name, so "Shan Christian M. Platon" gives "SP". Stray
@@ -11,6 +11,30 @@ const initials = (
 const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// The intro plays the first time the hero shows in a page load; coming back
+// from a project page shows it at rest.
+let introPlayed = false;
+
+// When each piece of the intro starts, in seconds (the motion is in
+// index.css). Each line of the headline starts LINE_STAGGER after the one
+// above; a fourth line on narrow phones rises with the third.
+const DELAY = { label: 0, name: 0.1, headline: 0.22, subline: 0.42, actions: 0.5, tiles: 0.6 };
+const LINE_STAGGER = 0.12;
+
+// One mask per word, so the headline can rise line by line however it
+// wraps; Hero gives each word the delay of its line. The space after each
+// word sits inside its mask: Chrome leaves spaces between inline-blocks out
+// of what screen readers get. end: the headline's last words, so no space
+// after the final one.
+function Words({ text, end = false }) {
+  const words = text.split(" ");
+  return words.map((word, i) => (
+    <span key={i} className="hero-mask">
+      <span>{end && i === words.length - 1 ? word : `${word} `}</span>
+    </span>
+  ));
+}
 
 function Avatar() {
   const [imgError, setImgError] = useState(false);
@@ -35,10 +59,37 @@ function Avatar() {
 
 export default function Hero() {
   const spotlightRef = useRef(null);
+  const headlineRef = useRef(null);
   const frame = useRef(0);
   const reduceMotion = prefersReducedMotion();
+  const [intro] = useState(() => !introPlayed && !reduceMotion);
+  const delay = (seconds) => (intro ? { animationDelay: `${seconds}s` } : undefined);
 
-  useEffect(() => () => cancelAnimationFrame(frame.current), []);
+  useEffect(() => {
+    introPlayed = true;
+    return () => cancelAnimationFrame(frame.current);
+  }, []);
+
+  // Gives each headline word the delay of the line it sits on.
+  useLayoutEffect(() => {
+    if (!intro) return;
+    const masks = [...headlineRef.current.querySelectorAll(".hero-mask")];
+    const stagger = () => {
+      const tops = [...new Set(masks.map((mask) => mask.offsetTop))];
+      for (const mask of masks) {
+        const line = Math.min(tops.indexOf(mask.offsetTop), 2);
+        mask.firstChild.style.animationDelay = `${DELAY.headline + line * LINE_STAGGER}s`;
+      }
+    };
+    stagger();
+
+    // On a first visit the web font can arrive after this and rewrap the
+    // headline; place the words again if they have not started rising.
+    const start = performance.now();
+    document.fonts?.ready.then(() => {
+      if (performance.now() - start < DELAY.headline * 1000) stagger();
+    });
+  }, [intro]);
 
   // Moves the glow through CSS variables, at most once per frame, instead
   // of re-rendering the hero on every mouse move.
@@ -66,7 +117,7 @@ export default function Hero() {
       id="top"
       onMouseMove={reduceMotion ? undefined : moveSpotlight}
       onMouseLeave={reduceMotion ? undefined : resetSpotlight}
-      className="relative overflow-hidden border-b border-line"
+      className={`relative overflow-hidden border-b border-line ${intro ? "hero-intro" : ""}`}
     >
       {/* Background grid */}
       <div className="pointer-events-none absolute inset-0 bg-grid opacity-40 [mask-image:radial-gradient(ellipse_70%_65%_at_50%_0%,#000_10%,transparent_75%)]" />
@@ -81,57 +132,49 @@ export default function Hero() {
 
       <div className="relative mx-auto max-w-5xl px-6 pb-10 pt-12 sm:pb-14 sm:pt-16">
         {/* Identity */}
-        <div
-          className={
-            reduceMotion ? "" : "animate-fade-up opacity-0"
-          }
-        >
-          <div className="flex items-center gap-4">
-            <Avatar />
+        <div className="hero-fade flex items-center gap-4" style={delay(DELAY.label)}>
+          <Avatar />
 
-            <div className="font-mono text-[10px] uppercase tracking-widest text-inkmuted sm:text-xs">
-              <p>Software & Web</p>
-              <p className="mt-1 text-signaldeep">Developer</p>
-            </div>
+          <div className="font-mono text-[10px] uppercase tracking-widest text-inkmuted sm:text-xs">
+            <p>Software & Web</p>
+            <p className="mt-1 text-signaldeep">Developer</p>
           </div>
-
-          {/* Name: the largest type on the page, 48px on phones up to 112px,
-              and always one line. */}
-          <h1
-            tabIndex={-1}
-            className="mt-8 whitespace-nowrap font-display text-[clamp(3rem,10vw,7rem)] font-semibold leading-[0.9] tracking-[-0.045em] text-ink focus:outline-none sm:mt-10"
-          >
-            Shan Platon
-          </h1>
         </div>
+
+        {/* Name: the largest type on the page, 48px on phones up to 112px,
+            and always one line. */}
+        <h1
+          tabIndex={-1}
+          className="mt-8 whitespace-nowrap font-display text-[clamp(3rem,10vw,7rem)] font-semibold leading-[0.9] tracking-[-0.045em] text-ink focus:outline-none sm:mt-10"
+        >
+          <span className="hero-mask">
+            <span style={delay(DELAY.name)}>Shan Platon</span>
+          </span>
+        </h1>
 
         {/* Headline, with what I build in bold ink */}
         <p
-          className={`mt-6 max-w-[26ch] text-balance font-display text-[clamp(1.375rem,3vw,2.25rem)] font-medium leading-[1.15] tracking-[-0.02em] text-inkmuted sm:mt-8 ${
-            reduceMotion ? "" : "animate-fade-up opacity-0"
-          }`}
-          style={reduceMotion ? undefined : { animationDelay: "100ms" }}
+          ref={headlineRef}
+          className="mt-6 max-w-[26ch] text-balance font-display text-[clamp(1.375rem,3vw,2.25rem)] font-medium leading-[1.15] tracking-[-0.02em] text-inkmuted sm:mt-8"
         >
-          I build{" "}
-          <strong className="font-bold text-ink">frontend and mobile experiences</strong>{" "}
-          for systems that solve real problems.
+          <Words text="I build" />
+          <strong className="font-bold text-ink">
+            <Words text="frontend and mobile experiences" />
+          </strong>
+          <Words text="for systems that solve real problems." end />
         </p>
 
         <p
-          className={`mt-4 max-w-xl text-pretty text-sm leading-6 text-inkmuted sm:text-base sm:leading-7 ${
-            reduceMotion ? "" : "animate-fade-up opacity-0"
-          }`}
-          style={reduceMotion ? undefined : { animationDelay: "140ms" }}
+          className="hero-fade mt-4 max-w-xl text-pretty text-sm leading-6 text-inkmuted sm:text-base sm:leading-7"
+          style={delay(DELAY.subline)}
         >
           From responsive web interfaces to connected applications.
         </p>
 
         {/* Actions */}
         <div
-          className={`mt-8 flex flex-wrap items-center gap-3 ${
-            reduceMotion ? "" : "animate-fade-up opacity-0"
-          }`}
-          style={reduceMotion ? undefined : { animationDelay: "180ms" }}
+          className="hero-fade mt-8 flex flex-wrap items-center gap-3"
+          style={delay(DELAY.actions)}
         >
           <a
             href="#projects"
@@ -165,10 +208,8 @@ export default function Hero() {
 
         {/* Stats: a description list, so each value is read with its label. */}
         <dl
-          className={`mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-12 lg:grid-cols-4 ${
-            reduceMotion ? "" : "animate-fade-up opacity-0"
-          }`}
-          style={reduceMotion ? undefined : { animationDelay: "260ms" }}
+          className="hero-fade mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-12 lg:grid-cols-4"
+          style={delay(DELAY.tiles)}
         >
           {stats.map((stat) => (
             <div
