@@ -39,6 +39,8 @@ export const statement = {
   highlight: "systems people can rely on",
 };
 
+// The Toolkit rows. logo: the chip's mark, a key in logos.js (React Native
+// uses the React mark, EAS the Expo one); without one, the chip is text only.
 export const skills = [
   {
     number: "01",
@@ -49,26 +51,32 @@ export const skills = [
     items: [
       {
         name: "React",
+        logo: "react",
         detail: "Component architecture · state · routing",
       },
       {
         name: "Next.js",
+        logo: "nextdotjs",
         detail: "App Router · server and client components",
       },
       {
         name: "TypeScript",
+        logo: "typescript",
         detail: "Typed components · interfaces · safer refactors",
       },
       {
         name: "JavaScript",
+        logo: "javascript",
         detail: "ES6+ · async logic · browser APIs",
       },
       {
         name: "Tailwind CSS",
+        logo: "tailwindcss",
         detail: "Responsive UI · design systems · utility styling",
       },
       {
         name: "Vite",
+        logo: "vite",
         detail: "Fast development · builds · project tooling",
       },
     ],
@@ -83,10 +91,12 @@ export const skills = [
     items: [
       {
         name: "React Native",
+        logo: "react",
         detail: "Cross-platform UI · navigation · native components",
       },
       {
         name: "Expo",
+        logo: "expo",
         detail: "Development workflow · EAS · device testing",
       },
     ],
@@ -101,14 +111,17 @@ export const skills = [
     items: [
       {
         name: "Supabase",
+        logo: "supabase",
         detail: "Auth · database · realtime",
       },
       {
         name: "PostgreSQL",
+        logo: "postgresql",
         detail: "SQL schemas · row-level security · triggers · functions",
       },
       {
         name: "Python",
+        logo: "python",
         detail: "Backend logic · scripting · data processing",
       },
     ],
@@ -123,26 +136,32 @@ export const skills = [
     items: [
       {
         name: "Git / GitHub",
+        logo: "github",
         detail: "Version control · collaboration · repositories",
       },
       {
         name: "GitHub Actions",
+        logo: "githubactions",
         detail: "CI · lint, test, and build on every push",
       },
       {
         name: "Vitest",
+        logo: "vitest",
         detail: "Unit tests · run in CI",
       },
       {
         name: "Vercel",
+        logo: "vercel",
         detail: "Deployment · previews · production hosting",
       },
       {
         name: "EAS",
+        logo: "expo",
         detail: "Mobile builds · submissions · releases",
       },
       {
         name: "Node-RED",
+        logo: "nodered",
         detail: "Visual workflows · integrations · automation",
       },
     ],
