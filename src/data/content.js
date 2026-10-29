@@ -198,7 +198,7 @@ export const projects = [
     // phoneScreenshots (optional): a row of phone-sized shots under the carousel.
     // shotSize / phoneShotSize: pixel size of those files, so the page keeps
     // their space before they load. image shares shotSize.
-    shotSize: { width: 1920, height: 799 },
+    shotSize: { width: 1900, height: 790 },
     image: "/projects/lipaaction/barangay-queue.webp",
     imageAlt:
       "Web console queue listing Critical Fire reports with priority scores and action buttons.",
@@ -359,13 +359,13 @@ export const projects = [
       {
         src: "/projects/chronicle/messages-light.webp",
         caption:
-          "Messages: conversation list and an open chat with a shared image.",
+          "Messages: conversation list and an open chat with a shared image; names and messages are blurred for privacy.",
         alt: "Two-pane messaging screen with chat bubbles and a sticker image.",
       },
       {
         src: "/projects/chronicle/chat-popups-light.webp",
         caption:
-          "Chats open as floating popups while you keep browsing the feed.",
+          "Chats open as floating popups while you keep browsing the feed; names and messages are blurred for privacy.",
         alt: "Feed page with two chat windows docked at the bottom right.",
       },
       {
@@ -388,7 +388,7 @@ export const projects = [
       },
       {
         src: "/projects/chronicle/chat-phone-light.webp",
-        caption: "A conversation on a phone.",
+        caption: "A conversation on a phone; names and messages are blurred for privacy.",
         alt: "Chat thread with blurred message bubbles, a sticker, and the message box at the bottom.",
       },
       {
