@@ -169,7 +169,10 @@ export default function Hero() {
                 {stat.label}
               </p>
 
-              <p className="mt-1.5 text-xs font-medium text-ink sm:text-sm">
+              <p className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-ink sm:text-sm">
+                {stat.available && (
+                  <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-ok" />
+                )}
                 {stat.value}
               </p>
             </div>

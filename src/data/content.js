@@ -19,11 +19,14 @@ export const profile = {
   image: null,
 };
 
+// The hero's tiles. available: shows a green dot before the value.
+// \u00a0 is a non-breaking space and \u2060 (after a hyphen) a word joiner;
+// both stop a line break there, so a long value breaks only after a "·".
 export const stats = [
-  { label: "STACK", value: "React / RN / Supabase" },
-  { label: "FOCUS", value: "Frontend → Backend" },
-  { label: "BASED IN", value: "Tanauan City, PH" },
-  { label: "BUILDING", value: "Web & Mobile Systems" },
+  { label: "STATUS", value: "Final-\u2060year CS student" },
+  { label: "OPEN TO", value: "OJT internship", available: true },
+  { label: "STACK", value: "React\u00a0· React\u00a0Native\u00a0· Supabase" },
+  { label: "BASED IN", value: "Tanauan City, Batangas" },
 ];
 
 export const skills = [
