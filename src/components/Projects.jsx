@@ -23,26 +23,19 @@ const ACCENTS = {
   },
 };
 
-// The hard-offset frame: an ink shadow that grows as the plate lifts with
-// the row's hover (or its link's keyboard focus) and shrinks when pressed.
-const LIFT = [
-  "shadow-[3px_3px_0_0_theme(colors.ink)] transition-[transform,box-shadow] duration-150 ease-out",
-  "group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-[5px_5px_0_0_theme(colors.ink)]",
-  "group-has-[:focus-visible]:-translate-x-0.5 group-has-[:focus-visible]:-translate-y-0.5 group-has-[:focus-visible]:shadow-[5px_5px_0_0_theme(colors.ink)]",
-  "group-active:translate-x-px group-active:translate-y-px group-active:shadow-[1px_1px_0_0_theme(colors.ink)]",
-].join(" ");
-
 // Two digits, so the first project is 01.
 const pad = (n) => String(n).padStart(2, "0");
 
-// The screenshot on a framed plate. Decorative here: the row's link names
-// the project, and the project page carries the full description of it.
+// The screenshot on a framed plate, which lifts with the row's hover (or
+// its link's keyboard focus) and presses in with it (lift-with-group in
+// index.css). Decorative here: the row's link names the project, and the
+// project page carries the full description of it.
 function Plate({ project }) {
   const [imgError, setImgError] = useState(false);
   const hasImage = Boolean(project.image) && !imgError;
 
   return (
-    <div className={`rounded-2xl border border-ink bg-surface p-2.5 ${LIFT}`}>
+    <div className="lift-with-group rounded-2xl bg-surface p-2.5">
       {hasImage ? (
         <img
           src={project.image}
@@ -168,7 +161,7 @@ function GitHubTile() {
       href={profile.github}
       target="_blank"
       rel="noreferrer"
-      className="group/tile flex flex-col gap-2 rounded-2xl border border-ink bg-ink px-6 py-7 text-paper shadow-[3px_3px_0_0_theme(colors.signal)] transition-[transform,box-shadow] duration-150 ease-out hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0_theme(colors.signal)] active:translate-x-px active:translate-y-px active:shadow-[1px_1px_0_0_theme(colors.signal)] sm:flex-row sm:items-center sm:justify-between sm:px-8"
+      className="lift group/tile flex flex-col gap-2 rounded-2xl bg-ink px-6 py-7 text-paper shadow-signal hover:shadow-signal active:shadow-signal sm:flex-row sm:items-center sm:justify-between sm:px-8"
     >
       <span className="font-display text-2xl font-semibold tracking-tight sm:text-[28px]">
         More on GitHub
