@@ -29,6 +29,16 @@ export const stats = [
   { label: "BASED IN", value: "Tanauan City, Batangas" },
 ];
 
+// The dark band between Skills and Projects. Its words light up one by one
+// as it scrolls into view. highlight: the words drawn in blue once lit,
+// written exactly as they appear in text. The \u00a0 keeps "I build" on
+// one line, so a line never ends on a lone "I".
+export const statement = {
+  label: "In short",
+  text: "From a barangay's incident console to a fire alarm on a breadboard, I\u00a0build systems people can rely on.",
+  highlight: "systems people can rely on",
+};
+
 export const skills = [
   {
     number: "01",
