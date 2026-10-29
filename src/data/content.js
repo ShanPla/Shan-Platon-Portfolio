@@ -157,6 +157,8 @@ export const projects = [
     id: "lipaaction",
     name: "LipaAction",
     tag: "Thesis · Web Console",
+    // year: shown after the project's number on the home page, e.g. 01 / 2026.
+    year: 2026,
     description:
       "A web console where barangay officials in Lipa\u00a0City review and route residents' incident reports, ranked by a machine-learning priority score.",
     overview:
@@ -258,6 +260,7 @@ export const projects = [
     id: "fire-detection",
     name: "ESP32 Fire Detection",
     tag: "Coursework · IoT System",
+    year: 2026,
     description:
       "An ESP32 fire and gas monitor that shows four hazard levels on LEDs and a buzzer and sends alerts to a Blynk dashboard.",
     overview:
@@ -308,6 +311,7 @@ export const projects = [
     id: "chronicle",
     name: "The Chronicle",
     tag: "Personal · Social App",
+    year: 2026,
     description:
       "A full-stack social media app with posts, comments, follows, notifications, and real-\u2060time chat.",
     overview:

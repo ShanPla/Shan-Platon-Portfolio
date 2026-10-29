@@ -5,75 +5,68 @@ import { srcSet } from "../imageCopies.js";
 import Reveal from "./Reveal.jsx";
 import StatusBadge from "./StatusBadge.jsx";
 
+// Each project's own accent: its number, and its View project pill while
+// the row is hovered. The deep shades keep small text readable.
 const ACCENTS = {
   signal: {
-    text: "text-signaldeep",
-    border: "hover:border-signal/50",
+    number: "text-signaldeep",
+    pill: "group-hover:border-signaldeep group-hover:bg-signaldeep",
   },
   ok: {
-    text: "text-okdeep",
-    border: "hover:border-ok/50",
+    number: "text-okdeep",
+    pill: "group-hover:border-okdeep group-hover:bg-okdeep",
   },
   amber: {
-    text: "text-amberdeep",
-    border: "hover:border-amber/50",
+    number: "text-amberdeep",
+    pill: "group-hover:border-amberdeep group-hover:bg-amberdeep",
   },
 };
 
-function ProjectImage({ project, featured = false }) {
+// The hard-offset frame: an ink shadow that grows as the plate lifts with
+// the row's hover (or its link's keyboard focus) and shrinks when pressed.
+const LIFT = [
+  "shadow-[3px_3px_0_0_theme(colors.ink)] transition-[transform,box-shadow] duration-150 ease-out",
+  "group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-[5px_5px_0_0_theme(colors.ink)]",
+  "group-has-[:focus-visible]:-translate-x-0.5 group-has-[:focus-visible]:-translate-y-0.5 group-has-[:focus-visible]:shadow-[5px_5px_0_0_theme(colors.ink)]",
+  "group-active:translate-x-px group-active:translate-y-px group-active:shadow-[1px_1px_0_0_theme(colors.ink)]",
+].join(" ");
+
+// Two digits, so the first project is 01.
+const pad = (n) => String(n).padStart(2, "0");
+
+// The screenshot on a framed plate. Decorative here: the row's link names
+// the project, and the project page carries the full description of it.
+function Plate({ project }) {
   const [imgError, setImgError] = useState(false);
   const hasImage = Boolean(project.image) && !imgError;
 
-  if (!hasImage) {
-    return (
-      <div
-        className={`relative overflow-hidden bg-surface ${
-          featured ? "h-36 sm:h-44" : "h-28"
-        }`}
-      >
-        <div className="absolute inset-0 bg-grid bg-center opacity-50" />
+  return (
+    <div className={`rounded-2xl border border-ink bg-surface p-2.5 ${LIFT}`}>
+      {hasImage ? (
+        <img
+          src={project.image}
+          srcSet={srcSet(project.image, project.shotSize)}
+          // The plate's inside: the wide column from 1024px, else the page
+          // width less its padding and the plate's border and padding.
+          sizes="(min-width: 1024px) 515px, calc(100vw - 70px)"
+          alt=""
+          width={project.shotSize?.width}
+          height={project.shotSize?.height}
+          loading="lazy"
+          decoding="async"
+          onError={() => setImgError(true)}
+          className="block h-auto w-full rounded-md border border-line"
+        />
+      ) : (
+        // Wider below 1024px, where nothing sits beside it to match.
+        <div className="relative flex aspect-[5/2] items-center justify-center overflow-hidden rounded-md border border-line bg-paper lg:aspect-[2/1]">
+          <div className="absolute inset-0 bg-grid bg-center opacity-50" />
 
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+          <span className="relative font-mono text-[10px] uppercase tracking-widest text-inkmuted">
             Screenshots coming soon
           </span>
         </div>
-      </div>
-    );
-  }
-
-  // Decorative here: the card's link names the project, and the project
-  // page carries the full description of this screenshot.
-  return (
-    <div className={`overflow-hidden ${featured ? "h-36 sm:h-44" : "h-28"}`}>
-      <img
-        src={project.image}
-        srcSet={srcSet(project.image, project.shotSize)}
-        // The card's width inside its 1px border: the featured card spans
-        // the column, the others sit two to a row from 640px.
-        sizes={
-          featured
-            ? "(min-width: 1024px) 974px, calc(100vw - 50px)"
-            : "(min-width: 1024px) 480px, (min-width: 640px) calc(50vw - 32px), calc(100vw - 50px)"
-        }
-        alt=""
-        loading="lazy"
-        decoding="async"
-        onError={() => setImgError(true)}
-        className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
-      />
-    </div>
-  );
-}
-
-function ProjectMeta({ project }) {
-  return (
-    <div className="flex items-center justify-between gap-4">
-      <span className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
-        {project.tag}
-      </span>
-
-      <StatusBadge status={project.status} />
+      )}
     </div>
   );
 }
@@ -85,7 +78,7 @@ function Stack({ project }) {
       {project.stack.map((tech) => (
         <li
           key={tech}
-          className="rounded border border-line bg-paper px-2 py-1 font-mono text-[10px] text-inkmuted"
+          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-[10px] text-inkmuted"
         >
           {tech}
         </li>
@@ -94,17 +87,16 @@ function Stack({ project }) {
   );
 }
 
-// Its ::after layer stretches over the whole card (the article is
-// relative), so clicking anywhere on the card opens the project.
-function ProjectLink({ project }) {
-  const accent = ACCENTS[project.accent];
-
+// The row's one link. Its ::after layer stretches over the whole row (the
+// article is relative) and above the plate, which moves as it lifts, so
+// clicking anywhere on the row opens the project.
+function ProjectLink({ project, accent }) {
   return (
     <Link
       to={`/projects/${project.id}`}
-      className={`inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap font-mono text-[10px] uppercase tracking-wider after:absolute after:inset-0 after:rounded-xl ${accent.text}`}
+      className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-ink px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-ink transition-colors after:absolute after:inset-0 after:z-10 group-hover:text-paper ${accent.pill}`}
     >
-      <span className="underline-offset-4 group-hover:underline">View Details</span>
+      View project
       <span className="sr-only normal-case">: {project.name}</span>
 
       <span
@@ -117,67 +109,50 @@ function ProjectLink({ project }) {
   );
 }
 
-function FeaturedProject({ project }) {
-  const accent = ACCENTS[project.accent];
+// One project: the plate beside its text, swapping sides on every other
+// row from 1024px; below that, the plate sits above the text.
+function ProjectRow({ project, index }) {
+  const accent = ACCENTS[project.accent] ?? ACCENTS.signal;
+  const flip = index % 2 === 1;
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${accent.border}`}
+      className={`group relative grid items-center gap-7 lg:gap-14 ${
+        flip
+          ? "lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]"
+          : "lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]"
+      }`}
     >
-      <ProjectImage project={project} featured />
-
-      <div className="p-4 sm:p-5">
-        <ProjectMeta project={project} />
-
-        <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div className="min-w-0">
-            <h3 className="font-display text-xl font-semibold tracking-tight text-ink">
-              {project.name}
-            </h3>
-
-            <p className="mt-1 max-w-2xl text-pretty text-sm leading-5 text-inkmuted">
-              {project.description}
-            </p>
-
-            <div className="mt-2.5">
-              <Stack project={project} />
-            </div>
-          </div>
-
-          <ProjectLink project={project} />
-        </div>
+      <div className={flip ? "lg:order-last" : ""}>
+        <Plate project={project} />
       </div>
-    </article>
-  );
-}
 
-function CompactProject({ project }) {
-  const accent = ACCENTS[project.accent];
+      <div>
+        <p className="font-mono text-[11px] uppercase tracking-widest text-inkmuted">
+          <span aria-hidden="true">
+            <span className={accent.number}>{pad(index + 1)}</span> /{" "}
+          </span>
+          {[project.year, project.tag].filter(Boolean).join(" · ")}
+        </p>
 
-  return (
-    <article
-      className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-line bg-surface transition-all duration-300 hover:-translate-y-1 hover:shadow-md ${accent.border}`}
-    >
-      <ProjectImage project={project} />
-
-      <div className="flex flex-1 flex-col p-4">
-        <ProjectMeta project={project} />
-
-        <h3 className="mt-2.5 font-display text-lg font-semibold text-ink">
+        <h3 className="mt-3 font-display text-[32px] font-semibold leading-[1.1] tracking-tight text-ink lg:text-[40px]">
           {project.name}
         </h3>
 
-        <p className="mt-1 text-pretty text-xs leading-5 text-inkmuted">
+        <p className="mt-3 max-w-xl text-pretty text-[15px] leading-6 text-inkmuted">
           {project.description}
         </p>
 
-        {/* The link gets its own row, so the pills keep the full width. */}
-        <div className="mt-auto pt-3">
-          <Stack project={project} />
+        <div className="mt-4">
+          <StatusBadge status={project.status} />
+        </div>
 
-          <div className="mt-3 flex justify-end">
-            <ProjectLink project={project} />
-          </div>
+        <div className="mt-4">
+          <Stack project={project} />
+        </div>
+
+        <div className="mt-6">
+          <ProjectLink project={project} accent={accent} />
         </div>
       </div>
     </article>
@@ -185,9 +160,6 @@ function CompactProject({ project }) {
 }
 
 export default function Projects() {
-  const featuredProject = projects[0];
-  const otherProjects = projects.slice(1);
-
   return (
     <section id="projects" className="border-b border-line">
       <div className="mx-auto max-w-5xl px-6 py-10 sm:py-12">
@@ -205,21 +177,14 @@ export default function Projects() {
           </h2>
         </Reveal>
 
-        <div className="mt-6">
-          <Reveal>
-            <FeaturedProject project={featuredProject} />
-          </Reveal>
+        <div className="mt-8 space-y-16 lg:space-y-20">
+          {projects.map((project, index) => (
+            <Reveal key={project.id}>
+              <ProjectRow project={project} index={index} />
+            </Reveal>
+          ))}
         </div>
 
-        {otherProjects.length > 0 && (
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            {otherProjects.map((project, i) => (
-              <Reveal key={project.id} delay={(i + 1) * 80} className="h-full">
-                <CompactProject project={project} />
-              </Reveal>
-            ))}
-          </div>
-        )}
       </div>
     </section>
   );

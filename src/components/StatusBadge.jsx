@@ -1,5 +1,5 @@
 // The dot's colour follows the status, the same on every project; each
-// project's own accent colour stays on its card border and links.
+// project's own accent colour stays on its number and View project link.
 const DOTS = {
   SHIPPED: "bg-ok",
   COMPLETED: "bg-ok",
