@@ -88,8 +88,11 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
         e.preventDefault();
         step(-1);
       } else if (e.key === "Tab") {
-        // Keep Tab cycling through the viewer's own buttons.
-        const buttons = [...dialogRef.current.querySelectorAll("button")];
+        // Keep Tab cycling through the viewer's own buttons, skipping the
+        // arrow pair this screen size hides.
+        const buttons = [...dialogRef.current.querySelectorAll("button, a[href]")].filter(
+          (button) => button.getClientRects().length > 0
+        );
         const first = buttons[0];
         const last = buttons[buttons.length - 1];
         const active = document.activeElement;
@@ -126,10 +129,12 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
     if (e.target.dataset.backdrop !== undefined) close();
   }
 
-  // Ringed so the round buttons show on the dark backdrop and over light
-  // screenshots on phones, where they overlap the picture.
+  // Ringed so the round buttons show on the dark backdrop. From lg up the
+  // arrows sit at the window's sides; on narrower screens they would cover
+  // the picture's edges, so a pair under it takes over.
   const arrowClass =
-    "absolute top-1/2 -translate-y-1/2 rounded-full bg-scrim/70 p-2.5 text-paper/80 ring-1 ring-inset ring-paper/15 transition-colors hover:bg-paper/15 hover:text-paper focus-visible:outline-paper";
+    "rounded-full p-2.5 text-paper/80 ring-1 ring-inset ring-paper/15 transition-colors hover:bg-paper/15 hover:text-paper focus-visible:outline-paper";
+  const sideArrowClass = `${arrowClass} absolute top-1/2 hidden -translate-y-1/2 lg:block`;
 
   return createPortal(
     <div
@@ -148,11 +153,12 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
     >
       <div
         data-backdrop
-        className="flex items-center justify-between px-4 py-3 sm:px-6"
+        className="flex items-center justify-between px-4 py-3 sm:px-6 [@media(max-height:480px)]:py-1.5"
       >
+        {/* Below lg the count sits with the arrows under the picture. */}
         <p
           aria-hidden="true"
-          className="font-mono text-[11px] uppercase tracking-widest text-paper/70"
+          className="hidden font-mono text-[11px] uppercase tracking-widest text-paper/70 lg:block"
         >
           {pad(index + 1)} / {pad(count)}
         </p>
@@ -163,23 +169,28 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
           onClick={close}
           aria-label="Close viewer"
           title="Close (Esc)"
-          className="relative rounded-full p-2.5 text-paper/80 transition-colors after:absolute after:-inset-1 hover:bg-paper/15 hover:text-paper focus-visible:outline-paper"
+          className="relative ml-auto rounded-full p-2.5 text-paper/80 transition-colors after:absolute after:-inset-1 hover:bg-paper/15 hover:text-paper focus-visible:outline-paper"
         >
           <CloseIcon />
         </button>
       </div>
 
-      {/* The caption sits right under the picture, not at the window's foot. */}
+      {/* The caption sits right under the picture, not at the window's foot.
+          Below lg the picture gets nearly the full width, and the spacer
+          centres it alone, so a longer caption doesn't move it (or the
+          arrows under it) when stepping. */}
       <div
         data-backdrop
-        className="flex min-h-0 flex-1 flex-col items-center justify-center gap-4 px-4 pb-6 sm:px-20"
+        className="flex min-h-0 flex-1 flex-col items-center justify-center px-2 pb-4 lg:px-20 lg:pb-6 [@media(max-height:480px)]:pb-1"
       >
-        {/* The picture's row spans the full width, so the arrows sit at the
-            window's sides, centred on the picture. It shrinks to leave room
-            for the caption, and the picture fits inside it. */}
+        <div data-backdrop className="flex-1 lg:hidden" />
+
+        {/* From lg up the picture's row spans the full width, so the arrows
+            sit at the window's sides, centred on the picture. It shrinks to
+            leave room for the caption, and the picture fits inside it. */}
         <div
           data-backdrop
-          className="relative -mx-4 flex min-h-0 items-center justify-center self-stretch px-4 sm:-mx-20 sm:px-20"
+          className="relative flex min-h-0 items-center justify-center self-stretch lg:-mx-20 lg:px-20"
         >
           <img
             key={shot.src}
@@ -196,7 +207,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
                 onClick={() => step(-1)}
                 aria-label="Previous screenshot"
                 title="Previous (←)"
-                className={`${arrowClass} left-2 sm:left-5`}
+                className={`${sideArrowClass} left-5`}
               >
                 <ChevronLeftIcon className="h-6 w-6" />
               </button>
@@ -206,7 +217,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
                 onClick={() => step(1)}
                 aria-label="Next screenshot"
                 title="Next (→)"
-                className={`${arrowClass} right-2 sm:right-5`}
+                className={`${sideArrowClass} right-5`}
               >
                 <ChevronRightIcon className="h-6 w-6" />
               </button>
@@ -214,18 +225,63 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
           )}
         </div>
 
-        <p
-          id="lightbox-caption"
+        {/* Below lg the space under the caption matches the spacer above
+            the picture. The row reads caption … ‹ 02 / 07 ›, as in the
+            page's carousel; the caption's padding centres its first line on
+            the arrows, and short screens drop it to centre the row instead. */}
+        <div
           data-backdrop
-          aria-live="polite"
-          aria-atomic="true"
-          className="w-full max-w-3xl shrink-0 text-center text-sm leading-6 text-paper/80"
+          className="mt-2 w-full max-w-3xl flex-1 lg:mt-4 lg:flex-none [@media(max-height:480px)]:mt-1"
         >
-          <span className="sr-only">
-            Screenshot {index + 1} of {count}:{" "}
-          </span>
-          {shot.caption}
-        </p>
+          <div
+            data-backdrop
+            className="flex items-start gap-3 px-2 lg:px-0 [@media(max-height:480px)]:items-center"
+          >
+            <p
+              id="lightbox-caption"
+              data-backdrop
+              aria-live="polite"
+              aria-atomic="true"
+              className="min-w-0 flex-1 py-2.5 text-sm leading-6 text-paper/80 lg:py-0 lg:text-center [@media(max-height:480px)]:py-0"
+            >
+              <span className="sr-only">
+                Screenshot {index + 1} of {count}:{" "}
+              </span>
+              {shot.caption}
+            </p>
+
+            {count > 1 && (
+              <div className="flex shrink-0 items-center gap-1 lg:hidden">
+                <button
+                  type="button"
+                  onClick={() => step(-1)}
+                  aria-label="Previous screenshot"
+                  title="Previous (←)"
+                  className={arrowClass}
+                >
+                  <ChevronLeftIcon className="h-6 w-6" />
+                </button>
+
+                <span
+                  aria-hidden="true"
+                  className="min-w-[3.5rem] text-center font-mono text-[11px] uppercase tracking-widest text-paper/70"
+                >
+                  {pad(index + 1)} / {pad(count)}
+                </span>
+
+                <button
+                  type="button"
+                  onClick={() => step(1)}
+                  aria-label="Next screenshot"
+                  title="Next (→)"
+                  className={arrowClass}
+                >
+                  <ChevronRightIcon className="h-6 w-6" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>,
     document.body
