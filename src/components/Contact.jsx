@@ -1,5 +1,6 @@
 import { profile } from "../data/content.js";
 import Reveal from "./Reveal.jsx";
+import SectionLabel from "./SectionLabel.jsx";
 
 // Small pills that invert on hover. These utilities beat .btn-secondary's own
 // hover colours, since Tailwind puts utilities after components.
@@ -10,7 +11,7 @@ export default function Contact() {
     <section id="contact">
       <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">04 — Contact</p>
+          <SectionLabel>04 — Contact</SectionLabel>
           <h2 className="mt-4 max-w-4xl text-balance font-display text-[clamp(2rem,6vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">
             Looking for an OJT intern who's ready to learn backend fast?
           </h2>

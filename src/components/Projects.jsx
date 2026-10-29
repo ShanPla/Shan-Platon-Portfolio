@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { profile, projects } from "../data/content.js";
 import { srcSet } from "../imageCopies.js";
 import Reveal from "./Reveal.jsx";
+import SectionLabel from "./SectionLabel.jsx";
 import StatusBadge from "./StatusBadge.jsx";
 
 // Each project's own accent: its number, and its View project pill while
@@ -193,9 +194,7 @@ export default function Projects() {
     <section id="projects" className="border-b border-line">
       <div className="mx-auto max-w-5xl px-6 py-10 sm:py-12">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
-            03 — Projects
-          </p>
+          <SectionLabel>03 — Projects</SectionLabel>
 
           {/* Takes focus when a link from another page lands on #projects. */}
           <h2

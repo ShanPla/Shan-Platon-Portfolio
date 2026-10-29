@@ -1,6 +1,7 @@
 import { skills } from "../data/content.js";
 import { logos } from "../data/logos.js";
 import Reveal from "./Reveal.jsx";
+import SectionLabel from "./SectionLabel.jsx";
 
 // A tool's mark on a small tile, in the text colour. Decorative: the chip's
 // text names the tool. The negative margin tucks the tile into the chip's
@@ -23,16 +24,13 @@ export default function Skills() {
     <section id="skills" className="border-b border-line bg-surface">
       <div className="mx-auto max-w-5xl px-6 py-10 sm:py-12">
         <Reveal>
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
-                02 — Skills
-              </p>
+          {/* The label sits above the row, so its rule spans the full width. */}
+          <SectionLabel>02 — Skills</SectionLabel>
 
-              <h2 className="mt-1.5 font-display text-2xl font-semibold tracking-tight text-ink sm:text-[28px]">
-                Toolkit
-              </h2>
-            </div>
+          <div className="mt-1.5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <h2 className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-[28px]">
+              Toolkit
+            </h2>
 
             <p className="text-xs text-inkmuted">
               Technologies I use across web, mobile, and backend.
