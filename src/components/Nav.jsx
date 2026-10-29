@@ -1,3 +1,5 @@
+import useScrolledPast from "../useScrolledPast.js";
+
 const LINKS = [
   { href: "#about", label: "About" },
   { href: "#skills", label: "Skills" },
@@ -5,8 +7,17 @@ const LINKS = [
 ];
 
 export default function Nav() {
+  // At the top the header sits flat on the hero; once the page moves it
+  // gets its rule and a faint shadow. The border is only made transparent,
+  // never removed, so the header stays 63px tall.
+  const scrolled = useScrolledPast(8);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-paper/85 backdrop-blur">
+    <header
+      className={`sticky top-0 z-50 border-b bg-paper/85 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
+        scrolled ? "border-line shadow-md shadow-ink/5" : "border-transparent"
+      }`}
+    >
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <a href="#top" className="font-display text-lg font-semibold tracking-tight text-ink">
           Shan Platon
