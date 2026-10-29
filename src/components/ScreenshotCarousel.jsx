@@ -15,7 +15,9 @@ export default function ScreenshotCarousel({ shots, label, size, onOpen, classNa
   // Neighbouring slides are clipped out of view, so lazy loading would wait
   // until they slide in. Once the first slide has loaded, fetch them early.
   const [warm, setWarm] = useState(false);
-  const swipeStart = useRef(null);
+  // How far a swipe has moved the track, in px; null when not swiping.
+  const [dragX, setDragX] = useState(null);
+  const swipe = useRef(null);
   const lastSwipe = useRef(0);
   const trackRef = useRef(null);
   const slideRefs = useRef([]);
@@ -23,10 +25,16 @@ export default function ScreenshotCarousel({ shots, label, size, onOpen, classNa
 
   const count = shots.length;
   const step = (by) => setIndex((current) => (current + by + count) % count);
+  const dragging = dragX !== null;
 
   // Wrapping from the last slide to the first (or back) jumps straight
   // there instead of sliding past every screenshot in between.
   const wrapped = Math.abs(index - prevIndex.current) > 1;
+
+  // Past either end there is no slide to show, so the track follows the
+  // finger only a third as far there.
+  const pastEnd = (index === 0 && dragX > 0) || (index === count - 1 && dragX < 0);
+  const offset = pastEnd ? dragX / 3 : dragX;
 
   useEffect(() => {
     prevIndex.current = index;
@@ -43,15 +51,65 @@ export default function ScreenshotCarousel({ shots, label, size, onOpen, classNa
     return distance <= 1 || distance === count - 1;
   };
 
-  function onPointerUp(e) {
-    if (swipeStart.current === null) return;
-    const dx = e.clientX - swipeStart.current;
-    swipeStart.current = null;
+  // A press turns into a swipe once it moves 8px sideways (more than up or
+  // down). Only then is the pointer captured, so a tap still opens the
+  // slide and a vertical swipe still scrolls the page.
+  function onPointerDown(e) {
+    if (!e.isPrimary || e.button !== 0) return;
+    swipe.current = {
+      id: e.pointerId,
+      x: e.clientX,
+      y: e.clientY,
+      active: false,
+      moves: [{ x: e.clientX, t: e.timeStamp }],
+    };
+  }
 
-    if (Math.abs(dx) > 50) {
-      lastSwipe.current = Date.now();
-      step(dx < 0 ? 1 : -1);
+  function onPointerMove(e) {
+    const s = swipe.current;
+    if (!s || s.id !== e.pointerId) return;
+    const dx = e.clientX - s.x;
+
+    if (!s.active) {
+      // A mouse let go outside the carousel before it became a swipe.
+      if (e.buttons === 0) {
+        swipe.current = null;
+        return;
+      }
+      if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(e.clientY - s.y)) return;
+      s.active = true;
+      e.currentTarget.setPointerCapture(e.pointerId);
     }
+
+    // The last 100ms of moves give the speed on release.
+    s.moves = s.moves.filter((m) => e.timeStamp - m.t < 100);
+    s.moves.push({ x: e.clientX, t: e.timeStamp });
+    setDragX(dx);
+  }
+
+  function onPointerUp(e) {
+    const s = swipe.current;
+    if (!s || s.id !== e.pointerId) return;
+    swipe.current = null;
+    if (!s.active) return;
+
+    const dx = e.clientX - s.x;
+    const from = s.moves.find((m) => e.timeStamp - m.t < 100);
+    const speed = from ? (e.clientX - from.x) / Math.max(e.timeStamp - from.t, 1) : 0;
+    // A quick flick changes slide however short it was, unless it flicks
+    // back; a slower swipe needs 50px. Otherwise the track slides back.
+    const flick = Math.abs(speed) > 0.3 ? Math.sign(speed) : 0;
+    const direction = flick || (Math.abs(dx) > 50 ? Math.sign(dx) : 0);
+
+    lastSwipe.current = Date.now();
+    setDragX(null);
+    if (direction !== 0 && direction === Math.sign(dx)) step(-direction);
+  }
+
+  function onPointerCancel(e) {
+    if (swipe.current?.id !== e.pointerId) return;
+    swipe.current = null;
+    setDragX(null);
   }
 
   function onKeyDown(e) {
@@ -76,15 +134,21 @@ export default function ScreenshotCarousel({ shots, label, size, onOpen, classNa
       className={className}
     >
       <div className="overflow-hidden rounded-xl border border-line bg-surface">
+        {/* During a swipe the track follows the finger, with no easing. */}
         <div
           ref={trackRef}
-          onPointerDown={(e) => (swipeStart.current = e.clientX)}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
-          onPointerCancel={() => (swipeStart.current = null)}
+          onPointerCancel={onPointerCancel}
           className={`flex select-none touch-pan-y touch-pinch-zoom ${
-            wrapped ? "" : "transition-transform duration-500 ease-out"
+            wrapped || dragging ? "" : "transition-transform duration-500 ease-out"
           }`}
-          style={{ transform: `translateX(-${index * 100}%)` }}
+          style={{
+            transform: dragging
+              ? `translateX(calc(-${index * 100}% + ${offset}px))`
+              : `translateX(-${index * 100}%)`,
+          }}
         >
           {shots.map((shot, i) => {
             const active = i === index;

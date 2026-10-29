@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "./icons.jsx";
 
@@ -16,12 +16,16 @@ const pad = (n) => String(n).padStart(2, "0");
 export default function Lightbox({ shots, index, label, onIndexChange, onClose }) {
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
-  const swipeStart = useRef(null);
+  const swipe = useRef(null);
   const lastSwipe = useRef(0);
   const closing = useRef(false);
+  // How far a swipe has moved the picture: { src, x }. After a swipe that
+  // changes shot it holds the old picture in place until the next one shows.
+  const [pull, setPull] = useState(null);
 
   const count = shots.length;
   const shot = shots[index];
+  const pulled = pull?.src === shot.src;
 
   // The shot last asked for. A new shot reaches the address at once but
   // renders a moment later, so quick presses count on from it rather than
@@ -29,6 +33,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
   const wanted = useRef(index);
   useLayoutEffect(() => {
     wanted.current = index;
+    setPull(null);
   }, [index]);
 
   const step = (by) => {
@@ -112,15 +117,65 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [index, count, onClose, onIndexChange]);
 
-  function onPointerUp(e) {
-    if (swipeStart.current === null) return;
-    const dx = e.clientX - swipeStart.current;
-    swipeStart.current = null;
+  // A press turns into a swipe once it moves 8px sideways (more than up or
+  // down). Only then is the pointer captured, so taps on the buttons and
+  // the dark area still reach them.
+  function onPointerDown(e) {
+    if (count < 2 || !e.isPrimary || e.button !== 0) return;
+    swipe.current = {
+      id: e.pointerId,
+      x: e.clientX,
+      y: e.clientY,
+      active: false,
+      moves: [{ x: e.clientX, t: e.timeStamp }],
+    };
+  }
 
-    if (count > 1 && Math.abs(dx) > 50) {
-      lastSwipe.current = Date.now();
-      step(dx < 0 ? 1 : -1);
+  function onPointerMove(e) {
+    const s = swipe.current;
+    if (!s || s.id !== e.pointerId) return;
+    const dx = e.clientX - s.x;
+
+    if (!s.active) {
+      // A mouse let go outside the window before it became a swipe.
+      if (e.buttons === 0) {
+        swipe.current = null;
+        return;
+      }
+      if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(e.clientY - s.y)) return;
+      s.active = true;
+      e.currentTarget.setPointerCapture(e.pointerId);
     }
+
+    // The last 100ms of moves give the speed on release.
+    s.moves = s.moves.filter((m) => e.timeStamp - m.t < 100);
+    s.moves.push({ x: e.clientX, t: e.timeStamp });
+    setPull({ src: shot.src, x: dx });
+  }
+
+  function onPointerUp(e) {
+    const s = swipe.current;
+    if (!s || s.id !== e.pointerId) return;
+    swipe.current = null;
+    if (!s.active) return;
+
+    const dx = e.clientX - s.x;
+    const from = s.moves.find((m) => e.timeStamp - m.t < 100);
+    const speed = from ? (e.clientX - from.x) / Math.max(e.timeStamp - from.t, 1) : 0;
+    // A quick flick changes shot however short it was, unless it flicks
+    // back; a slower swipe needs 50px. Otherwise the picture settles back.
+    const flick = Math.abs(speed) > 0.3 ? Math.sign(speed) : 0;
+    const direction = flick || (Math.abs(dx) > 50 ? Math.sign(dx) : 0);
+
+    lastSwipe.current = Date.now();
+    if (direction !== 0 && direction === Math.sign(dx)) step(-direction);
+    else setPull(null);
+  }
+
+  function onPointerCancel(e) {
+    if (swipe.current?.id !== e.pointerId) return;
+    swipe.current = null;
+    setPull(null);
   }
 
   // Clicks on the dark area close the viewer, except the click a swipe ends with.
@@ -146,9 +201,10 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
       tabIndex={-1}
       data-backdrop
       onClick={onClick}
-      onPointerDown={(e) => (swipeStart.current = e.clientX)}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
-      onPointerCancel={() => (swipeStart.current = null)}
+      onPointerCancel={onPointerCancel}
       className="fixed inset-0 z-50 flex select-none touch-pan-y touch-pinch-zoom flex-col bg-scrim text-paper focus:outline-none"
     >
       <div
@@ -192,12 +248,17 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
           data-backdrop
           className="relative flex min-h-0 items-center justify-center self-stretch lg:-mx-20 lg:px-20"
         >
+          {/* Follows the finger during a swipe, and eases back if the
+              swipe doesn't change shot. */}
           <img
             key={shot.src}
             src={shot.src}
             alt={shot.alt}
             draggable={false}
-            className="max-h-full max-w-full rounded-lg object-contain ring-1 ring-paper/10"
+            style={pulled ? { transform: `translateX(${pull.x}px)` } : undefined}
+            className={`max-h-full max-w-full rounded-lg object-contain ring-1 ring-paper/10 ${
+              pulled ? "" : "transition-transform duration-300 ease-out"
+            }`}
           />
 
           {count > 1 && (
