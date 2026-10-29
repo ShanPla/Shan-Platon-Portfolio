@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { projects } from "../data/content.js";
+import { profile, projects } from "../data/content.js";
 import { srcSet } from "../imageCopies.js";
 import Reveal from "./Reveal.jsx";
 import StatusBadge from "./StatusBadge.jsx";
@@ -159,6 +159,35 @@ function ProjectRow({ project, index }) {
   );
 }
 
+// Closes the list. Dark, so it reads as the way out rather than one more
+// project; its shadow is signal blue, as an ink one would vanish into it.
+function GitHubTile() {
+  return (
+    <a
+      href={profile.github}
+      target="_blank"
+      rel="noreferrer"
+      className="group/tile flex flex-col gap-2 rounded-2xl border border-ink bg-ink px-6 py-7 text-paper shadow-[3px_3px_0_0_theme(colors.signal)] transition-[transform,box-shadow] duration-150 ease-out hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0_theme(colors.signal)] active:translate-x-px active:translate-y-px active:shadow-[1px_1px_0_0_theme(colors.signal)] sm:flex-row sm:items-center sm:justify-between sm:px-8"
+    >
+      <span className="font-display text-2xl font-semibold tracking-tight sm:text-[28px]">
+        More on GitHub
+      </span>
+
+      <span className="font-mono text-xs text-paper/75">
+        {profile.github.replace(/^https?:\/\//, "")}{" "}
+        <span
+          aria-hidden="true"
+          className="inline-block transition-transform duration-200 group-hover/tile:-translate-y-0.5 group-hover/tile:translate-x-0.5"
+        >
+          ↗
+        </span>
+      </span>
+
+      <span className="sr-only"> (opens in a new tab)</span>
+    </a>
+  );
+}
+
 export default function Projects() {
   return (
     <section id="projects" className="border-b border-line">
@@ -185,6 +214,9 @@ export default function Projects() {
           ))}
         </div>
 
+        <Reveal className="mt-16 lg:mt-20">
+          <GitHubTile />
+        </Reveal>
       </div>
     </section>
   );
