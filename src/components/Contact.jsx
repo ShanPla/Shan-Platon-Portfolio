@@ -8,10 +8,11 @@ export default function Contact() {
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">04 — Contact</p>
           <h2 className="mt-3 max-w-xl font-display text-3xl font-semibold text-ink sm:text-4xl">
-            Looking for an OJT intern who's ready to learn backend fast.
+            Looking for an OJT intern who's ready to learn backend fast?
           </h2>
           <p className="mt-4 max-w-lg text-pretty text-inkmuted leading-relaxed">
-            Reach out directly — I'll usually reply within a day.
+            I'm available for OJT. Reach out directly — I'll usually reply
+            within a day.
           </p>
         </Reveal>
 
