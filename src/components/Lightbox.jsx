@@ -18,10 +18,31 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
   const closeRef = useRef(null);
   const swipeStart = useRef(null);
   const lastSwipe = useRef(0);
+  const closing = useRef(false);
 
   const count = shots.length;
   const shot = shots[index];
-  const step = (by) => onIndexChange((index + by + count) % count);
+
+  // The shot last asked for. A new shot reaches the address at once but
+  // renders a moment later, so quick presses count on from it rather than
+  // from the shot still on screen.
+  const wanted = useRef(index);
+  useLayoutEffect(() => {
+    wanted.current = index;
+  }, [index]);
+
+  const step = (by) => {
+    wanted.current = (wanted.current + by + count) % count;
+    onIndexChange(wanted.current);
+  };
+
+  // Closing can wait for browser Back to land; a second Escape or click in
+  // that moment would go Back again, off the page.
+  const close = () => {
+    if (closing.current) return;
+    closing.current = true;
+    onClose();
+  };
 
   // Lock page scroll, hide the page from screen readers, and move focus in;
   // undo all three on close. A layout effect, so a page change while open
@@ -59,13 +80,13 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
     function onKeyDown(e) {
       if (e.key === "Escape") {
         e.preventDefault();
-        onClose();
+        close();
       } else if (e.key === "ArrowRight" && count > 1) {
         e.preventDefault();
-        onIndexChange((index + 1) % count);
+        step(1);
       } else if (e.key === "ArrowLeft" && count > 1) {
         e.preventDefault();
-        onIndexChange((index - 1 + count) % count);
+        step(-1);
       } else if (e.key === "Tab") {
         // Keep Tab cycling through the viewer's own buttons.
         const buttons = [...dialogRef.current.querySelectorAll("button")];
@@ -102,7 +123,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
   // Clicks on the dark area close the viewer, except the click a swipe ends with.
   function onClick(e) {
     if (Date.now() - lastSwipe.current < 300) return;
-    if (e.target.dataset.backdrop !== undefined) onClose();
+    if (e.target.dataset.backdrop !== undefined) close();
   }
 
   // Ringed so the round buttons show on the dark backdrop and over light
@@ -139,7 +160,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
         <button
           ref={closeRef}
           type="button"
-          onClick={onClose}
+          onClick={close}
           aria-label="Close viewer"
           title="Close (Esc)"
           className="relative rounded-full p-2.5 text-paper/80 transition-colors after:absolute after:-inset-1 hover:bg-paper/15 hover:text-paper focus-visible:outline-paper"

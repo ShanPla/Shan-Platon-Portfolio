@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { projects } from "./data/content.js";
 import { srcSet } from "./imageCopies.js";
 import NotFound from "./NotFound.jsx";
@@ -161,9 +161,11 @@ function FeatureList({ project }) {
 
 export default function ProjectDetail() {
   const { id } = useParams();
-  // The open screenshot, tied to its project so the viewer closes if the
-  // page switches to another project.
-  const [viewer, setViewer] = useState(null);
+  // The open screenshot is in the address (?shot=3), so browser Back
+  // closes the viewer and a shared link opens that shot.
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const project = projects.find((item) => item.id === id);
 
@@ -189,8 +191,27 @@ export default function ProjectDetail() {
   const firstScreenshot = overviewShot ? 1 : 0;
   const firstPhoneShot = firstScreenshot + screenshots.length;
 
-  const viewerIndex = viewer?.projectId === project.id ? viewer.index : null;
-  const openViewer = (index) => setViewer({ projectId: project.id, index });
+  // ?shot counts from 1; a value that isn't a shot here (?shot=abc,
+  // ?shot=99) opens nothing.
+  const shotNumber = Number(searchParams.get("shot"));
+  const viewerIndex =
+    Number.isInteger(shotNumber) && shotNumber >= 1 && shotNumber <= viewerShots.length
+      ? shotNumber - 1
+      : null;
+
+  // Opening adds a history entry and stepping replaces it, so one Back
+  // closes the viewer. The hash is kept, or ScrollToTop would move the page.
+  const showShot = (index, options) =>
+    navigate({ search: `?shot=${index + 1}`, hash: location.hash }, options);
+  const openViewer = (index) => showShot(index, { state: { viewer: true } });
+  const stepViewer = (index) => showShot(index, { replace: true, state: location.state });
+  // Close goes Back to the entry the viewer was opened from. A shared
+  // ?shot= link has no such entry (and no state, even after stepping), so
+  // it drops the shot in place.
+  const closeViewer = () =>
+    location.state?.viewer
+      ? navigate(-1)
+      : navigate({ search: "", hash: location.hash }, { replace: true });
 
   // Overview needs its own text or the main shot; otherwise it would only
   // repeat the description under the title.
@@ -433,8 +454,8 @@ export default function ProjectDetail() {
           shots={viewerShots}
           index={viewerIndex}
           label={`${project.name} screenshots`}
-          onIndexChange={openViewer}
-          onClose={() => setViewer(null)}
+          onIndexChange={stepViewer}
+          onClose={closeViewer}
         />
       )}
     </div>
