@@ -2,9 +2,10 @@ import { profile } from "../data/content.js";
 import Reveal from "./Reveal.jsx";
 import SectionLabel from "./SectionLabel.jsx";
 
-// Small pills that invert on hover. These utilities beat .btn-secondary's own
-// hover colours, since Tailwind puts utilities after components.
-const PILL = "btn btn-secondary hover:border-ink hover:bg-ink hover:text-paper";
+// Small pills that fill with ink on hover, and then cast a signal blue
+// shadow as btn-primary does. .btn gives the border, the shadow and the
+// colour fade (the lift class in index.css).
+const PILL = "btn btn-secondary hover:bg-ink hover:text-paper hover:shadow-signal";
 
 export default function Contact() {
   return (
