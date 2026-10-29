@@ -8,19 +8,9 @@ import Lightbox from "./components/Lightbox.jsx";
 import PageHeader from "./components/PageHeader.jsx";
 import Reveal from "./components/Reveal.jsx";
 import ScreenshotCarousel from "./components/ScreenshotCarousel.jsx";
+import SectionLabel from "./components/SectionLabel.jsx";
 import SkipLink from "./components/SkipLink.jsx";
 import StatusBadge from "./components/StatusBadge.jsx";
-
-function SectionLabel({ as: Tag = "p", children, ...props }) {
-  return (
-    <Tag
-      {...props}
-      className="font-mono text-[10px] font-normal uppercase tracking-[0.18em] text-signaldeep"
-    >
-      {children}
-    </Tag>
-  );
-}
 
 // role="list" because Safari drops list semantics once list styles are removed.
 function Stack({ project }) {
@@ -353,10 +343,11 @@ export default function ProjectDetail() {
           </section>
         </Reveal>
 
-        {/* Overview */}
+        {/* Overview. This section and the ones below open on their label,
+            whose rule divides them from the section before. */}
         {showOverview && (
           <Reveal delay={150} loadStagger>
-            <section className="mt-14 border-t border-line pt-8">
+            <section className="mt-16">
               <SectionLabel>{label("Overview")}</SectionLabel>
 
               <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
@@ -387,7 +378,7 @@ export default function ProjectDetail() {
         {/* Contribution */}
         {project.contribution?.length > 0 && (
           <Reveal delay={200} loadStagger>
-            <section className="mt-14 border-t border-line pt-8">
+            <section className="mt-16">
               <SectionLabel>{label("My Contribution")}</SectionLabel>
 
               <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
@@ -404,7 +395,7 @@ export default function ProjectDetail() {
         {/* Features */}
         {project.features?.length > 0 && (
           <Reveal delay={250} loadStagger>
-            <section className="mt-14 border-t border-line pt-8">
+            <section className="mt-16">
               <SectionLabel>{label("Key Features")}</SectionLabel>
 
               <div className="mt-4 grid gap-6 lg:grid-cols-[220px_1fr]">
@@ -420,7 +411,7 @@ export default function ProjectDetail() {
 
         {/* Screenshots */}
         <Reveal delay={300} loadStagger>
-          <section className="mt-14 border-t border-line pt-8">
+          <section className="mt-16">
             {/* The label doubles as this section's heading; aria-label keeps
                 the number and the capitals out of its spoken name. */}
             <SectionLabel as="h2" aria-label="Selected screens">

@@ -1,13 +1,12 @@
 import Reveal from "./Reveal.jsx";
+import SectionLabel from "./SectionLabel.jsx";
 
 export default function About() {
   return (
     <section id="about" className="border-b border-line">
       <div className="mx-auto max-w-5xl px-6 py-10 sm:py-12">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
-            01 — About
-          </p>
+          <SectionLabel>01 — About</SectionLabel>
 
           <h2 className="mt-1.5 max-w-2xl font-display text-xl font-semibold leading-tight tracking-tight text-ink sm:text-2xl">
             A frontend-focused developer building web and mobile systems.
