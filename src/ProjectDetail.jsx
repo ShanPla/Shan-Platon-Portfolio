@@ -8,10 +8,6 @@ import Reveal from "./components/Reveal.jsx";
 import ScreenshotCarousel from "./components/ScreenshotCarousel.jsx";
 import StatusBadge from "./components/StatusBadge.jsx";
 
-// The Live site and GitHub links under the stack.
-const LINK_PILL =
-  "inline-flex w-fit items-center gap-2 rounded-full border border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-widest text-ink transition-colors duration-200 hover:border-signal hover:text-signaldeep";
-
 function SectionLabel({ as: Tag = "p", children, ...props }) {
   return (
     <Tag
@@ -252,7 +248,7 @@ export default function ProjectDetail() {
                 {(project.live || project.github) && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     {project.live && (
-                      <a href={project.live} target="_blank" rel="noreferrer" className={LINK_PILL}>
+                      <a href={project.live} target="_blank" rel="noreferrer" className="btn btn-secondary">
                         Live site
                         <span className="sr-only normal-case">
                           : {project.name} (opens in a new tab)
@@ -262,7 +258,7 @@ export default function ProjectDetail() {
                     )}
 
                     {project.github && (
-                      <a href={project.github} target="_blank" rel="noreferrer" className={LINK_PILL}>
+                      <a href={project.github} target="_blank" rel="noreferrer" className="btn btn-secondary">
                         GitHub
                         <span className="sr-only normal-case">
                           : {project.name} repository (opens in a new tab)

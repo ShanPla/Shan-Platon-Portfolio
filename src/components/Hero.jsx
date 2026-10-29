@@ -125,7 +125,7 @@ export default function Hero() {
         >
           <a
             href="#projects"
-            className="rounded-full bg-ink px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-paper transition-colors hover:bg-signaldeep"
+            className="btn btn-primary"
           >
             View My Work
           </a>
@@ -134,7 +134,7 @@ export default function Hero() {
             href={profile.github}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full border border-line bg-surface px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signaldeep"
+            className="btn btn-secondary"
           >
             GitHub
             <span className="sr-only"> (opens in a new tab)</span>
@@ -145,7 +145,7 @@ export default function Hero() {
               href={profile.resume}
               target="_blank"
               rel="noreferrer"
-              className="rounded-full border border-line bg-surface px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-inkmuted transition-colors hover:border-ink hover:text-ink"
+              className="btn btn-secondary"
             >
               Resume
               <span className="sr-only"> (opens in a new tab)</span>

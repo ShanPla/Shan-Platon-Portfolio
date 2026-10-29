@@ -28,7 +28,7 @@ export default function Nav() {
         </ul>
         <a
           href="#contact"
-          className="rounded-full border border-ink px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signaldeep"
+          className="btn btn-secondary px-4 py-1.5 text-xs"
         >
           Contact
         </a>

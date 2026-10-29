@@ -19,7 +19,7 @@ export default function Contact() {
         <Reveal delay={120} className="mt-8 flex flex-wrap gap-3">
           <a
             href={`mailto:${profile.email}`}
-            className="rounded-full bg-ink px-6 py-3 font-mono text-xs normal-case tracking-normal text-paper transition-colors hover:bg-signaldeep"
+            className="btn btn-primary normal-case tracking-normal"
           >
             {profile.email}
           </a>
@@ -27,7 +27,7 @@ export default function Contact() {
             href={profile.github}
             target="_blank"
             rel="noreferrer"
-            className="rounded-full border border-ink px-6 py-3 font-mono text-xs uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signaldeep"
+            className="btn btn-secondary"
           >
             GitHub / ShanPla
             <span className="sr-only"> (opens in a new tab)</span>
