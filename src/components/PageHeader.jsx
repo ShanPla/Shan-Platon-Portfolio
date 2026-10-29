@@ -21,11 +21,12 @@ export default function PageHeader() {
           Shan Platon
         </Link>
 
-        {/* restore: lands where you left the home page (ScrollToTop.jsx). */}
+        {/* restore: lands where you left the home page (ScrollToTop.jsx).
+            Same underline as the home header's links. */}
         <Link
           to="/#projects"
           state={{ restore: true }}
-          className="relative inline-block font-mono text-xs uppercase tracking-wider text-inkmuted transition-colors after:absolute after:inset-x-0 after:-inset-y-3.5 hover:text-signaldeep"
+          className="relative inline-block font-mono text-xs uppercase tracking-wider text-inkmuted transition-colors before:absolute before:inset-x-0 before:bottom-0 before:h-0.5 before:origin-right before:scale-x-0 before:bg-signal before:transition-transform before:duration-[350ms] before:ease-out after:absolute after:inset-x-0 after:-inset-y-3.5 hover:text-signaldeep hover:before:origin-left hover:before:scale-x-100 focus-visible:before:origin-left focus-visible:before:scale-x-100"
         >
           <span aria-hidden="true">←</span> Back to Projects
         </Link>

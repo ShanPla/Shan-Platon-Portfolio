@@ -27,10 +27,12 @@ export default function Nav() {
             // Phones keep only Projects, the section visitors look for first.
             <li key={link.href} className={link.href === "#projects" ? "" : "hidden sm:block"}>
               {/* The ::after layer makes the tap area taller than the text,
-                  while the focus ring stays around the text. */}
+                  while the focus ring stays around the text. The ::before
+                  layer is the underline: it grows from the left on hover
+                  or keyboard focus and leaves to the right. */}
               <a
                 href={link.href}
-                className="relative inline-block transition-colors after:absolute after:inset-x-0 after:-inset-y-3 hover:text-signaldeep"
+                className="relative inline-block transition-colors before:absolute before:inset-x-0 before:bottom-0 before:h-0.5 before:origin-right before:scale-x-0 before:bg-signal before:transition-transform before:duration-[350ms] before:ease-out after:absolute after:inset-x-0 after:-inset-y-3 hover:text-signaldeep hover:before:origin-left hover:before:scale-x-100 focus-visible:before:origin-left focus-visible:before:scale-x-100"
               >
                 {link.label}
               </a>
