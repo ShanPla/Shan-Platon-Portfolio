@@ -56,7 +56,7 @@ function Plate({ project }) {
         <div className="relative flex aspect-[5/2] items-center justify-center overflow-hidden rounded-md border border-line bg-paper lg:aspect-[2/1]">
           <div className="absolute inset-0 bg-grid bg-center opacity-50" />
 
-          <span className="relative font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+          <span className="relative font-mono text-3xs uppercase tracking-widest text-inkmuted">
             Screenshots coming soon
           </span>
         </div>
@@ -72,7 +72,7 @@ function Stack({ project }) {
       {project.stack.map((tech) => (
         <li
           key={tech}
-          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-[10px] text-inkmuted"
+          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-3xs text-inkmuted"
         >
           {tech}
         </li>
@@ -88,7 +88,7 @@ function ProjectLink({ project, accent }) {
   return (
     <Link
       to={`/projects/${project.id}`}
-      className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-ink px-4 py-2 font-mono text-[11px] uppercase tracking-wider text-ink transition-colors after:absolute after:inset-0 after:z-10 group-hover:text-paper ${accent.pill}`}
+      className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-ink px-4 py-2 font-mono text-2xs uppercase tracking-wider text-ink transition-colors after:absolute after:inset-0 after:z-10 group-hover:text-paper ${accent.pill}`}
     >
       View project
       <span className="sr-only normal-case">: {project.name}</span>
@@ -122,7 +122,7 @@ function ProjectRow({ project, index }) {
       </div>
 
       <div>
-        <p className="font-mono text-[11px] uppercase tracking-widest text-inkmuted">
+        <p className="font-mono text-2xs uppercase tracking-widest text-inkmuted">
           <span aria-hidden="true">
             <span className={accent.number}>{pad(index + 1)}</span> /{" "}
           </span>

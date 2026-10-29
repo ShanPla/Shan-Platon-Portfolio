@@ -223,7 +223,7 @@ export default function ScreenshotCarousel({ shots, label, size, onOpen, classNa
 
           <span
             aria-hidden="true"
-            className="min-w-[3.5rem] text-center font-mono text-[10px] uppercase tracking-widest text-inkmuted"
+            className="min-w-[3.5rem] text-center font-mono text-3xs uppercase tracking-widest text-inkmuted"
           >
             {pad(index + 1)} / {pad(count)}
           </span>

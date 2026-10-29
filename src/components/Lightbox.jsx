@@ -225,7 +225,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
         {/* Below lg the count sits with the arrows under the picture. */}
         <p
           aria-hidden="true"
-          className="hidden font-mono text-[11px] uppercase tracking-widest text-paper/70 lg:block"
+          className="hidden font-mono text-2xs uppercase tracking-widest text-paper/70 lg:block"
         >
           {pad(index + 1)} / {pad(count)}
         </p>
@@ -338,7 +338,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
 
                 <span
                   aria-hidden="true"
-                  className="min-w-[3.5rem] text-center font-mono text-[11px] uppercase tracking-widest text-paper/70"
+                  className="min-w-[3.5rem] text-center font-mono text-2xs uppercase tracking-widest text-paper/70"
                 >
                   {pad(index + 1)} / {pad(count)}
                 </span>

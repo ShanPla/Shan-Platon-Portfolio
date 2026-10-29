@@ -19,7 +19,7 @@ function Stack({ project }) {
       {project.stack.map((tech) => (
         <li
           key={tech}
-          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-[10px] text-inkmuted"
+          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-3xs text-inkmuted"
         >
           {tech}
         </li>
@@ -90,7 +90,7 @@ function ScreenshotPlaceholder() {
       <div className="absolute inset-0 bg-grid bg-center opacity-50" />
 
       <div className="relative flex min-h-56 items-center justify-center px-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkmuted">
+        <p className="font-mono text-3xs uppercase tracking-widest text-inkmuted">
           Screenshots coming soon
         </p>
       </div>
@@ -110,7 +110,7 @@ function ContributionList({ project }) {
           key={item.title}
           className="grid gap-2 py-4 first:pt-1 sm:grid-cols-[32px_150px_1fr]"
         >
-          <span aria-hidden="true" className="font-mono text-[10px] text-inkmuted">
+          <span aria-hidden="true" className="font-mono text-3xs text-inkmuted">
             {String(index + 1).padStart(2, "0")}
           </span>
 
@@ -139,7 +139,7 @@ function FeatureList({ project }) {
           key={feature}
           className="flex items-start gap-3"
         >
-          <span aria-hidden="true" className="font-mono text-[10px] text-inkmuted">
+          <span aria-hidden="true" className="font-mono text-3xs text-inkmuted">
             {String(index + 1).padStart(2, "0")}
           </span>
 
@@ -241,7 +241,7 @@ export default function ProjectDetail() {
         <Reveal>
           {/* Breadcrumb. Projects lands where you left the list, like Back
               to Projects; screen readers hear the count as project 2 of 3. */}
-          <p className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+          <p className="font-mono text-3xs uppercase tracking-widest text-inkmuted">
             <Link
               to="/#projects"
               state={{ restore: true }}
@@ -261,7 +261,7 @@ export default function ProjectDetail() {
 
           <section className="mt-6">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+              <span className="font-mono text-3xs uppercase tracking-widest text-inkmuted">
                 {project.tag}
               </span>
 
@@ -284,7 +284,7 @@ export default function ProjectDetail() {
 
               <div className="lg:border-l lg:border-line lg:pl-6">
                 <dl>
-                  <dt className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+                  <dt className="font-mono text-3xs uppercase tracking-widest text-inkmuted">
                     Role
                   </dt>
 
@@ -294,7 +294,7 @@ export default function ProjectDetail() {
 
                   {project.team && (
                     <>
-                      <dt className="mt-4 font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+                      <dt className="mt-4 font-mono text-3xs uppercase tracking-widest text-inkmuted">
                         Team
                       </dt>
 
@@ -448,7 +448,7 @@ export default function ProjectDetail() {
             <Link
               to="/#projects"
               state={{ restore: true }}
-              className="relative inline-block font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-colors after:absolute after:inset-x-0 after:-inset-y-3.5 hover:text-signaldeep"
+              className="relative inline-block font-mono text-3xs uppercase tracking-widest text-inkmuted transition-colors after:absolute after:inset-x-0 after:-inset-y-3.5 hover:text-signaldeep"
             >
               <span aria-hidden="true">←</span> Back to Projects
             </Link>
@@ -461,7 +461,7 @@ export default function ProjectDetail() {
                 className="group mt-6 flex items-center justify-between gap-6 rounded-2xl bg-ink px-6 py-8 text-paper transition-colors hover:bg-signaldeep focus-visible:bg-signaldeep sm:px-10 sm:py-12"
               >
                 <span className="min-w-0">
-                  <span className="block font-mono text-[10px] uppercase tracking-widest text-paper/80">
+                  <span className="block font-mono text-3xs uppercase tracking-widest text-paper/80">
                     Next project
                   </span>{" "}
                   <span className="mt-2 block text-balance font-display text-3xl font-semibold tracking-tight sm:text-5xl">

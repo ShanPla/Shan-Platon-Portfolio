@@ -135,7 +135,7 @@ export default function Hero() {
         <div className="hero-fade flex items-center gap-4" style={delay(DELAY.label)}>
           <Avatar />
 
-          <div className="font-mono text-[10px] uppercase tracking-widest text-inkmuted sm:text-xs">
+          <div className="font-mono text-3xs uppercase tracking-widest text-inkmuted sm:text-xs">
             <p>Software & Web</p>
             <p className="mt-1 text-signaldeep">Developer</p>
           </div>
@@ -216,7 +216,7 @@ export default function Hero() {
               key={stat.label}
               className="bg-surface px-2.5 py-4 sm:px-5"
             >
-              <dt className="font-mono text-[9px] uppercase tracking-widest text-inkmuted sm:text-[10px]">
+              <dt className="font-mono text-3xs uppercase tracking-widest text-inkmuted">
                 {stat.label}
               </dt>
 

@@ -8,7 +8,7 @@ const DOTS = {
 
 export default function StatusBadge({ status }) {
   return (
-    <span className="flex shrink-0 items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+    <span className="flex shrink-0 items-center gap-1.5 font-mono text-3xs uppercase tracking-widest text-inkmuted">
       <span
         aria-hidden="true"
         className={`h-1.5 w-1.5 rounded-full ${DOTS[status] ?? "bg-inkmuted"}`}

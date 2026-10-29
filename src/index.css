@@ -54,7 +54,7 @@ body {
   /* The site's two pill buttons: btn-primary for the main action in a row,
      btn-secondary for the rest. */
   .btn {
-    @apply lift inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider;
+    @apply lift inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-mono text-2xs uppercase tracking-wider;
   }
 
   /* Ink-filled, so its shadow is signal blue; an ink one would only read
