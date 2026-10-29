@@ -87,10 +87,14 @@ export default function ScrollToTop() {
 
       // On a first visit the web fonts arrive after this, and the reflow
       // moves the section; jump again once they are in, unless the visitor
-      // has scrolled since.
+      // has scrolled since. The browser's scroll anchoring can change
+      // scrollY in that reflow too, keeping the section where it was on
+      // screen, so either one unchanged means the visitor hasn't scrolled.
       const y = window.scrollY;
+      const top = target.getBoundingClientRect().top;
       document.fonts?.ready?.then(() => {
-        if (window.scrollY === y) {
+        const stayed = Math.abs(target.getBoundingClientRect().top - top) < 1;
+        if (window.scrollY === y || stayed) {
           target.scrollIntoView({ block: "start", behavior: "instant" });
         }
       });
