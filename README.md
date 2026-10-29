@@ -61,7 +61,7 @@ overview, contribution, features, a screenshot carousel and a pop-up
 screenshot viewer, all filled from the project's entry in `content.js`.
 
 `vercel.json` includes a rewrite rule so direct links like
-`yoursite.com/projects/iris` work correctly in production (without it,
+`yoursite.com/projects/lipaaction` work correctly in production (without it,
 only in-app navigation would work, and refreshing the page would 404).
 
 ## Editing content

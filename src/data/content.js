@@ -228,21 +228,51 @@ export const projects = [
   },
 
   {
-    id: "iris",
-    name: "IRIS",
-    tag: "Integrated Recognition for Intrusion System",
+    id: "fire-detection",
+    name: "ESP32 Fire Detection",
+    tag: "Coursework · IoT System",
     description:
-      "A full-stack home security system with an admin dashboard and homeowner mobile app.",
-    role: "Frontend Development",
-    stack: [
-      "React",
-      "TypeScript",
-      "Tailwind CSS",
-      "React Native",
-      "Expo",
-    ],
-    status: "SHIPPED",
+      "An ESP32 fire and gas monitor that shows four hazard levels on LEDs and a buzzer and sends alerts to a Blynk dashboard.",
+    overview:
+      "ESP32 Fire Detection is the final project for an IoT course at De La Salle Lipa. An ESP32 reads gas, temperature, humidity, and sound sensors and sets one of four hazard stages, from Normal to Critical, shown on five LEDs and a buzzer and sent to a Blynk dashboard. It builds on the team's midterm prototype with the same hardware. The final version ignores brief sensor spikes but still sounds the alarm at once for a critical reading, and it detects failed sensors and dropped connections.",
+    role: "Firmware, Hardware & Dashboard",
+    stack: ["ESP32", "Arduino", "C++", "Blynk"],
+    status: "COMPLETED",
     accent: "ok",
+    github: "https://github.com/ShanPla/esp32-fire-detection-system",
+
+    contribution: [
+      {
+        title: "Hazard detection",
+        description:
+          "Wrote the stage logic: three readings in a row to raise a Warning or Alert, an instant alarm at Critical, and a hysteresis band with a 2-\u2060second clear delay, so the LEDs and buzzer stop flickering near a threshold.",
+      },
+      {
+        title: "Fault monitoring",
+        description:
+          "Added checks for a dead temperature sensor or a stuck gas sensor; gas detection keeps running through a temperature fault. Wi-\u2060Fi and Blynk outages are timed, and faults from the offline period are reported once the device reconnects.",
+      },
+      {
+        title: "Blynk dashboard",
+        description:
+          "Set up the gauges, status text, and phone notifications for alarms, sensor faults, and restored connections, plus a test slider that simulates gas readings without real gas or flame.",
+      },
+      {
+        title: "Hardware & docs",
+        description:
+          "Wired the ESP32, sensors, LEDs, and buzzer on a breadboard, and wrote the setup and demonstration guide.",
+      },
+    ],
+
+    features: [
+      "Four hazard stages on five LEDs, with a pulsing buzzer at Critical",
+      "Brief gas spikes ignored; a critical reading alarms at once",
+      "Hysteresis keeps the stage steady near a threshold",
+      "Gas detection keeps running if the temperature sensor fails",
+      "Faults from an outage reported as soon as the device reconnects",
+      "Test mode simulates gas readings and turns off after 5\u00a0minutes",
+    ],
+
     image: null,
   },
 
