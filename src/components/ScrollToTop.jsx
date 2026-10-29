@@ -84,6 +84,16 @@ export default function ScrollToTop() {
       window.scrollTo({ top: saved.y, behavior: "instant" });
     } else if (target) {
       target.scrollIntoView({ block: "start", behavior: "instant" });
+
+      // On a first visit the web fonts arrive after this, and the reflow
+      // moves the section; jump again once they are in, unless the visitor
+      // has scrolled since.
+      const y = window.scrollY;
+      document.fonts?.ready?.then(() => {
+        if (window.scrollY === y) {
+          target.scrollIntoView({ block: "start", behavior: "instant" });
+        }
+      });
     } else {
       window.scrollTo({ top: 0, behavior: "instant" });
     }
