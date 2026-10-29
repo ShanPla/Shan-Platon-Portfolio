@@ -393,6 +393,7 @@ export default function ProjectDetail() {
           <div className="mt-10 border-t border-line pt-6">
             <Link
               to="/#projects"
+              state={{ restore: true }}
               className="relative inline-block font-mono text-[10px] uppercase tracking-widest text-inkmuted transition-colors after:absolute after:inset-x-0 after:-inset-y-3.5 hover:text-signaldeep"
             >
               <span aria-hidden="true">←</span> Back to Projects

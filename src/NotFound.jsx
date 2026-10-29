@@ -37,6 +37,7 @@ export default function NotFound({ title = "Page not found" }) {
 
           <Link
             to="/#projects"
+            state={{ restore: true }}
             className="rounded-full border border-line bg-surface px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider text-ink transition-colors hover:border-signal hover:text-signaldeep"
           >
             <span aria-hidden="true">←</span> Back to Projects

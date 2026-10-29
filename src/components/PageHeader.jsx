@@ -13,8 +13,10 @@ export default function PageHeader() {
           Shan Platon
         </Link>
 
+        {/* restore: lands where you left the home page (ScrollToTop.jsx). */}
         <Link
           to="/#projects"
+          state={{ restore: true }}
           className="relative inline-block font-mono text-xs uppercase tracking-wider text-inkmuted transition-colors after:absolute after:inset-x-0 after:-inset-y-3.5 hover:text-signaldeep"
         >
           <span aria-hidden="true">←</span> Back to Projects

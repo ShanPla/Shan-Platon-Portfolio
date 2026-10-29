@@ -5,6 +5,10 @@ import { useLocation, useNavigationType } from "react-router-dom";
 // returns to where you were.
 const positions = new Map();
 
+// The same, for the last visit to each page, so a link with
+// state={{ restore: true }} (Back to Projects) returns there too.
+const lastVisits = new Map();
+
 // The page's links and buttons in order; the focused one's place in this
 // list is saved with the scroll position. Hidden carousel slides
 // (tabindex -1) are left out, so the list doesn't change with the slide.
@@ -25,16 +29,18 @@ function findTarget(hash) {
 /**
  * Sets the scroll position when the page changes:
  * - browser Back/Forward restores the position you left,
+ * - a link with state={{ restore: true }} returns to where you last left
+ *   that page, or else behaves like any other link,
  * - a link with a hash (e.g. /#projects) lands on that section,
  * - any other page change starts at the top.
  * Jumps are instant; the smooth scrolling in index.css is for in-page links.
  *
- * After an in-app page change it also moves focus: on Back/Forward to the
+ * After an in-app page change it also moves focus: when returning, to the
  * link or button you left from, otherwise to the heading of the new page
  * (or of the linked section), so screen readers hear the change.
  */
 export default function ScrollToTop() {
-  const { pathname, hash, key } = useLocation();
+  const { pathname, hash, key, state } = useLocation();
   const navType = useNavigationType();
   // The home page's plain #links make history entries without a router key,
   // as does the first page loaded; tell those apart by their address.
@@ -66,7 +72,12 @@ export default function ScrollToTop() {
   }, [hash]);
 
   useLayoutEffect(() => {
-    const saved = navType === "POP" ? positions.get(entry) : undefined;
+    const saved =
+      navType === "POP"
+        ? positions.get(entry)
+        : state?.restore
+          ? lastVisits.get(pathname)
+          : undefined;
     const target = findTarget(hash);
 
     if (saved) {
@@ -90,7 +101,9 @@ export default function ScrollToTop() {
 
     return () => {
       const focus = [...document.querySelectorAll(FOCUSABLE)].indexOf(document.activeElement);
-      positions.set(lastEntry.current, { y: window.scrollY, focus });
+      const position = { y: window.scrollY, focus };
+      positions.set(lastEntry.current, position);
+      lastVisits.set(pathname, position);
     };
   }, [pathname]);
 
