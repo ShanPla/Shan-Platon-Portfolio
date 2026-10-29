@@ -1,8 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 /**
- * True once the page has scrolled further than `distance` pixels. The
- * headers use it to show their bottom rule once the page moves.
+ * [past, settled]. past is true once the page has scrolled further than
+ * `distance` pixels; the headers use it to show their bottom rule once the
+ * page moves. settled turns true a frame after the first measurement, so a
+ * caller can hold back its transition until then: a page that opens
+ * already scrolled (a restored position or a #section link) then shows
+ * the right state at once instead of fading into it.
  *
  * `distance` can also be a function, read again on every scroll and
  * resize, for a distance that follows the window or the page's length
@@ -11,8 +15,12 @@ import { useEffect, useState } from "react";
  */
 export default function useScrolledPast(distance) {
   const [past, setPast] = useState(false);
+  const [settled, setSettled] = useState(false);
 
-  useEffect(() => {
+  // A layout effect, so the first measurement is in before the first
+  // paint. ScrollToTop sits earlier in the tree, so the scroll position
+  // is already set by then.
+  useLayoutEffect(() => {
     const limit = typeof distance === "function" ? distance : () => distance;
     const update = () => setPast(window.scrollY > limit());
 
@@ -25,5 +33,11 @@ export default function useScrolledPast(distance) {
     };
   }, [distance]);
 
-  return past;
+  // State set in an animation frame renders after that frame is drawn.
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => setSettled(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  return [past, settled];
 }

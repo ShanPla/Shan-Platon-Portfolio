@@ -24,7 +24,7 @@ const showAfter = () => {
  * covers this button.
  */
 export default function BackToTop() {
-  const shown = useScrolledPast(showAfter);
+  const [shown] = useScrolledPast(showAfter);
 
   function backToTop() {
     window.scrollTo({ top: 0 });

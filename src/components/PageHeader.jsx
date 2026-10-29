@@ -7,13 +7,13 @@ import useScrolledPast from "../useScrolledPast.js";
 // there too, so Back to Projects stays readable over the dark Next
 // project band.
 export default function PageHeader() {
-  const scrolled = useScrolledPast(8);
+  const [scrolled, settled] = useScrolledPast(8);
 
   return (
     <header
-      className={`sticky top-0 z-40 border-b bg-paper/95 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
-        scrolled ? "border-line shadow-md shadow-ink/5" : "border-transparent"
-      }`}
+      className={`sticky top-0 z-40 border-b bg-paper/95 backdrop-blur ${
+        settled ? "transition-[border-color,box-shadow] duration-300" : ""
+      } ${scrolled ? "border-line shadow-md shadow-ink/5" : "border-transparent"}`}
     >
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-[17px]">
         <Link

@@ -11,14 +11,15 @@ export default function Nav() {
   // gets its rule and a faint shadow. The border is only made transparent,
   // never removed, so the header stays 63px tall. The background is 95%
   // opaque: over the dark band and tile, 85% let the grey links fall
-  // below 4.5:1 contrast.
-  const scrolled = useScrolledPast(8);
+  // below 4.5:1 contrast. The rule only fades once the hook has settled,
+  // so a page that opens scrolled shows it at once.
+  const [scrolled, settled] = useScrolledPast(8);
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-paper/95 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
-        scrolled ? "border-line shadow-md shadow-ink/5" : "border-transparent"
-      }`}
+      className={`sticky top-0 z-50 border-b bg-paper/95 backdrop-blur ${
+        settled ? "transition-[border-color,box-shadow] duration-300" : ""
+      } ${scrolled ? "border-line shadow-md shadow-ink/5" : "border-transparent"}`}
     >
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <a href="#top" className="font-display text-lg font-semibold tracking-tight text-ink">
