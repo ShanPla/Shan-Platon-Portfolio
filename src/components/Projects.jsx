@@ -2,20 +2,18 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { projects } from "../data/content.js";
 import Reveal from "./Reveal.jsx";
+import StatusBadge from "./StatusBadge.jsx";
 
 const ACCENTS = {
   signal: {
-    dot: "bg-signal",
     text: "text-signaldeep",
     border: "hover:border-signal/50",
   },
   ok: {
-    dot: "bg-ok",
     text: "text-okdeep",
     border: "hover:border-ok/50",
   },
   amber: {
-    dot: "bg-amber",
     text: "text-amberdeep",
     border: "hover:border-amber/50",
   },
@@ -60,20 +58,13 @@ function ProjectImage({ project, featured = false }) {
 }
 
 function ProjectMeta({ project }) {
-  const accent = ACCENTS[project.accent];
-
   return (
     <div className="flex items-center justify-between gap-4">
       <span className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
         {project.tag}
       </span>
 
-      <span
-        className={`flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest ${accent.text}`}
-      >
-        <span className={`h-1.5 w-1.5 rounded-full ${accent.dot}`} />
-        {project.status}
-      </span>
+      <StatusBadge status={project.status} />
     </div>
   );
 }

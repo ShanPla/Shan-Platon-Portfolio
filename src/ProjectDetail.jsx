@@ -6,21 +6,7 @@ import Lightbox from "./components/Lightbox.jsx";
 import PageHeader from "./components/PageHeader.jsx";
 import Reveal from "./components/Reveal.jsx";
 import ScreenshotCarousel from "./components/ScreenshotCarousel.jsx";
-
-const ACCENTS = {
-  signal: {
-    text: "text-signaldeep",
-    dot: "bg-signal",
-  },
-  ok: {
-    text: "text-okdeep",
-    dot: "bg-ok",
-  },
-  amber: {
-    text: "text-amberdeep",
-    dot: "bg-amber",
-  },
-};
+import StatusBadge from "./components/StatusBadge.jsx";
 
 // The Live site and GitHub links under the stack.
 const LINK_PILL =
@@ -171,7 +157,6 @@ export default function ProjectDetail() {
 
   if (!project) return <NotFound title="Project not found" />;
 
-  const accent = ACCENTS[project.accent] ?? ACCENTS.signal;
   // The next project in the list; the last one leads back to the first.
   const nextProject = projects[(projects.indexOf(project) + 1) % projects.length];
   const screenshots = project.screenshots ?? [];
@@ -216,21 +201,11 @@ export default function ProjectDetail() {
         <Reveal>
           <section>
             <div className="flex flex-wrap items-center gap-3">
-              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-inkmuted">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
                 {project.tag}
               </span>
 
-              <span
-                className={`flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] ${accent.text}`}
-              >
-                <span
-                  className={`h-1.5 w-1.5 rounded-full ${accent.dot} ${
-                    project.status === "IN PROGRESS" ? "animate-pulse" : ""
-                  }`}
-                />
-
-                {project.status}
-              </span>
+              <StatusBadge status={project.status} />
             </div>
 
             <div className="mt-5 grid gap-6 lg:grid-cols-[1fr_260px] lg:items-start">
