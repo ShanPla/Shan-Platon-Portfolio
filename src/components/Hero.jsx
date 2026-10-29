@@ -79,7 +79,7 @@ export default function Hero() {
         />
       )}
 
-      <div className="relative mx-auto max-w-5xl px-6 pb-10 pt-14 sm:pb-12">
+      <div className="relative mx-auto max-w-5xl px-6 pb-10 pt-12 sm:pb-14 sm:pt-16">
         {/* Identity */}
         <div
           className={
@@ -95,30 +95,40 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Name */}
+          {/* Name: the largest type on the page, 48px on phones up to 112px,
+              and always one line. */}
           <h1
             tabIndex={-1}
-            className="mt-7 whitespace-nowrap font-display text-4xl font-semibold leading-none tracking-[-0.04em] text-ink focus:outline-none sm:text-5xl md:text-6xl lg:text-7xl"
+            className="mt-8 whitespace-nowrap font-display text-[clamp(3rem,10vw,7rem)] font-semibold leading-[0.9] tracking-[-0.045em] text-ink focus:outline-none sm:mt-10"
           >
             Shan Platon
           </h1>
         </div>
 
-        {/* Intro */}
+        {/* Headline, with what I build in bold ink */}
         <p
-          className={`mt-5 max-w-2xl text-pretty text-sm leading-6 text-inkmuted sm:mt-6 sm:text-base sm:leading-7 ${
+          className={`mt-6 max-w-[26ch] text-balance font-display text-[clamp(1.375rem,3vw,2.25rem)] font-medium leading-[1.15] tracking-[-0.02em] text-inkmuted sm:mt-8 ${
             reduceMotion ? "" : "animate-fade-up opacity-0"
           }`}
           style={reduceMotion ? undefined : { animationDelay: "100ms" }}
         >
-          {/* &nbsp; keeps the dash at the end of a line, never the start. */}
-          I build frontend and mobile experiences for systems that solve real
-          problems&nbsp;— from responsive web interfaces to connected applications.
+          I build{" "}
+          <strong className="font-bold text-ink">frontend and mobile experiences</strong>{" "}
+          for systems that solve real problems.
+        </p>
+
+        <p
+          className={`mt-4 max-w-xl text-pretty text-sm leading-6 text-inkmuted sm:text-base sm:leading-7 ${
+            reduceMotion ? "" : "animate-fade-up opacity-0"
+          }`}
+          style={reduceMotion ? undefined : { animationDelay: "140ms" }}
+        >
+          From responsive web interfaces to connected applications.
         </p>
 
         {/* Actions */}
         <div
-          className={`mt-6 flex flex-wrap items-center gap-3 ${
+          className={`mt-8 flex flex-wrap items-center gap-3 ${
             reduceMotion ? "" : "animate-fade-up opacity-0"
           }`}
           style={reduceMotion ? undefined : { animationDelay: "180ms" }}
@@ -155,7 +165,7 @@ export default function Hero() {
 
         {/* Stats: a description list, so each value is read with its label. */}
         <dl
-          className={`mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-10 lg:grid-cols-4 ${
+          className={`mt-10 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-12 lg:grid-cols-4 ${
             reduceMotion ? "" : "animate-fade-up opacity-0"
           }`}
           style={reduceMotion ? undefined : { animationDelay: "260ms" }}
