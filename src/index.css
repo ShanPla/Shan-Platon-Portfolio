@@ -33,19 +33,31 @@ body {
   outline-offset: 3px;
 }
 
-/* The site's two pill buttons: btn-primary for the main action in a row,
-   btn-secondary for the rest. */
 @layer components {
-  .btn {
-    @apply inline-flex items-center gap-2 rounded-full border px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider transition-colors;
+  /* Hard-offset shadow for clickable cards (and the buttons below): an ink
+     border and a 3px ink shadow, which grows to 5px as the card lifts on
+     hover and shrinks to 1px as it presses in on click. To recolour it,
+     give each state a shadow colour, as btn-primary does. The focus ring
+     sits 5px out, clear of the shadow. Colours fade too, for buttons that
+     change fill on hover (the Contact pills). */
+  .lift {
+    @apply border border-ink shadow-[3px_3px_0_0] shadow-ink transition-[transform,box-shadow,color,background-color,border-color] duration-150 ease-out hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0] hover:shadow-ink focus-visible:outline-offset-[5px] active:translate-x-px active:translate-y-px active:shadow-[1px_1px_0_0] active:shadow-ink;
   }
 
+  /* The site's two pill buttons: btn-primary for the main action in a row,
+     btn-secondary for the rest. */
+  .btn {
+    @apply lift inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-mono text-[11px] uppercase tracking-wider;
+  }
+
+  /* Ink-filled, so its shadow is signal blue; an ink one would only read
+     as a thicker button. */
   .btn-primary {
-    @apply border-ink bg-ink text-paper hover:border-signaldeep hover:bg-signaldeep;
+    @apply bg-ink text-paper shadow-signal hover:shadow-signal active:shadow-signal;
   }
 
   .btn-secondary {
-    @apply border-line bg-surface text-ink hover:border-signal hover:text-signaldeep;
+    @apply bg-surface text-ink;
   }
 }
 
