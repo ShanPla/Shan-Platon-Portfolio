@@ -98,33 +98,38 @@ export default function Statement() {
             </p>
           )}
 
+          {/* Screen readers get the sentence once as plain text and skip
+              the word spans, on which VoiceOver would stop one by one. */}
           <p
             ref={sentenceRef}
             className="mt-5 max-w-4xl text-balance font-display text-[clamp(1.75rem,4.5vw,3.75rem)] font-semibold leading-[1.08] tracking-[-0.03em]"
           >
-            {WORDS.map((pieces, i) => (
-              <Fragment key={i}>
-                {i > 0 && " "}
-                <span
-                  className={`transition-colors duration-300 print:text-ink ${
-                    i < lit ? "text-paper" : "text-paper/40"
-                  }`}
-                >
-                  {pieces.map((piece, j) =>
-                    piece.key ? (
-                      <span
-                        key={j}
-                        className={`transition-colors duration-300 ${i < lit ? "text-signal" : ""}`}
-                      >
-                        {piece.text}
-                      </span>
-                    ) : (
-                      <Fragment key={j}>{piece.text}</Fragment>
-                    )
-                  )}
-                </span>
-              </Fragment>
-            ))}
+            <span className="sr-only">{statement.text}</span>
+            <span aria-hidden="true">
+              {WORDS.map((pieces, i) => (
+                <Fragment key={i}>
+                  {i > 0 && " "}
+                  <span
+                    className={`transition-colors duration-300 print:text-ink ${
+                      i < lit ? "text-paper" : "text-paper/40"
+                    }`}
+                  >
+                    {pieces.map((piece, j) =>
+                      piece.key ? (
+                        <span
+                          key={j}
+                          className={`transition-colors duration-300 ${i < lit ? "text-signal" : ""}`}
+                        >
+                          {piece.text}
+                        </span>
+                      ) : (
+                        <Fragment key={j}>{piece.text}</Fragment>
+                      )
+                    )}
+                  </span>
+                </Fragment>
+              ))}
+            </span>
           </p>
         </div>
       </div>

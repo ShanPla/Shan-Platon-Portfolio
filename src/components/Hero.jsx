@@ -24,9 +24,8 @@ const LINE_STAGGER = 0.12;
 
 // One mask per word, so the headline can rise line by line however it
 // wraps; Hero gives each word the delay of its line. The space after each
-// word sits inside its mask: Chrome leaves spaces between inline-blocks out
-// of what screen readers get. end: the headline's last words, so no space
-// after the final one.
+// word sits inside its mask, so copied text keeps it. end: the headline's
+// last words, so no space after the final one.
 function Words({ text, end = false }) {
   const words = text.split(" ");
   return words.map((word, i) => (
@@ -152,16 +151,24 @@ export default function Hero() {
           </span>
         </h1>
 
-        {/* Headline, with what I build in bold ink */}
+        {/* Headline, with what I build in bold ink. Screen readers get it
+            once as plain text and skip the masked words, on which
+            VoiceOver would stop one word at a time. */}
         <p
           ref={headlineRef}
           className="mt-6 max-w-[26ch] text-balance font-display text-[clamp(1.375rem,3vw,2.25rem)] font-medium leading-[1.15] tracking-[-0.02em] text-inkmuted sm:mt-8"
         >
-          <Words text="I build" />
-          <strong className="font-bold text-ink">
-            <Words text="frontend and mobile experiences" />
-          </strong>
-          <Words text="for systems that solve real problems." end />
+          <span className="sr-only">
+            I build frontend and mobile experiences for systems that solve
+            real problems.
+          </span>
+          <span aria-hidden="true">
+            <Words text="I build" />
+            <strong className="font-bold text-ink">
+              <Words text="frontend and mobile experiences" />
+            </strong>
+            <Words text="for systems that solve real problems." end />
+          </span>
         </p>
 
         <p
