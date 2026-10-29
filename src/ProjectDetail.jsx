@@ -22,6 +22,10 @@ const ACCENTS = {
   },
 };
 
+// The Live site and GitHub links under the stack.
+const LINK_PILL =
+  "inline-flex w-fit items-center gap-2 rounded-full border border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-widest text-ink transition-colors duration-200 hover:border-signal hover:text-signaldeep";
+
 function SectionLabel({ as: Tag = "p", children, ...props }) {
   return (
     <Tag
@@ -168,6 +172,8 @@ export default function ProjectDetail() {
   if (!project) return <NotFound title="Project not found" />;
 
   const accent = ACCENTS[project.accent] ?? ACCENTS.signal;
+  // The next project in the list; the last one leads back to the first.
+  const nextProject = projects[(projects.indexOf(project) + 1) % projects.length];
   const screenshots = project.screenshots ?? [];
   const phoneScreenshots = project.phoneScreenshots ?? [];
 
@@ -253,6 +259,36 @@ export default function ProjectDetail() {
                 <div className="mt-4">
                   <Stack project={project} />
                 </div>
+
+                {(project.live || project.github) && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {project.live && (
+                      <a href={project.live} target="_blank" rel="noreferrer" className={LINK_PILL}>
+                        Live site
+                        <span className="sr-only normal-case">
+                          : {project.name} (opens in a new tab)
+                        </span>
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+
+                    {project.github && (
+                      <a href={project.github} target="_blank" rel="noreferrer" className={LINK_PILL}>
+                        GitHub
+                        <span className="sr-only normal-case">
+                          : {project.name} repository (opens in a new tab)
+                        </span>
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    )}
+                  </div>
+                )}
+
+                {project.access && (
+                  <p className="mt-3 text-pretty text-xs leading-5 text-inkmuted">
+                    {project.access}
+                  </p>
+                )}
               </div>
             </div>
           </section>
@@ -356,41 +392,9 @@ export default function ProjectDetail() {
           </section>
         </Reveal>
 
-        {/* Footer */}
-        <Reveal delay={350} loadStagger>
-          <section className="mt-14 border-t border-line pt-8">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
-                  Project
-                </p>
-
-                <p className="mt-2 text-sm text-ink">
-                  {project.name}
-                </p>
-              </div>
-
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex w-fit items-center gap-2 rounded-full border border-line px-5 py-2.5 font-mono text-[10px] uppercase tracking-widest text-ink transition-colors duration-200 hover:border-signal hover:text-signaldeep"
-                >
-                  GitHub
-                  <span className="sr-only normal-case">
-                    : {project.name} repository (opens in a new tab)
-                  </span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-              )}
-            </div>
-          </section>
-        </Reveal>
-
         {/* Navigation */}
-        <Reveal delay={400} loadStagger>
-          <div className="mt-10 border-t border-line pt-6">
+        <Reveal delay={350} loadStagger>
+          <div className="mt-14 flex items-center justify-between gap-4 border-t border-line pt-6">
             <Link
               to="/#projects"
               state={{ restore: true }}
@@ -398,6 +402,17 @@ export default function ProjectDetail() {
             >
               <span aria-hidden="true">←</span> Back to Projects
             </Link>
+
+            {nextProject !== project && (
+              <Link to={`/projects/${nextProject.id}`} className="group text-right">
+                <span className="block font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+                  Next project
+                </span>{" "}
+                <span className="mt-1 block text-sm font-medium text-ink transition-colors group-hover:text-signaldeep">
+                  {nextProject.name} <span aria-hidden="true">→</span>
+                </span>
+              </Link>
+            )}
           </div>
         </Reveal>
 

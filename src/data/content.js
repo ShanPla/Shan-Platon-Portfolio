@@ -156,6 +156,10 @@ export const projects = [
     status: "SHIPPED",
     accent: "signal",
     github: "https://github.com/ShanPla/LipaAction-WebConsole",
+    // live (optional): the running app's address, shown as a Live site link.
+    // access (optional): shown under the links, e.g. to say why there is none.
+    access:
+      "No public demo: the live console is only for barangay officials, and the team issues their accounts.",
 
     contribution: [
       {
@@ -305,6 +309,7 @@ export const projects = [
     status: "SHIPPED",
     accent: "amber",
     github: "https://github.com/ShanPla/mini-social-app",
+    live: "https://mini-social-app-dusky.vercel.app",
 
     contribution: [
       {
