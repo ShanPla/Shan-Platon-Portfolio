@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { projects } from "../data/content.js";
+import { srcSet } from "../imageCopies.js";
 import Reveal from "./Reveal.jsx";
 import StatusBadge from "./StatusBadge.jsx";
 
@@ -47,6 +48,14 @@ function ProjectImage({ project, featured = false }) {
     <div className={`overflow-hidden ${featured ? "h-36 sm:h-44" : "h-28"}`}>
       <img
         src={project.image}
+        srcSet={srcSet(project.image, project.shotSize)}
+        // The card's width inside its 1px border: the featured card spans
+        // the column, the others sit two to a row from 640px.
+        sizes={
+          featured
+            ? "(min-width: 1024px) 974px, calc(100vw - 50px)"
+            : "(min-width: 1024px) 480px, (min-width: 640px) calc(50vw - 32px), calc(100vw - 50px)"
+        }
         alt=""
         loading="lazy"
         decoding="async"

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { projects } from "./data/content.js";
+import { srcSet } from "./imageCopies.js";
 import NotFound from "./NotFound.jsx";
 import Lightbox from "./components/Lightbox.jsx";
 import PageHeader from "./components/PageHeader.jsx";
@@ -37,8 +38,17 @@ function Stack({ project }) {
 }
 
 // Opens the shot in the screenshot viewer. `size` ({ width, height })
-// reserves its space before it loads.
-function ShotButton({ shot, size, onOpen, eager = false, className = "" }) {
+// reserves its space before it loads. `sizes` is the width it shows at, so
+// the browser picks the smallest copy that is still sharp; the default is
+// the full column, inside the 1px border.
+function ShotButton({
+  shot,
+  size,
+  sizes = "(min-width: 1024px) 974px, calc(100vw - 50px)",
+  onOpen,
+  eager = false,
+  className = "",
+}) {
   return (
     <button
       type="button"
@@ -47,6 +57,8 @@ function ShotButton({ shot, size, onOpen, eager = false, className = "" }) {
     >
       <img
         src={shot.src}
+        srcSet={srcSet(shot.src, size)}
+        sizes={sizes}
         alt={shot.alt}
         width={size?.width}
         height={size?.height}
@@ -64,7 +76,13 @@ function ScreenshotGrid({ shots, size, onOpen, className = "" }) {
     <div className={`grid gap-x-3 gap-y-5 ${className}`}>
       {shots.map((shot, index) => (
         <figure key={shot.src}>
-          <ShotButton shot={shot} size={size} onOpen={() => onOpen(index)} />
+          {/* Sized for the phone shots' grid: two columns, four from 640px. */}
+          <ShotButton
+            shot={shot}
+            size={size}
+            sizes="(min-width: 1024px) 233px, (min-width: 640px) calc(25vw - 23px), calc(50vw - 32px)"
+            onOpen={() => onOpen(index)}
+          />
 
           <figcaption className="mt-2 text-xs leading-5 text-inkmuted">
             {shot.caption}

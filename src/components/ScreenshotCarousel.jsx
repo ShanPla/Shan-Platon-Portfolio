@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { srcSet } from "../imageCopies.js";
 import { ChevronLeftIcon, ChevronRightIcon } from "./icons.jsx";
 
 const pad = (n) => String(n).padStart(2, "0");
@@ -108,6 +109,9 @@ export default function ScreenshotCarousel({ shots, label, size, onOpen, classNa
                 >
                   <img
                     src={shot.src}
+                    srcSet={srcSet(shot.src, size)}
+                    // A slide spans the column, inside the 1px border.
+                    sizes="(min-width: 1024px) 974px, calc(100vw - 50px)"
                     alt={shot.alt}
                     width={size?.width}
                     height={size?.height}

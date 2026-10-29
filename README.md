@@ -37,7 +37,7 @@ for easy editing.
 
 ## Getting started
 
-Requires [Node.js](https://nodejs.org) 18+.
+Requires [Node.js](https://nodejs.org) 20.9+ (`npm run images` uses sharp; the site itself builds on 18+).
 
 ```bash
 npm install
@@ -111,12 +111,20 @@ preview card from the Open Graph and Twitter tags in `index.html`.
 
 1. Add image files to `public/projects/<id>/` (WebP; about 1920px wide, phone
    shots about 780px).
-2. In `src/data/content.js`, on the project's entry, set `image` to the main
+2. Run `npm run images`. It writes smaller copies next to each screenshot
+   (`<name>-640w.webp`, `-1024w` and `-1280w`; `-360w` and `-480w` for
+   portrait phone shots), so phones and small windows download a smaller
+   file. Run it again whenever a screenshot changes, and commit the copies
+   with the screenshots. Don't end a screenshot's own name in `-<number>w`,
+   as that marks a copy.
+3. In `src/data/content.js`, on the project's entry, set `image` to the main
    shot's path (card and Overview shot), with `imageAlt` and `imageCaption`
    beside it. `screenshots` (carousel) and the optional `phoneScreenshots` are
    lists of `{ src, caption, alt }`. Set `shotSize` / `phoneShotSize` to the
    files' pixel size; the comments on the first project explain each field.
-3. If left empty, the card and the project page show a
+   The pages work out which copies exist from these sizes, so keep them
+   exact.
+4. If left empty, the card and the project page show a
    "Screenshots coming soon" placeholder.
 
 ## Adding a downloadable resume
