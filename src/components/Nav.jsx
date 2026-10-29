@@ -9,12 +9,14 @@ const LINKS = [
 export default function Nav() {
   // At the top the header sits flat on the hero; once the page moves it
   // gets its rule and a faint shadow. The border is only made transparent,
-  // never removed, so the header stays 63px tall.
+  // never removed, so the header stays 63px tall. The background is 95%
+  // opaque: over the dark band and tile, 85% let the grey links fall
+  // below 4.5:1 contrast.
   const scrolled = useScrolledPast(8);
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-paper/85 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
+      className={`sticky top-0 z-50 border-b bg-paper/95 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
         scrolled ? "border-line shadow-md shadow-ink/5" : "border-transparent"
       }`}
     >

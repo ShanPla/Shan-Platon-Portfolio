@@ -3,13 +3,15 @@ import useScrolledPast from "../useScrolledPast.js";
 
 // Header for the pages other than home. Same height and style as the home
 // header (Nav.jsx), so the logo stays in place when switching pages; its
-// rule shows once the page moves, as there.
+// rule shows once the page moves, as there. The background is 95% opaque
+// there too, so Back to Projects stays readable over the dark Next
+// project band.
 export default function PageHeader() {
   const scrolled = useScrolledPast(8);
 
   return (
     <header
-      className={`sticky top-0 z-40 border-b bg-paper/85 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
+      className={`sticky top-0 z-40 border-b bg-paper/95 backdrop-blur transition-[border-color,box-shadow] duration-300 ${
         scrolled ? "border-line shadow-md shadow-ink/5" : "border-transparent"
       }`}
     >
