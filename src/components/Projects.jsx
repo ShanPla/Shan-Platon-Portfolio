@@ -182,25 +182,17 @@ export default function Projects() {
     <section id="projects" className="border-b border-line">
       <div className="mx-auto max-w-5xl px-6 py-10 sm:py-12">
         <Reveal>
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
-                03 — Projects
-              </p>
+          <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
+            03 — Projects
+          </p>
 
-              {/* Takes focus when a Back to Projects link lands here. */}
-              <h2
-                tabIndex={-1}
-                className="mt-1.5 font-display text-2xl font-semibold tracking-tight text-ink focus:outline-none sm:text-[28px]"
-              >
-                Projects
-              </h2>
-            </div>
-
-            <p className="hidden text-xs text-inkmuted sm:block">
-              Selected work
-            </p>
-          </div>
+          {/* Takes focus when a link from another page lands on #projects. */}
+          <h2
+            tabIndex={-1}
+            className="mt-1.5 font-display text-2xl font-semibold tracking-tight text-ink focus:outline-none sm:text-[28px]"
+          >
+            Selected work
+          </h2>
         </Reveal>
 
         <div className="mt-6">

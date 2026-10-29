@@ -12,7 +12,7 @@ export default function Skills() {
                 02 — Skills
               </p>
 
-              <h2 className="mt-1.5 font-display text-2xl font-semibold text-ink sm:text-[28px]">
+              <h2 className="mt-1.5 font-display text-2xl font-semibold tracking-tight text-ink sm:text-[28px]">
                 Toolkit
               </h2>
             </div>
