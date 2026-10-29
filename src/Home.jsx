@@ -5,6 +5,8 @@ import About from "./components/About.jsx";
 import Skills from "./components/Skills.jsx";
 import Projects from "./components/Projects.jsx";
 import Contact from "./components/Contact.jsx";
+import Footer from "./components/Footer.jsx";
+import SkipLink from "./components/SkipLink.jsx";
 
 // Same as the <title> in index.html; project pages set their own.
 const HOME_TITLE = "Shan Christian Platon — Software & Web Developer";
@@ -16,14 +18,16 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-paper">
+      <SkipLink />
       <Nav />
-      <main>
+      <main id="main" tabIndex={-1} className="focus:outline-none">
         <Hero />
         <About />
         <Skills />
         <Projects />
         <Contact />
       </main>
+      <Footer />
     </div>
   );
 }

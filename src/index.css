@@ -8,9 +8,11 @@ html {
 
 /* Room for the sticky header (63px tall). Set on the targets, not as
    scroll-padding on html: that also counts the header's own links as
-   hidden, so tabbing to them scrolled the page. Sections land flush under
-   the header; focused links and buttons get extra room for the focus ring. */
-section[id] {
+   hidden, so tabbing to them scrolled the page. Sections (and <main>, the
+   skip link's target) land flush under the header; focused links and
+   buttons get extra room for the focus ring. */
+section[id],
+main {
   scroll-margin-top: 63px;
 }
 

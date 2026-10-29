@@ -153,8 +153,8 @@ export default function Hero() {
           )}
         </div>
 
-        {/* Stats */}
-        <div
+        {/* Stats: a description list, so each value is read with its label. */}
+        <dl
           className={`mt-9 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:mt-10 lg:grid-cols-4 ${
             reduceMotion ? "" : "animate-fade-up opacity-0"
           }`}
@@ -165,19 +165,19 @@ export default function Hero() {
               key={stat.label}
               className="bg-surface px-2.5 py-4 sm:px-5"
             >
-              <p className="font-mono text-[9px] uppercase tracking-widest text-inkmuted sm:text-[10px]">
+              <dt className="font-mono text-[9px] uppercase tracking-widest text-inkmuted sm:text-[10px]">
                 {stat.label}
-              </p>
+              </dt>
 
-              <p className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-ink sm:text-sm">
+              <dd className="mt-1.5 flex items-center gap-1.5 text-xs font-medium text-ink sm:text-sm">
                 {stat.available && (
                   <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-ok" />
                 )}
                 {stat.value}
-              </p>
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );

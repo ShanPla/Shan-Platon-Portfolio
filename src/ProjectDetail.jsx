@@ -6,6 +6,7 @@ import Lightbox from "./components/Lightbox.jsx";
 import PageHeader from "./components/PageHeader.jsx";
 import Reveal from "./components/Reveal.jsx";
 import ScreenshotCarousel from "./components/ScreenshotCarousel.jsx";
+import SkipLink from "./components/SkipLink.jsx";
 import StatusBadge from "./components/StatusBadge.jsx";
 
 function SectionLabel({ as: Tag = "p", children, ...props }) {
@@ -19,18 +20,19 @@ function SectionLabel({ as: Tag = "p", children, ...props }) {
   );
 }
 
+// role="list" because Safari drops list semantics once list styles are removed.
 function Stack({ project }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <ul role="list" className="flex flex-wrap gap-1.5">
       {project.stack.map((tech) => (
-        <span
+        <li
           key={tech}
           className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-[10px] text-inkmuted"
         >
           {tech}
-        </span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
@@ -93,13 +95,13 @@ function ContributionList({ project }) {
   if (contribution.length === 0) return null;
 
   return (
-    <div className="divide-y divide-line border-b border-line">
+    <ol role="list" className="divide-y divide-line border-b border-line">
       {contribution.map((item, index) => (
-        <div
+        <li
           key={item.title}
           className="grid gap-2 py-4 first:pt-1 sm:grid-cols-[32px_150px_1fr]"
         >
-          <span className="font-mono text-[10px] text-inkmuted">
+          <span aria-hidden="true" className="font-mono text-[10px] text-inkmuted">
             {String(index + 1).padStart(2, "0")}
           </span>
 
@@ -110,9 +112,9 @@ function ContributionList({ project }) {
           <p className="text-pretty text-sm leading-5 text-inkmuted">
             {item.description}
           </p>
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
 
@@ -122,20 +124,20 @@ function FeatureList({ project }) {
   if (features.length === 0) return null;
 
   return (
-    <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+    <ol role="list" className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
       {features.map((feature, index) => (
-        <div
+        <li
           key={feature}
           className="flex items-start gap-3"
         >
-          <span className="font-mono text-[10px] text-inkmuted">
+          <span aria-hidden="true" className="font-mono text-[10px] text-inkmuted">
             {String(index + 1).padStart(2, "0")}
           </span>
 
           <span className="text-pretty text-sm text-ink">{feature}</span>
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
 
@@ -189,9 +191,14 @@ export default function ProjectDetail() {
 
   return (
     <div className="min-h-screen bg-paper">
+      <SkipLink />
       <PageHeader />
 
-      <main className="mx-auto max-w-5xl px-6 py-12 sm:py-16">
+      <main
+        id="main"
+        tabIndex={-1}
+        className="mx-auto max-w-5xl px-6 py-12 focus:outline-none sm:py-16"
+      >
 
         {/* Header */}
         <Reveal>

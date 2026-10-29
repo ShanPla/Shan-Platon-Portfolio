@@ -69,18 +69,19 @@ function ProjectMeta({ project }) {
   );
 }
 
+// role="list" because Safari drops list semantics once list styles are removed.
 function Stack({ project }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <ul role="list" className="flex flex-wrap gap-1.5">
       {project.stack.map((tech) => (
-        <span
+        <li
           key={tech}
           className="rounded border border-line bg-paper px-2 py-1 font-mono text-[10px] text-inkmuted"
         >
           {tech}
-        </span>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 

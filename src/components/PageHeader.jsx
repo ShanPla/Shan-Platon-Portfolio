@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function PageHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-[17px]">
+      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-[17px]">
         <Link
           to="/"
           className="font-display text-lg font-semibold tracking-tight text-ink"
@@ -21,7 +21,7 @@ export default function PageHeader() {
         >
           <span aria-hidden="true">←</span> Back to Projects
         </Link>
-      </div>
+      </nav>
     </header>
   );
 }

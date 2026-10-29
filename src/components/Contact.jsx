@@ -44,12 +44,6 @@ export default function Contact() {
           &middot; {profile.location}
         </div>
       </div>
-
-      <footer className="border-t border-line">
-        <div className="mx-auto max-w-5xl text-pretty px-6 py-6 font-mono text-[11px] text-inkmuted">
-          &copy; {new Date().getFullYear()} {profile.name}. Built with React &amp; Tailwind.
-        </div>
-      </footer>
     </section>
   );
 }

@@ -29,7 +29,7 @@ export default function Skills() {
               <article className="overflow-hidden rounded-xl border border-line bg-paper">
                 {/* Category header */}
                 <div className="flex items-center gap-3 border-b border-line px-4 py-3.5 sm:px-5">
-                  <span className="font-mono text-[10px] tracking-widest text-signaldeep">
+                  <span aria-hidden="true" className="font-mono text-[10px] tracking-widest text-signaldeep">
                     {group.number}
                   </span>
 
