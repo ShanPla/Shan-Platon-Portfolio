@@ -16,6 +16,14 @@ function Icon({ className = "h-5 w-5", children }) {
   );
 }
 
+export function ArrowUpIcon(props) {
+  return (
+    <Icon {...props}>
+      <path d="M12 19V5M5 12l7-7 7 7" />
+    </Icon>
+  );
+}
+
 export function CloseIcon(props) {
   return (
     <Icon {...props}>

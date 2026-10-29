@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useParams, useSearchParams } from "reac
 import { projects } from "./data/content.js";
 import { srcSet } from "./imageCopies.js";
 import NotFound from "./NotFound.jsx";
+import BackToTop from "./components/BackToTop.jsx";
 import Lightbox from "./components/Lightbox.jsx";
 import PageHeader from "./components/PageHeader.jsx";
 import Reveal from "./components/Reveal.jsx";
@@ -489,6 +490,8 @@ export default function ProjectDetail() {
         </Reveal>
 
       </main>
+
+      <BackToTop />
 
       {viewerIndex !== null && (
         <Lightbox

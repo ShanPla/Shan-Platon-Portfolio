@@ -7,6 +7,7 @@ import Statement from "./components/Statement.jsx";
 import Projects from "./components/Projects.jsx";
 import Contact from "./components/Contact.jsx";
 import Footer from "./components/Footer.jsx";
+import BackToTop from "./components/BackToTop.jsx";
 import SkipLink from "./components/SkipLink.jsx";
 
 // Same as the <title> in index.html; project pages set their own.
@@ -30,6 +31,7 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
+      <BackToTop />
     </div>
   );
 }
