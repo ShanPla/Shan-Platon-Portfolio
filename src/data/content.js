@@ -130,11 +130,11 @@ export const projects = [
   {
     id: "lipaaction",
     name: "LipaAction",
-    tag: "Thesis · Admin Web Console",
+    tag: "Thesis · Web Console",
     description:
-      "The officials' web console for a machine-learning-assisted incident-\u2060reporting system in Lipa\u00a0City, Batangas.",
+      "A web console where barangay officials in Lipa\u00a0City review and route residents' incident reports, ranked by a machine-learning priority score.",
     overview:
-      "LipaAction is a community incident-reporting system for Lipa City, Batangas, built as a three-person undergraduate thesis at De La Salle Lipa. Residents file emergency and minor reports from a mobile app; a machine-learning classifier scores each report's priority; barangay officials review, validate, and route reports to the responding agencies; and the city government oversees the whole flow.",
+      "LipaAction is a community incident-reporting system for Lipa City, Batangas, built as a three-person undergraduate thesis at De La Salle Lipa. Residents file emergency and minor reports from a mobile app, and a machine-learning classifier scores each report's priority. Barangay officials review and validate the reports, then route them to the responding agencies. The city government oversees the whole flow.",
     role: "Web Console Development",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase"],
     status: "SHIPPED",
@@ -279,7 +279,7 @@ export const projects = [
   {
     id: "chronicle",
     name: "The Chronicle",
-    tag: "Social Media App",
+    tag: "Personal · Social App",
     description:
       "A full-stack social media app with posts, comments, follows, notifications, and real-\u2060time chat.",
     overview:
