@@ -42,6 +42,10 @@ export const skills = [
         detail: "Component architecture · state · routing",
       },
       {
+        name: "Next.js",
+        detail: "App Router · server and client components",
+      },
+      {
         name: "TypeScript",
         detail: "Typed components · interfaces · safer refactors",
       },
@@ -90,6 +94,10 @@ export const skills = [
         detail: "Auth · database · realtime",
       },
       {
+        name: "PostgreSQL",
+        detail: "SQL schemas · row-level security · triggers · functions",
+      },
+      {
         name: "Python",
         detail: "Backend logic · scripting · data processing",
       },
@@ -106,6 +114,14 @@ export const skills = [
       {
         name: "Git / GitHub",
         detail: "Version control · collaboration · repositories",
+      },
+      {
+        name: "GitHub Actions",
+        detail: "CI · lint, test, and build on every push",
+      },
+      {
+        name: "Vitest",
+        detail: "Unit tests · run in CI",
       },
       {
         name: "Vercel",
