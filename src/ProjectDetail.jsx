@@ -175,8 +175,10 @@ export default function ProjectDetail() {
 
   if (!project) return <NotFound title="Project not found" />;
 
-  // The next project in the list; the last one leads back to the first.
-  const nextProject = projects[(projects.indexOf(project) + 1) % projects.length];
+  // The project's place in the list, counted from 1 (02 / 03 in the
+  // breadcrumb). The next project follows it; the last leads to the first.
+  const position = projects.indexOf(project) + 1;
+  const nextProject = projects[position % projects.length];
   const screenshots = project.screenshots ?? [];
   const phoneScreenshots = project.phoneScreenshots ?? [];
 
@@ -246,7 +248,27 @@ export default function ProjectDetail() {
 
         {/* Header */}
         <Reveal>
-          <section>
+          {/* Breadcrumb. Projects lands where you left the list, like Back
+              to Projects; screen readers hear the count as project 2 of 3. */}
+          <p className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
+            <Link
+              to="/#projects"
+              state={{ restore: true }}
+              className="relative inline-block underline decoration-inkmuted/50 underline-offset-4 transition-colors after:absolute after:inset-x-0 after:-inset-y-3.5 hover:text-signaldeep hover:decoration-signaldeep"
+            >
+              Projects
+            </Link>
+            <span aria-hidden="true">
+              {" · "}
+              {String(position).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+            </span>
+            <span className="sr-only normal-case">
+              {" "}
+              project {position} of {projects.length}
+            </span>
+          </p>
+
+          <section className="mt-6">
             <div className="flex flex-wrap items-center gap-3">
               <span className="font-mono text-[10px] uppercase tracking-widest text-inkmuted">
                 {project.tag}
@@ -430,7 +452,7 @@ export default function ProjectDetail() {
 
         {/* Navigation */}
         <Reveal delay={350} loadStagger>
-          <div className="mt-14 flex items-center justify-between gap-4 border-t border-line pt-6">
+          <div className="mt-14 border-t border-line pt-6">
             <Link
               to="/#projects"
               state={{ restore: true }}
@@ -439,13 +461,27 @@ export default function ProjectDetail() {
               <span aria-hidden="true">←</span> Back to Projects
             </Link>
 
+            {/* The next project as a full-width band; hover and keyboard
+                focus turn it blue. */}
             {nextProject !== project && (
-              <Link to={`/projects/${nextProject.id}`} className="group text-right">
-                <span className="block font-mono text-[10px] uppercase tracking-widest text-inkmuted">
-                  Next project
-                </span>{" "}
-                <span className="mt-1 block text-sm font-medium text-ink transition-colors group-hover:text-signaldeep">
-                  {nextProject.name} <span aria-hidden="true">→</span>
+              <Link
+                to={`/projects/${nextProject.id}`}
+                className="group mt-6 flex items-center justify-between gap-6 rounded-2xl bg-ink px-6 py-8 text-paper transition-colors hover:bg-signaldeep focus-visible:bg-signaldeep sm:px-10 sm:py-12"
+              >
+                <span className="min-w-0">
+                  <span className="block font-mono text-[10px] uppercase tracking-widest text-paper/80">
+                    Next project
+                  </span>{" "}
+                  <span className="mt-2 block text-balance font-display text-3xl font-semibold tracking-tight sm:text-5xl">
+                    {nextProject.name}
+                  </span>
+                </span>
+
+                <span
+                  aria-hidden="true"
+                  className="shrink-0 font-display text-3xl transition-transform duration-200 group-hover:translate-x-1.5 sm:text-5xl"
+                >
+                  →
                 </span>
               </Link>
             )}
