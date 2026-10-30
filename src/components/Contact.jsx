@@ -13,13 +13,13 @@ export default function Contact() {
       <div className="mx-auto max-w-5xl px-6 py-20 sm:py-28">
         <Reveal>
           <SectionLabel>04 — Contact</SectionLabel>
-          <h2 className="mt-4 max-w-4xl text-balance font-display text-[clamp(2rem,6vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">
-            Looking for an OJT intern who's ready to learn backend fast?
+          <h2 className="mt-4 max-w-4xl text-balance font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">
+            Looking for an OJT intern?
           </h2>
           {/* &nbsp; keeps the dash at the end of a line, never the start. */}
           <p className="mt-6 max-w-lg text-pretty leading-relaxed text-inkmuted sm:text-lg">
-            I'm available for OJT. Reach out directly&nbsp;— I'll usually reply
-            within a day.
+            I'm a final-year CS student, strongest on the frontend and learning
+            backend. Reach out directly&nbsp;— I usually reply within a day.
           </p>
         </Reveal>
 
@@ -29,7 +29,7 @@ export default function Contact() {
               keeps it inside the focus ring. */}
           <a
             href={`mailto:${profile.email}`}
-            className="inline-block pb-2 font-display text-[clamp(1.375rem,3.7vw,2.75rem)] font-medium tracking-tight text-ink underline decoration-signal decoration-[3px] underline-offset-[5px] transition-colors [overflow-wrap:anywhere] [text-underline-position:under] hover:text-signaldeep hover:decoration-signaldeep"
+            className="inline-block pb-2 font-display text-[clamp(1.375rem,3vw,2.125rem)] font-medium tracking-tight text-ink underline decoration-signal decoration-[3px] underline-offset-[5px] transition-colors [overflow-wrap:anywhere] [text-underline-position:under] hover:text-signaldeep hover:decoration-signaldeep"
           >
             {profile.email}
           </a>
