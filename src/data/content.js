@@ -14,7 +14,9 @@ export const profile = {
   // Example: "/Shan-Platon-Resume.pdf"
   resume: null,
 
-  // Set to a path in public/ once a photo is available.
+  // Set to a path in public/ once a photo is available: a 4:5 portrait,
+  // about 600x750 or larger. It fills the hero's photo frame on desktop
+  // and a small circle on phones, so keep the face near the centre.
   // Example: "/profile.jpg"
   image: null,
 };
