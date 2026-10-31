@@ -1,4 +1,5 @@
 import useScrolledPast from "../useScrolledPast.js";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 const LINKS = [
   { href: "#about", label: "About" },
@@ -27,8 +28,13 @@ export default function Nav() {
         </a>
         <ul className="flex gap-4 font-mono text-xs uppercase tracking-wider text-inkmuted sm:gap-8">
           {LINKS.map((link) => (
-            // Phones keep only Projects, the section visitors look for first.
-            <li key={link.href} className={link.href === "#projects" ? "" : "hidden sm:block"}>
+            // Phones keep only Projects, the section visitors look for first,
+            // and below 360px not even that, to leave room for the theme
+            // button and Contact on one line.
+            <li
+              key={link.href}
+              className={link.href === "#projects" ? "hidden min-[360px]:block" : "hidden sm:block"}
+            >
               {/* The ::after layer makes the tap area taller than the text,
                   while the focus ring stays around the text. The ::before
                   layer is the underline: it grows from the left on hover
@@ -42,12 +48,15 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <a
-          href="#contact"
-          className="btn btn-secondary px-4 py-1.5 text-xs"
-        >
-          Contact
-        </a>
+        <div className="flex items-center gap-3">
+          <ThemeToggle />
+          <a
+            href="#contact"
+            className="btn btn-secondary px-4 py-1.5 text-xs"
+          >
+            Contact
+          </a>
+        </div>
       </nav>
     </header>
   );

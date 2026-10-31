@@ -2,6 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+/* The theme colours as RGB channels (tailwind.config.js reads them).
+   Dark mode applies on screens only, so a page printed in dark mode still
+   prints light. */
+:root {
+  color-scheme: light;
+  --paper: 245 247 250;
+  --surface: 255 255 255;
+  --ink: 22 33 62;
+  --inkmuted: 91 100 120;
+  --line: 223 227 234;
+  --signal: 47 111 237;
+  --signaldeep: 30 79 192;
+  --amber: 242 153 74;
+  --ok: 47 168 112;
+  --amberdeep: 168 84 0;
+  --okdeep: 24 121 78;
+  --block: 22 33 62;
+  --onblock: 245 247 250;
+  --signalfill: 30 79 192;
+}
+
+/* Deep navy. Text, muted text and the deep accents keep at least 4.5:1
+   on the page and the cards; the blocks sit a shade above the page. */
+@media screen {
+  .dark {
+    color-scheme: dark;
+    --paper: 11 18 32;
+    --surface: 17 26 44;
+    --ink: 230 234 242;
+    --inkmuted: 152 162 182;
+    --line: 39 51 78;
+    --signal: 76 132 245;
+    --signaldeep: 130 168 248;
+    --amberdeep: 240 163 94;
+    --okdeep: 74 196 138;
+    --block: 26 38 66;
+    --onblock: 230 234 242;
+  }
+}
+
+/* Set for a moment while the theme switches (ThemeToggle.jsx), so every
+   colour changes at once instead of each fading at its own speed. */
+.theme-switching *,
+.theme-switching ::before,
+.theme-switching ::after {
+  transition: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -64,10 +112,10 @@ body {
     @apply lift inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-mono text-2xs uppercase tracking-wider;
   }
 
-  /* Ink-filled, so its shadow is signal blue; an ink one would only read
+  /* A dark block, so its shadow is signal blue; an ink one would only read
      as a thicker button. */
   .btn-primary {
-    @apply bg-ink text-paper shadow-signal hover:shadow-signal active:shadow-signal;
+    @apply bg-block text-onblock shadow-signal hover:shadow-signal active:shadow-signal;
   }
 
   .btn-secondary {

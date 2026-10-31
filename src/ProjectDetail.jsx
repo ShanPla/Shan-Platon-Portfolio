@@ -458,10 +458,10 @@ export default function ProjectDetail() {
             {nextProject !== project && (
               <Link
                 to={`/projects/${nextProject.id}`}
-                className="group mt-6 flex items-center justify-between gap-6 rounded-2xl bg-ink px-6 py-8 text-paper transition-colors hover:bg-signaldeep focus-visible:bg-signaldeep sm:px-10 sm:py-12"
+                className="group mt-6 flex items-center justify-between gap-6 rounded-2xl bg-block px-6 py-8 text-onblock transition-colors hover:bg-signalfill focus-visible:bg-signalfill dark:ring-1 dark:ring-inset dark:ring-line sm:px-10 sm:py-12"
               >
                 <span className="min-w-0">
-                  <span className="block font-mono text-3xs uppercase tracking-widest text-paper/80">
+                  <span className="block font-mono text-3xs uppercase tracking-widest text-onblock/80">
                     Next project
                   </span>{" "}
                   <span className="mt-2 block text-balance font-display text-3xl font-semibold tracking-tight sm:text-5xl">

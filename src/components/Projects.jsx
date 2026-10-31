@@ -161,13 +161,13 @@ function GitHubTile() {
       href={profile.github}
       target="_blank"
       rel="noreferrer"
-      className="lift group/tile flex flex-col gap-2 rounded-2xl bg-ink px-6 py-7 text-paper shadow-signal hover:shadow-signal active:shadow-signal sm:flex-row sm:items-center sm:justify-between sm:px-8"
+      className="lift group/tile flex flex-col gap-2 rounded-2xl bg-block px-6 py-7 text-onblock shadow-signal hover:shadow-signal active:shadow-signal sm:flex-row sm:items-center sm:justify-between sm:px-8"
     >
       <span className="font-display text-2xl font-semibold tracking-tight sm:text-[28px]">
         More on GitHub
       </span>
 
-      <span className="font-mono text-xs text-paper/75">
+      <span className="font-mono text-xs text-onblock/75">
         {profile.github.replace(/^https?:\/\//, "")}{" "}
         <span
           aria-hidden="true"

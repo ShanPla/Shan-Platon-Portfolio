@@ -199,7 +199,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
   // arrows sit at the window's sides; on narrower screens they would cover
   // the picture's edges, so a pair under it takes over.
   const arrowClass =
-    "rounded-full p-2.5 text-paper/80 ring-1 ring-inset ring-paper/15 transition-colors hover:bg-paper/15 hover:text-paper focus-visible:outline-paper";
+    "rounded-full p-2.5 text-onblock/80 ring-1 ring-inset ring-onblock/15 transition-colors hover:bg-onblock/15 hover:text-onblock focus-visible:outline-onblock";
   const sideArrowClass = `${arrowClass} absolute top-1/2 hidden -translate-y-1/2 lg:block`;
 
   return createPortal(
@@ -216,7 +216,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
-      className="fixed inset-0 z-50 flex select-none touch-pan-y touch-pinch-zoom flex-col bg-scrim text-paper focus:outline-none"
+      className="fixed inset-0 z-50 flex select-none touch-pan-y touch-pinch-zoom flex-col bg-scrim text-onblock focus:outline-none"
     >
       <div
         data-backdrop
@@ -225,7 +225,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
         {/* Below lg the count sits with the arrows under the picture. */}
         <p
           aria-hidden="true"
-          className="hidden font-mono text-2xs uppercase tracking-widest text-paper/70 lg:block"
+          className="hidden font-mono text-2xs uppercase tracking-widest text-onblock/70 lg:block"
         >
           {pad(index + 1)} / {pad(count)}
         </p>
@@ -236,7 +236,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
           onClick={close}
           aria-label="Close viewer"
           title="Close (Esc)"
-          className="relative ml-auto rounded-full p-2.5 text-paper/80 transition-colors after:absolute after:-inset-1 hover:bg-paper/15 hover:text-paper focus-visible:outline-paper"
+          className="relative ml-auto rounded-full p-2.5 text-onblock/80 transition-colors after:absolute after:-inset-1 hover:bg-onblock/15 hover:text-onblock focus-visible:outline-onblock"
         >
           <CloseIcon />
         </button>
@@ -269,7 +269,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
             alt={shot.alt}
             draggable={false}
             style={pulled ? { transform: `translateX(${pull.x}px)` } : undefined}
-            className={`max-h-full max-w-full rounded-lg object-contain ring-1 ring-paper/10 ${
+            className={`max-h-full max-w-full rounded-lg object-contain ring-1 ring-onblock/10 ${
               pulled ? "" : "transition-transform duration-300 ease-out"
             }`}
           />
@@ -316,7 +316,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
               data-backdrop
               aria-live="polite"
               aria-atomic="true"
-              className="min-w-0 flex-1 py-2.5 text-sm leading-6 text-paper/80 lg:py-0 lg:text-center [@media(max-height:480px)]:py-0"
+              className="min-w-0 flex-1 py-2.5 text-sm leading-6 text-onblock/80 lg:py-0 lg:text-center [@media(max-height:480px)]:py-0"
             >
               <span className="sr-only">
                 Screenshot {index + 1} of {count}:{" "}
@@ -338,7 +338,7 @@ export default function Lightbox({ shots, index, label, onIndexChange, onClose }
 
                 <span
                   aria-hidden="true"
-                  className="min-w-[3.5rem] text-center font-mono text-2xs uppercase tracking-widest text-paper/70"
+                  className="min-w-[3.5rem] text-center font-mono text-2xs uppercase tracking-widest text-onblock/70"
                 >
                   {pad(index + 1)} / {pad(count)}
                 </span>

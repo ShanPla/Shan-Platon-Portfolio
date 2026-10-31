@@ -86,14 +86,14 @@ export default function Statement() {
     <section className="p-[clamp(8px,1.5vw,20px)]">
       <div
         ref={bandRef}
-        className="relative overflow-hidden rounded-[clamp(14px,2vw,24px)] bg-ink print:bg-transparent"
+        className="relative overflow-hidden rounded-[clamp(14px,2vw,24px)] bg-block print:bg-transparent dark:ring-1 dark:ring-inset dark:ring-line"
       >
         {/* Faint grid, as behind the hero */}
         <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.06]" />
 
         <div className="relative mx-auto max-w-5xl px-6 py-20 sm:py-28 lg:py-32">
           {statement.label && (
-            <p className="font-mono text-xs uppercase tracking-widest text-paper/60 print:text-inkmuted">
+            <p className="font-mono text-xs uppercase tracking-widest text-onblock/60 print:text-inkmuted">
               {statement.label}
             </p>
           )}
@@ -111,7 +111,7 @@ export default function Statement() {
                   {i > 0 && " "}
                   <span
                     className={`transition-colors duration-300 print:text-ink ${
-                      i < lit ? "text-paper" : "text-paper/40"
+                      i < lit ? "text-onblock" : "text-onblock/40"
                     }`}
                   >
                     {pieces.map((piece, j) =>
