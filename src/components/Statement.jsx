@@ -88,8 +88,9 @@ export default function Statement() {
         ref={bandRef}
         className="relative overflow-hidden rounded-[clamp(14px,2vw,24px)] bg-block print:bg-transparent dark:ring-1 dark:ring-inset dark:ring-line"
       >
-        {/* Faint grid, as behind the hero */}
-        <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.06]" />
+        {/* Faint grid, as behind the hero. In dark mode the line colour is
+            as dark as the band, so the grid takes the band's text colour. */}
+        <div className="pointer-events-none absolute inset-0 bg-grid opacity-[0.06] dark:[--line:var(--onblock)]" />
 
         <div className="relative mx-auto max-w-5xl px-6 py-20 sm:py-28 lg:py-32">
           {statement.label && (
