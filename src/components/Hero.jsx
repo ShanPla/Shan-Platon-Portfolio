@@ -64,7 +64,7 @@ function Portrait() {
   const hasImage = Boolean(profile.image) && !imgError;
 
   return (
-    <div className="rounded-2xl border border-ink bg-surface p-2.5 shadow-[3px_3px_0_0] shadow-ink">
+    <div className="rounded-2xl border border-edge bg-surface p-2.5 shadow-[3px_3px_0_0] shadow-edge">
       {hasImage ? (
         <img
           src={profile.image}

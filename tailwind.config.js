@@ -38,6 +38,9 @@ export default {
         onblock: token("onblock"),
         // Blue under light text in both modes: the next project band on hover.
         signalfill: token("signalfill"),
+        // The frames and hard shadows of cards and buttons: ink in light
+        // mode, a muted blue-grey in dark mode.
+        edge: token("edge"),
         // Near-black backdrop for the screenshot viewer, in both modes.
         scrim: "#0E0F12",
       },

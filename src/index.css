@@ -21,10 +21,13 @@
   --block: 22 33 62;
   --onblock: 245 247 250;
   --signalfill: 30 79 192;
+  --edge: 22 33 62;
 }
 
 /* Deep navy. Text, muted text and the deep accents keep at least 4.5:1
-   on the page and the cards; the blocks sit a shade above the page. */
+   on the page and the cards; the blocks sit a shade above the page. The
+   card and button frames are a muted blue-grey, so they don't outshine
+   the text. */
 @media screen {
   .dark {
     color-scheme: dark;
@@ -39,6 +42,7 @@
     --okdeep: 74 196 138;
     --block: 26 38 66;
     --onblock: 230 234 242;
+    --edge: 112 128 160;
   }
 }
 
@@ -82,28 +86,28 @@ body {
 }
 
 @layer components {
-  /* Hard-offset shadow for clickable cards (and the buttons below): an ink
-     border and a 3px ink shadow, which grows to 5px as the card lifts on
+  /* Hard-offset shadow for clickable cards (and the buttons below): an edge
+     border and a 3px edge shadow, which grows to 5px as the card lifts on
      hover and shrinks to 1px as it presses in on click. To recolour it,
      give each state a shadow colour, as btn-primary does. The focus ring
      sits 5px out, clear of the shadow. Colours fade too, for buttons that
      change fill on hover (the Contact pills). */
   .lift {
-    @apply border border-ink shadow-[3px_3px_0_0] shadow-ink transition-[transform,box-shadow,color,background-color,border-color] duration-150 ease-out hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0] hover:shadow-ink focus-visible:outline-offset-[5px] active:translate-x-px active:translate-y-px active:shadow-[1px_1px_0_0] active:shadow-ink;
+    @apply border border-edge shadow-[3px_3px_0_0] shadow-edge transition-[transform,box-shadow,color,background-color,border-color] duration-150 ease-out hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_0] hover:shadow-edge focus-visible:outline-offset-[5px] active:translate-x-px active:translate-y-px active:shadow-[1px_1px_0_0] active:shadow-edge;
   }
 
   /* The same frame on a card that lifts with its .group rather than on its
      own: with the group's hover, a keyboard-focused link inside it, and its
      press. The project rows use it for their screenshot plates. */
   .lift-with-group {
-    @apply border border-ink shadow-[3px_3px_0_0] shadow-ink transition-[transform,box-shadow] duration-150 ease-out group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-[5px_5px_0_0] group-hover:shadow-ink group-has-[:focus-visible]:-translate-x-0.5 group-has-[:focus-visible]:-translate-y-0.5 group-has-[:focus-visible]:shadow-[5px_5px_0_0] group-has-[:focus-visible]:shadow-ink;
+    @apply border border-edge shadow-[3px_3px_0_0] shadow-edge transition-[transform,box-shadow] duration-150 ease-out group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:shadow-[5px_5px_0_0] group-hover:shadow-edge group-has-[:focus-visible]:-translate-x-0.5 group-has-[:focus-visible]:-translate-y-0.5 group-has-[:focus-visible]:shadow-[5px_5px_0_0] group-has-[:focus-visible]:shadow-edge;
   }
 
   /* The press, in its own rule after the lift: Tailwind would put a
      group-active variant before group-has, so clicking a row whose link
      has keyboard focus would keep the plate lifted. */
   .group:active .lift-with-group {
-    @apply translate-x-px translate-y-px shadow-[1px_1px_0_0] shadow-ink;
+    @apply translate-x-px translate-y-px shadow-[1px_1px_0_0] shadow-edge;
   }
 
   /* The site's two pill buttons: btn-primary for the main action in a row,

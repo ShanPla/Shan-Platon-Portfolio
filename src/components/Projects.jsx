@@ -88,7 +88,7 @@ function ProjectLink({ project, accent }) {
   return (
     <Link
       to={`/projects/${project.id}`}
-      className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-ink px-4 py-2 font-mono text-2xs uppercase tracking-wider text-ink transition-colors after:absolute after:inset-0 after:z-10 group-hover:text-paper ${accent.pill}`}
+      className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-edge px-4 py-2 font-mono text-2xs uppercase tracking-wider text-ink transition-colors after:absolute after:inset-0 after:z-10 group-hover:text-paper ${accent.pill}`}
     >
       View project
       <span className="sr-only normal-case">: {project.name}</span>
