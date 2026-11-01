@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { MoonIcon, SunIcon } from "./icons.jsx";
 
 // The visitor's own pick, saved on this browser. Until there is one, the
@@ -65,8 +66,22 @@ export default function ThemeToggle() {
       // Not saved; the switch still holds until the page reloads.
     }
 
-    applyTheme(next);
-    setDark(next);
+    // flushSync draws the knob on its new side straight away, so the
+    // snapshot of the new theme already has it there.
+    const change = () => {
+      applyTheme(next);
+      flushSync(() => setDark(next));
+    };
+
+    // The curtain (index.css): the new theme closes in from both sides
+    // over a snapshot of the old one. Browsers without view transitions,
+    // and readers who ask for less motion, switch at once.
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || reduceMotion) {
+      change();
+      return;
+    }
+    document.startViewTransition(change);
   }
 
   return (

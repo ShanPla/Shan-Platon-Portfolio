@@ -55,6 +55,29 @@
   transition: none !important;
 }
 
+/* The theme change as a curtain: the new theme closes in from the left
+   and right edges and meets in the middle, over a snapshot of the old one
+   (a view transition, started in ThemeToggle.jsx). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+  animation: theme-curtain 0.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes theme-curtain {
+  from {
+    clip-path: inset(0 0);
+  }
+  to {
+    clip-path: inset(0 50%);
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
