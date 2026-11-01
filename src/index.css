@@ -47,8 +47,9 @@
 }
 
 /* Set for a moment while the theme switches (ThemeToggle.jsx), so every
-   colour changes at once instead of each fading at its own speed. */
-.theme-switching *,
+   colour changes at once instead of each fading at its own speed. The
+   switch's knob still slides. */
+.theme-switching *:not([data-theme-knob]),
 .theme-switching ::before,
 .theme-switching ::after {
   transition: none !important;
