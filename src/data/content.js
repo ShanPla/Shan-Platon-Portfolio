@@ -293,7 +293,28 @@ export const projects = [
       "Test mode simulates gas readings and turns off after 5\u00a0minutes",
     ],
 
-    image: null,
+    // Photos of the build and a parts diagram, all 16:10.
+    shotSize: { width: 1600, height: 1000 },
+    image: "/projects/fire-detection/breadboard.webp",
+    imageAlt:
+      "Breadboard with an MQ-2 gas sensor, a sound sensor, a buzzer, five LEDs and resistors, wired to an ESP32 board.",
+    imageCaption:
+      "The build: gas and sound sensors, the buzzer, and the five stage LEDs, wired to the ESP32.",
+
+    screenshots: [
+      {
+        src: "/projects/fire-detection/parts-diagram.webp",
+        caption:
+          "Parts and pins: three sensors in, five LEDs and a buzzer out, and the four hazard stages.",
+        alt: "Diagram of the ESP32 with the MQ-2, LM393 and DHT11 on GPIO 34, 35 and 27, the LEDs on GPIO 4, 16, 17, 18 and 19, the buzzer on GPIO 25, and the stage table.",
+      },
+      {
+        src: "/projects/fire-detection/serial-monitor.webp",
+        caption:
+          "Running: the Serial Monitor logs gas, sound, temperature, humidity, the stage and faults every 2\u00a0seconds.",
+        alt: "Laptop showing the firmware and the Serial Monitor, next to the breadboard and the DHT11 sensor.",
+      },
+    ],
   },
 
   {
