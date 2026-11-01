@@ -298,7 +298,7 @@ export const projects = [
       "Test mode simulates gas readings and turns off after 5\u00a0minutes",
     ],
 
-    // Photos of the build and a parts diagram, all 16:10.
+    // Photos of the build, a parts diagram and a logic chart, all 16:10.
     shotSize: { width: 1600, height: 1000 },
     image: "/projects/fire-detection/breadboard.webp",
     imageAlt:
@@ -312,6 +312,12 @@ export const projects = [
         caption:
           "Parts and pins: three sensors in, five LEDs and a buzzer out, and the four hazard stages.",
         alt: "Diagram of the ESP32 with the MQ-2, LM393 and DHT11 on GPIO 34, 35 and 27, the LEDs on GPIO 4, 16, 17, 18 and 19, the buzzer on GPIO 25, and the stage table.",
+      },
+      {
+        src: "/projects/fire-detection/detection-logic.webp",
+        caption:
+          "How it decides: a brief spike is ignored, Critical alarms at once, and a stage only steps down once readings stay below its band.",
+        alt: "Chart of gas readings against the Warning, Alert and Critical thresholds, with the stage each reading leads to, plus notes on sensor faults and connection loss.",
       },
       {
         src: "/projects/fire-detection/serial-monitor.webp",
