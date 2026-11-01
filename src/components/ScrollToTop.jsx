@@ -161,6 +161,17 @@ export default function ScrollToTop() {
 
     if (saved) {
       window.scrollTo({ top: saved.y, behavior: "instant" });
+
+      // After a reload the web fonts can arrive after this, and the reflow
+      // moves the page a little; go back to the spot once they are in,
+      // unless the visitor has scrolled further than a reflow would.
+      if (lastPath.current === null) {
+        document.fonts?.ready?.then(() => {
+          if (Math.abs(window.scrollY - saved.y) < 100) {
+            window.scrollTo({ top: saved.y, behavior: "instant" });
+          }
+        });
+      }
     } else if (target) {
       target.scrollIntoView({ block: "start", behavior: "instant" });
 
