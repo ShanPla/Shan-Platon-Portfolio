@@ -15,7 +15,10 @@ export const profile = {
   // about 600x750 or larger. It fills the hero's photo frame on desktop
   // and a small circle on phones, so keep the face near the centre.
   // Example: "/profile.jpg"
-  image: null,
+  image: "/profile.webp",
+  // A square crop of the face for the small circle on phones; without it,
+  // the circle shows the middle of the main photo.
+  avatar: "/profile-face.webp",
 };
 
 // The hero's tiles. available: shows a green dot before the value.

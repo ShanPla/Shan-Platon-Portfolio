@@ -37,11 +37,12 @@ function Words({ text, end = false }) {
 
 function Avatar() {
   const [imgError, setImgError] = useState(false);
-  const hasImage = Boolean(profile.image) && !imgError;
+  const src = profile.avatar ?? profile.image;
+  const hasImage = Boolean(src) && !imgError;
 
   return hasImage ? (
     <img
-      src={profile.image}
+      src={src}
       alt={profile.name}
       onError={() => setImgError(true)}
       className="h-16 w-16 shrink-0 rounded-full border border-line object-cover sm:h-20 sm:w-20"
