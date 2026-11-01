@@ -135,4 +135,5 @@ preview card from the Open Graph and Twitter tags in `index.html`.
 
 ## License
 
-This project is available for personal use and modification.
+MIT, see [LICENSE](LICENSE). You may reuse and change the code, as long as
+the copyright notice with my name stays in your copy.
