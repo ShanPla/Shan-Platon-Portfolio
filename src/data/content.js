@@ -156,7 +156,7 @@ export const projects = [
     // team (optional): team size and adviser, shown under Role.
     team: "Team of 3\u00a0· Adviser:\u00a0Franze\u00a0V.\u00a0Garcia",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase"],
-    status: "SHIPPED",
+    status: "COMPLETED",
     accent: "signal",
     github: "https://github.com/ShanPla/LipaAction-WebConsole",
     // live (optional): the running app's address, shown as a Live site link.
