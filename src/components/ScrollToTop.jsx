@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { useLocation, useNavigationType } from "react-router-dom";
 
 // Scroll position and focused control per history entry, so browser Back
@@ -26,14 +26,61 @@ function findTarget(hash) {
   return id ? document.getElementById(id) : null;
 }
 
+// The scroll position when the page was left, kept for a reload: the maps
+// above don't survive one.
+const RELOAD_KEY = "scroll-before-reload";
+
+function saveForReload() {
+  try {
+    sessionStorage.setItem(RELOAD_KEY, JSON.stringify({ url: window.location.href, y: window.scrollY }));
+  } catch {
+    // Storage blocked (some private modes): a reload lands on the #section.
+  }
+}
+
+function spotBeforeReload() {
+  const [navigation] = performance.getEntriesByType("navigation");
+  if (navigation?.type !== "reload") return undefined;
+  try {
+    const spot = JSON.parse(sessionStorage.getItem(RELOAD_KEY));
+    return spot?.url === window.location.href ? { y: spot.y } : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+// How far under the header a section's top can be and still count as the
+// one being read. Enough that a section further down doesn't take over too
+// early, and small enough that the short About section keeps its turn.
+const READING_LINE = 100;
+
+// The hash for the section being read: none for the first one (the hero),
+// and the last one at the page's end, where it may never reach the line.
+function hashInView() {
+  const sections = [...document.querySelectorAll("section[id]")];
+  if (sections.length === 0) return "";
+  const line = (document.querySelector("header")?.getBoundingClientRect().bottom ?? 0) + READING_LINE;
+  const atEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+  const current = atEnd
+    ? sections[sections.length - 1]
+    : sections.filter((section) => section.getBoundingClientRect().top <= line).pop();
+  return !current || current === sections[0] ? "" : `#${current.id}`;
+}
+
 /**
  * Sets the scroll position when the page changes:
  * - browser Back/Forward restores the position you left,
  * - a link with state={{ restore: true }} returns to where you last left
  *   that page, or else behaves like any other link,
  * - a link with a hash (e.g. /#projects) lands on that section,
+ * - a reload stays at the spot you reloaded from,
  * - any other page change starts at the top.
  * Jumps are instant; the smooth scrolling in index.css is for in-page links.
+ *
+ * On the home page it also keeps the address on the section being read, so
+ * a reload or a copied link lands there. It replaces the current history
+ * entry without telling the router, so scrolling adds nothing to browser
+ * Back and doesn't move the page again.
  *
  * After an in-app page change it also moves focus: when returning, to the
  * link or button you left from, otherwise to the heading of the new page
@@ -60,6 +107,36 @@ export default function ScrollToTop() {
     }
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("pagehide", saveForReload);
+    return () => window.removeEventListener("pagehide", saveForReload);
+  }, []);
+
+  useEffect(() => {
+    if (pathname !== "/") return undefined;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const next = hashInView();
+      if (next === window.location.hash) return;
+      const { search } = window.location;
+      window.history.replaceState(window.history.state, "", `${pathname}${search}${next}`);
+      // An entry without a router key is known by its address, which just
+      // changed; Back has to find its saved position under the new one.
+      if (!window.history.state?.key) lastEntry.current = pathname + next;
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [pathname]);
+
   // Back/Forward between the home page's #links: go to that section, or to
   // the top. A clicked #link arrives here too, so no behavior is given and
   // it keeps its smooth scroll. Declared before the effect below, so
@@ -73,11 +150,13 @@ export default function ScrollToTop() {
 
   useLayoutEffect(() => {
     const saved =
-      navType === "POP"
-        ? positions.get(entry)
-        : state?.restore
-          ? lastVisits.get(pathname)
-          : undefined;
+      lastPath.current === null
+        ? spotBeforeReload()
+        : navType === "POP"
+          ? positions.get(entry)
+          : state?.restore
+            ? lastVisits.get(pathname)
+            : undefined;
     const target = findTarget(hash);
 
     if (saved) {
