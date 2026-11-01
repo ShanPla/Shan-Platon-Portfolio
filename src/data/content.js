@@ -1,8 +1,5 @@
 export const profile = {
   name: "Shan Christian M. Platon",
-  role: "Software & Web Developer",
-  tagline:
-    "Frontend-focused developer building web and mobile systems with React, React Native, and Supabase.",
   location: "Tanauan City, Batangas, PH",
   email: "platonshan0@gmail.com",
   phone: "0956 893 2434",
@@ -47,39 +44,30 @@ export const skills = [
   {
     number: "01",
     group: "Frontend",
-    description:
-      "Building responsive interfaces and reusable web experiences.",
-
     items: [
       {
         name: "React",
         logo: "react",
-        detail: "Component architecture · state · routing",
       },
       {
         name: "Next.js",
         logo: "nextdotjs",
-        detail: "App Router · server and client components",
       },
       {
         name: "TypeScript",
         logo: "typescript",
-        detail: "Typed components · interfaces · safer refactors",
       },
       {
         name: "JavaScript",
         logo: "javascript",
-        detail: "ES6+ · async logic · browser APIs",
       },
       {
         name: "Tailwind CSS",
         logo: "tailwindcss",
-        detail: "Responsive UI · design systems · utility styling",
       },
       {
         name: "Vite",
         logo: "vite",
-        detail: "Fast development · builds · project tooling",
       },
     ],
   },
@@ -87,19 +75,14 @@ export const skills = [
   {
     number: "02",
     group: "Mobile",
-    description:
-      "Creating cross-platform mobile interfaces with a focus on usability.",
-
     items: [
       {
         name: "React Native",
         logo: "react",
-        detail: "Cross-platform UI · navigation · native components",
       },
       {
         name: "Expo",
         logo: "expo",
-        detail: "Development workflow · EAS · device testing",
       },
     ],
   },
@@ -107,24 +90,18 @@ export const skills = [
   {
     number: "03",
     group: "Backend",
-    description:
-      "Connecting interfaces to data, authentication, APIs, and backend logic.",
-
     items: [
       {
         name: "Supabase",
         logo: "supabase",
-        detail: "Auth · database · realtime",
       },
       {
         name: "PostgreSQL",
         logo: "postgresql",
-        detail: "SQL schemas · row-level security · triggers · functions",
       },
       {
         name: "Python",
         logo: "python",
-        detail: "Backend logic · scripting · data processing",
       },
     ],
   },
@@ -132,39 +109,30 @@ export const skills = [
   {
     number: "04",
     group: "Tooling",
-    description:
-      "The tools I use to build, ship, test, and manage projects.",
-
     items: [
       {
         name: "Git / GitHub",
         logo: "github",
-        detail: "Version control · collaboration · repositories",
       },
       {
         name: "GitHub Actions",
         logo: "githubactions",
-        detail: "CI · lint, test, and build on every push",
       },
       {
         name: "Vitest",
         logo: "vitest",
-        detail: "Unit tests · run in CI",
       },
       {
         name: "Vercel",
         logo: "vercel",
-        detail: "Deployment · previews · production hosting",
       },
       {
         name: "EAS",
         logo: "expo",
-        detail: "Mobile builds · submissions · releases",
       },
       {
         name: "Node-RED",
         logo: "nodered",
-        detail: "Visual workflows · integrations · automation",
       },
     ],
   },
