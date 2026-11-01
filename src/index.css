@@ -82,18 +82,30 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Room for the sticky header (63px tall). Set on the targets, not as
+/* Room for the sticky header: 63px, or 104px on phones, where the home
+   header has a second row for the section links (the other pages' headers
+   stay 63px and just get a little more room). Set on the targets, not as
    scroll-padding on html: that also counts the header's own links as
    hidden, so tabbing to them scrolled the page. Sections (and <main>, the
    skip link's target) land flush under the header; focused links and
    buttons get extra room for the focus ring. */
+:root {
+  --header-height: 63px;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --header-height: 104px;
+  }
+}
+
 section[id],
 main {
-  scroll-margin-top: 63px;
+  scroll-margin-top: var(--header-height);
 }
 
 main :is(a, button, [tabindex]) {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: calc(var(--header-height) + 17px);
 }
 
 body {
