@@ -152,10 +152,10 @@ export const projects = [
       "A web console where barangay officials in Lipa\u00a0City review and route residents' incident reports, ranked by a machine-learning priority score.",
     overview:
       "LipaAction is a community incident-reporting system for Lipa City, Batangas, built as a three-person undergraduate thesis at De La Salle Lipa. Residents file emergency and minor reports from a mobile app, and a machine-learning classifier scores each report's priority. Barangay officials review and validate the reports, then route them to the responding agencies. The city government oversees the whole flow.",
-    role: "Web Console Development",
+    role: "Web Console Development, Mobile UI",
     // team (optional): team size and adviser, shown under Role.
     team: "Team of 3\u00a0· Adviser:\u00a0Franze\u00a0V.\u00a0Garcia",
-    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase"],
+    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Supabase", "React Native", "Expo"],
     status: "COMPLETED",
     accent: "signal",
     github: "https://github.com/ShanPla/LipaAction-WebConsole",
@@ -179,6 +179,11 @@ export const projects = [
         title: "Backend integration",
         description:
           "Connected the console to the team's shared Supabase backend: two-step sign-in, row-\u2060level security, and real-time updates via Supabase Realtime.",
+      },
+      {
+        title: "Resident mobile app",
+        description:
+          "Also worked on the team's Expo app for residents: an English/Tagalog toggle on every screen, a card-based restyle of sign-in, reporting, the inbox, and chat, and an offline start, so the app opens with no signal and still reaches the report screens.",
       },
     ],
 
