@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { profile, projects } from "../data/content.js";
 import { srcSet } from "../imageCopies.js";
-import Contributions from "./Contributions.jsx";
+import { ContributionGraph, ContributionSummary, useContributions } from "./Contributions.jsx";
 import Reveal from "./Reveal.jsx";
 import SectionLabel from "./SectionLabel.jsx";
 import StatusBadge from "./StatusBadge.jsx";
@@ -156,27 +156,42 @@ function ProjectRow({ project, index }) {
 
 // Closes the list. Dark, so it reads as the way out rather than one more
 // project; its shadow is signal blue, as an ink one would vanish into it.
+// It holds my GitHub activity for the year, or just the link if that can't
+// load.
 function GitHubTile() {
+  const { data, failed } = useContributions();
+
   return (
     <a
       href={profile.github}
       target="_blank"
       rel="noreferrer"
-      className="lift group/tile flex flex-col gap-2 rounded-2xl bg-block px-6 py-7 text-onblock shadow-signal hover:shadow-signal active:shadow-signal sm:flex-row sm:items-center sm:justify-between sm:px-8"
+      className="lift group/tile block rounded-2xl bg-block px-6 py-7 text-onblock shadow-signal hover:shadow-signal active:shadow-signal sm:px-8"
     >
-      <span className="font-display text-2xl font-semibold tracking-tight sm:text-[28px]">
-        More on GitHub
-      </span>
+      <span className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+        <span>
+          <span className="block font-display text-2xl font-semibold tracking-tight sm:text-[28px]">
+            More on GitHub
+          </span>
+          {!failed && (
+            <span className="mt-1.5 block">
+              <ContributionSummary data={data} />
+            </span>
+          )}
+        </span>
 
-      <span className="font-mono text-xs text-onblock/75">
-        {profile.github.replace(/^https?:\/\//, "")}{" "}
-        <span
-          aria-hidden="true"
-          className="inline-block transition-transform duration-200 group-hover/tile:-translate-y-0.5 group-hover/tile:translate-x-0.5"
-        >
-          ↗
+        <span className="font-mono text-xs text-onblock/75 sm:pt-2">
+          {profile.github.replace(/^https?:\/\//, "")}{" "}
+          <span
+            aria-hidden="true"
+            className="inline-block transition-transform duration-200 group-hover/tile:-translate-y-0.5 group-hover/tile:translate-x-0.5"
+          >
+            ↗
+          </span>
         </span>
       </span>
+
+      {!failed && <ContributionGraph data={data} />}
 
       <span className="sr-only"> (opens in a new tab)</span>
     </a>
@@ -208,7 +223,6 @@ export default function Projects() {
         </div>
 
         <Reveal className="mt-16 lg:mt-20">
-          <Contributions />
           <GitHubTile />
         </Reveal>
       </div>
