@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { profile, projects } from "../data/content.js";
 import { srcSet } from "../imageCopies.js";
+import Contributions from "./Contributions.jsx";
 import Reveal from "./Reveal.jsx";
 import SectionLabel from "./SectionLabel.jsx";
 import StatusBadge from "./StatusBadge.jsx";
@@ -207,6 +208,7 @@ export default function Projects() {
         </div>
 
         <Reveal className="mt-16 lg:mt-20">
+          <Contributions />
           <GitHubTile />
         </Reveal>
       </div>
