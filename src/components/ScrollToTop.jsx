@@ -118,6 +118,9 @@ export default function ScrollToTop() {
 
     const update = () => {
       frame = 0;
+      // A link just changed the address, and the new page has not rendered
+      // yet. Writing here would put the old page back in the address.
+      if (window.location.pathname !== pathname) return;
       const next = hashInView();
       if (next === window.location.hash) return;
       const { search } = window.location;
