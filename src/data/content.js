@@ -7,9 +7,9 @@ export const profile = {
   phoneHref: "tel:+639568932434",
   github: "https://github.com/ShanPla",
 
-  // Add resume to /public and update this path when ready.
-  // Example: "/Shan-Platon-Resume.pdf"
-  resume: null,
+  // The resume PDF in public/. Set to null to hide the Resume buttons
+  // (hero and Contact).
+  resume: "/Resume-Platon.pdf",
 
   // Set to a path in public/ once a photo is available: a 4:5 portrait,
   // about 600x750 or larger. It fills the hero's photo frame on desktop

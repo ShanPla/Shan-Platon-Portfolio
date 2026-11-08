@@ -44,6 +44,17 @@ export default function Contact() {
               GitHub / ShanPla
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
+            {profile.resume && (
+              <a
+                href={profile.resume}
+                target="_blank"
+                rel="noreferrer"
+                className={PILL}
+              >
+                Resume (PDF)
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            )}
             <a href={profile.phoneHref} className={PILL}>
               {profile.phone}
             </a>
