@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { projects } from "./data/content.js";
+import { profile, projects } from "./data/content.js";
 import { srcSet } from "./imageCopies.js";
 import NotFound from "./NotFound.jsx";
 import BackToTop from "./components/BackToTop.jsx";
@@ -442,8 +442,48 @@ export default function ProjectDetail() {
           </section>
         </Reveal>
 
-        {/* Navigation */}
+        {/* The ask, where a reader has just finished the project: the
+            address is in the text too, for anyone without a mail app. */}
         <Reveal delay={350} loadStagger>
+          <section
+            aria-labelledby="hire-heading"
+            className="mt-16 rounded-2xl border border-line bg-surface px-6 py-8 sm:px-10 sm:py-10"
+          >
+            <p className="flex items-center gap-1.5 font-mono text-3xs uppercase tracking-widest text-inkmuted">
+              <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-ok" />
+              Open to an OJT internship
+            </p>
+            <h2
+              id="hire-heading"
+              className="mt-3 text-balance font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl"
+            >
+              Looking for an OJT intern?
+            </h2>
+            <p className="mt-3 max-w-lg text-pretty leading-relaxed text-inkmuted">
+              Reach me at <span className="whitespace-nowrap text-ink">{profile.email}</span>.
+              I usually reply within a day.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a href={`mailto:${profile.email}`} className="btn btn-primary">
+                Email me
+              </a>
+              {profile.resume && (
+                <a
+                  href={profile.resume}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-secondary"
+                >
+                  Resume
+                  <span className="sr-only"> (opens in a new tab)</span>
+                </a>
+              )}
+            </div>
+          </section>
+        </Reveal>
+
+        {/* Navigation */}
+        <Reveal delay={400} loadStagger>
           <div className="mt-14 border-t border-line pt-6">
             <Link
               to="/#projects"
