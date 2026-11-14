@@ -133,10 +133,6 @@ export const skills = [
         name: "EAS",
         logo: "expo",
       },
-      {
-        name: "Node-RED",
-        logo: "nodered",
-      },
     ],
   },
 ];
