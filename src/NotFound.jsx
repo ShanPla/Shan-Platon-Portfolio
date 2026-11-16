@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import Footer from "./components/Footer.jsx";
 import PageHeader from "./components/PageHeader.jsx";
 
 export default function NotFound({ title = "Page not found" }) {
@@ -8,10 +9,10 @@ export default function NotFound({ title = "Page not found" }) {
   }, [title]);
 
   return (
-    <div className="min-h-screen bg-paper">
+    <div className="flex min-h-screen flex-col bg-paper">
       <PageHeader />
 
-      <main className="mx-auto flex max-w-5xl flex-col items-center px-6 py-24 text-center sm:py-32">
+      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center px-6 py-24 text-center sm:py-32">
         <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
           404
         </p>
@@ -44,6 +45,8 @@ export default function NotFound({ title = "Page not found" }) {
           </Link>
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

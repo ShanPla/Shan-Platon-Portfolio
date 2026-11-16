@@ -5,6 +5,7 @@ import { srcSet } from "./imageCopies.js";
 import NotFound from "./NotFound.jsx";
 import BackToTop from "./components/BackToTop.jsx";
 import Lightbox from "./components/Lightbox.jsx";
+import Footer from "./components/Footer.jsx";
 import PageHeader from "./components/PageHeader.jsx";
 import Reveal from "./components/Reveal.jsx";
 import ScreenshotCarousel from "./components/ScreenshotCarousel.jsx";
@@ -522,6 +523,7 @@ export default function ProjectDetail() {
 
       </main>
 
+      <Footer />
       <BackToTop />
 
       {viewerIndex !== null && (
