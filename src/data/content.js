@@ -6,6 +6,7 @@ export const profile = {
   // The same number in international form, so phones can call it.
   phoneHref: "tel:+639568932434",
   github: "https://github.com/ShanPla",
+  linkedin: "https://www.linkedin.com/in/shan-platon-933454448/",
 
   // The resume PDF in public/. Set to null to hide the Resume buttons
   // (hero and Contact).

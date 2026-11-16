@@ -44,6 +44,15 @@ export default function Contact() {
               GitHub / ShanPla
               <span className="sr-only"> (opens in a new tab)</span>
             </a>
+            <a
+              href={profile.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className={PILL}
+            >
+              LinkedIn
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
             {profile.resume && (
               <a
                 href={profile.resume}
