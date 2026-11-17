@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Footer from "./components/Footer.jsx";
 import PageHeader from "./components/PageHeader.jsx";
+import SkipLink from "./components/SkipLink.jsx";
 
 export default function NotFound({ title = "Page not found" }) {
   useEffect(() => {
@@ -10,9 +11,14 @@ export default function NotFound({ title = "Page not found" }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-paper">
+      <SkipLink />
       <PageHeader />
 
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center px-6 py-24 text-center sm:py-32">
+      <main
+        id="main"
+        tabIndex={-1}
+        className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center px-6 py-24 text-center focus:outline-none sm:py-32"
+      >
         <p className="font-mono text-xs uppercase tracking-widest text-signaldeep">
           404
         </p>
@@ -36,12 +42,9 @@ export default function NotFound({ title = "Page not found" }) {
             Home
           </Link>
 
-          <Link
-            to="/#projects"
-            state={{ restore: true }}
-            className="btn btn-secondary"
-          >
-            <span aria-hidden="true">←</span> Back to Projects
+          {/* The header already links back to Projects. */}
+          <Link to="/#contact" className="btn btn-secondary">
+            Contact
           </Link>
         </div>
       </main>
