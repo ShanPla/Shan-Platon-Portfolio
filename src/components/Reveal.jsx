@@ -47,7 +47,11 @@ export default function Reveal({ children, className = "", delay = 0, loadStagge
   return (
     <div
       ref={ref}
-      onFocus={() => {
+      onFocus={(event) => {
+        // Only Tab focus skips the fade. A page change moves focus to the
+        // new heading (tabindex -1) for screen readers, and the observer
+        // shows that section anyway.
+        if (event.target.tabIndex < 0) return;
         setLate(true);
         setVisible(true);
       }}

@@ -232,7 +232,10 @@ export default function ProjectDetail() {
       <SkipLink />
       <PageHeader />
 
+      {/* Keyed by project, so Next project starts its sections hidden again
+          and they fade in like on any other visit. */}
       <main
+        key={project.id}
         id="main"
         tabIndex={-1}
         className="mx-auto max-w-5xl px-6 py-12 focus:outline-none sm:py-16"
