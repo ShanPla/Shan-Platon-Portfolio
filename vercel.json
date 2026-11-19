@@ -1,5 +1,10 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }],
+  "rewrites": [
+    { "source": "/projects/:id", "destination": "/projects/:id/index.html" }
+  ],
+  "redirects": [
+    { "source": "/projects", "destination": "/#projects", "permanent": false }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
