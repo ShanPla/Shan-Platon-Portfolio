@@ -32,7 +32,9 @@ function Stack({ project }) {
 // Opens the shot in the screenshot viewer. `size` ({ width, height })
 // reserves its space before it loads. `sizes` is the width it shows at, so
 // the browser picks the smallest copy that is still sharp; the default is
-// the full column, inside the 1px border.
+// the full column, inside the 1px border. eager: the page's main shot,
+// loaded at once and ahead of the carousel's (fetchpriority is lowercase
+// because React 18 does not know the camelCase prop).
 function ShotButton({
   shot,
   size,
@@ -55,6 +57,7 @@ function ShotButton({
         width={size?.width}
         height={size?.height}
         loading={eager ? "eager" : "lazy"}
+        fetchpriority={eager ? "high" : undefined}
         decoding="async"
         className="block h-auto w-full transition-transform duration-500 group-hover:scale-[1.01]"
       />
