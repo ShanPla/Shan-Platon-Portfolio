@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { profile, stats } from "../data/content.js";
+import { prefersReducedMotion } from "../utils.js";
 
 // First and last name, so "Shan Christian M. Platon" gives "SP". Stray
 // spaces are ignored, and a one-word name gives one letter.
@@ -7,10 +8,6 @@ const nameParts = profile.name.trim().split(/\s+/);
 const initials = (
   nameParts[0][0] + (nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : "")
 ).toUpperCase();
-
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // The intro plays the first time the hero shows in a page load; coming back
 // from a project page shows it at rest.

@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+import { prefersReducedMotion } from "../utils.js";
 
 /**
  * A section's numbered label (01 — About), followed on the same line by a

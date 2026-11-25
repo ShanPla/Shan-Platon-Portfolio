@@ -2,8 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { srcSet } from "../imageCopies.js";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "./icons.jsx";
-
-const pad = (n) => String(n).padStart(2, "0");
+import { pad } from "../utils.js";
 
 // The picture is limited by the window's height as well as its width, so
 // the full width is a safe upper bound: it never picks a copy too small.

@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { srcSet } from "../imageCopies.js";
 import { ChevronLeftIcon, ChevronRightIcon } from "./icons.jsx";
-
-const pad = (n) => String(n).padStart(2, "0");
+import { pad } from "../utils.js";
 
 /**
  * Shows one screenshot at a time, with its caption and arrow controls.

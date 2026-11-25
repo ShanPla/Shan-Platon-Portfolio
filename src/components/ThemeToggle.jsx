@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { flushSync } from "react-dom";
 import { MoonIcon, SunIcon } from "./icons.jsx";
+import { prefersReducedMotion } from "../utils.js";
 
 // The visitor's own pick, saved on this browser. Until there is one, the
 // theme follows the system setting. The script in index.html reads the
@@ -76,8 +77,7 @@ export default function ThemeToggle() {
     // The curtain (index.css): the new theme closes in from both sides
     // over a snapshot of the old one. Browsers without view transitions,
     // and readers who ask for less motion, switch at once.
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!document.startViewTransition || reduceMotion) {
+    if (!document.startViewTransition || prefersReducedMotion()) {
       change();
       return;
     }

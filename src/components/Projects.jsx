@@ -6,6 +6,8 @@ import { ContributionGraph, ContributionSummary, useContributions } from "./Cont
 import Reveal from "./Reveal.jsx";
 import SectionLabel from "./SectionLabel.jsx";
 import StatusBadge from "./StatusBadge.jsx";
+import { pad } from "../utils.js";
+import Stack from "./Stack.jsx";
 
 // Each project's own accent: its number, and its View project pill while
 // the row is hovered. The deep shades keep small text readable.
@@ -23,9 +25,6 @@ const ACCENTS = {
     pill: "group-hover:border-amberdeep group-hover:bg-amberdeep",
   },
 };
-
-// Two digits, so the first project is 01.
-const pad = (n) => String(n).padStart(2, "0");
 
 // The screenshot on a framed plate, which lifts with the row's hover (or
 // its link's keyboard focus) and presses in with it (lift-with-group in
@@ -63,22 +62,6 @@ function Plate({ project }) {
         </div>
       )}
     </div>
-  );
-}
-
-// role="list" because Safari drops list semantics once list styles are removed.
-function Stack({ project }) {
-  return (
-    <ul role="list" className="flex flex-wrap gap-1.5">
-      {project.stack.map((tech) => (
-        <li
-          key={tech}
-          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-3xs text-inkmuted"
-        >
-          {tech}
-        </li>
-      ))}
-    </ul>
   );
 }
 

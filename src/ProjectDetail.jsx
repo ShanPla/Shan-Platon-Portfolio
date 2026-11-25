@@ -12,22 +12,8 @@ import ScreenshotCarousel from "./components/ScreenshotCarousel.jsx";
 import SectionLabel from "./components/SectionLabel.jsx";
 import SkipLink from "./components/SkipLink.jsx";
 import StatusBadge from "./components/StatusBadge.jsx";
-
-// role="list" because Safari drops list semantics once list styles are removed.
-function Stack({ project }) {
-  return (
-    <ul role="list" className="flex flex-wrap gap-1.5">
-      {project.stack.map((tech) => (
-        <li
-          key={tech}
-          className="rounded border border-line bg-surface px-2.5 py-1.5 font-mono text-3xs text-inkmuted"
-        >
-          {tech}
-        </li>
-      ))}
-    </ul>
-  );
-}
+import { pad } from "./utils.js";
+import Stack from "./components/Stack.jsx";
 
 // Opens the shot in the screenshot viewer. `size` ({ width, height })
 // reserves its space before it loads. `sizes` is the width it shows at, so
@@ -115,7 +101,7 @@ function ContributionList({ project }) {
           className="grid gap-2 py-4 first:pt-1 sm:grid-cols-[32px_150px_1fr]"
         >
           <span aria-hidden="true" className="font-mono text-3xs text-inkmuted">
-            {String(index + 1).padStart(2, "0")}
+            {pad(index + 1)}
           </span>
 
           <h3 className="text-sm font-medium text-ink">
@@ -144,7 +130,7 @@ function FeatureList({ project }) {
           className="flex items-start gap-3"
         >
           <span aria-hidden="true" className="font-mono text-3xs text-inkmuted">
-            {String(index + 1).padStart(2, "0")}
+            {pad(index + 1)}
           </span>
 
           <span className="text-pretty text-sm text-ink">{feature}</span>
@@ -228,7 +214,7 @@ export default function ProjectDetail() {
   ].filter(Boolean);
 
   const label = (name) =>
-    `${String(sections.indexOf(name) + 1).padStart(2, "0")} — ${name}`;
+    `${pad(sections.indexOf(name) + 1)} — ${name}`;
 
   return (
     <div className="min-h-screen bg-paper">
@@ -258,7 +244,7 @@ export default function ProjectDetail() {
             </Link>
             <span aria-hidden="true">
               {" · "}
-              {String(position).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+              {pad(position)} / {pad(projects.length)}
             </span>
             <span className="sr-only normal-case">
               {" "}

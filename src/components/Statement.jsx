@@ -1,9 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { statement } from "../data/content.js";
-
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+import { prefersReducedMotion } from "../utils.js";
 
 // Where the middle of the sentence is, as a share of the window height,
 // when the first word lights (START) and when the last one does (END).
