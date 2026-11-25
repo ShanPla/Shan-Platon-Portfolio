@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { profile } from "../data/content.js";
 import Reveal from "./Reveal.jsx";
 import SectionLabel from "./SectionLabel.jsx";
@@ -6,6 +7,35 @@ import SectionLabel from "./SectionLabel.jsx";
 // shadow as btn-primary does. .btn gives the border, the shadow and the
 // colour fade (the lift class in index.css).
 const PILL = "btn btn-secondary hover:bg-ink hover:text-paper hover:shadow-signal";
+
+// For computers with no mail app set up, where the mailto link does
+// nothing: copies the address and says so for 2 seconds. The live region
+// tells screen readers too.
+function CopyEmail() {
+  const [status, setStatus] = useState("idle");
+  const timer = useRef(0);
+
+  useEffect(() => () => clearTimeout(timer.current), []);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setStatus("copied");
+    } catch {
+      setStatus("failed");
+    }
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setStatus("idle"), 2000);
+  }
+
+  return (
+    <button type="button" onClick={copy} className={PILL}>
+      <span aria-live="polite">
+        {status === "copied" ? "Email copied" : status === "failed" ? "Copy failed" : "Copy email"}
+      </span>
+    </button>
+  );
+}
 
 export default function Contact() {
   return (
@@ -35,6 +65,7 @@ export default function Contact() {
           </a>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
+            <CopyEmail />
             <a
               href={profile.github}
               target="_blank"
