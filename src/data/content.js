@@ -32,6 +32,19 @@ export const stats = [
   { label: "BASED IN", value: "Tanauan City, Batangas" },
 ];
 
+// The About section: a one-line heading and a short paragraph.
+export const about = {
+  heading: "A frontend-focused developer building web and mobile systems.",
+  text: "I'm a Computer Science student at De La Salle Lipa, currently in my final year. I build with React, React Native, Expo, and Supabase, with a growing focus on backend development.",
+};
+
+// The Contact section's heading and the line under it. The   keeps
+// the dash at the end of a line, never the start.
+export const contact = {
+  heading: "Looking for an OJT intern?",
+  text: "I'm a final-year CS student, strongest on the frontend and learning backend. Reach out directly — I usually reply within a day.",
+};
+
 // The dark band between Skills and Projects. Its words light up one by one
 // as it scrolls into view. highlight: the words drawn in blue once lit,
 // written exactly as they appear in text. The \u00a0 keeps "I build" on

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { profile } from "../data/content.js";
+import { contact, profile } from "../data/content.js";
 import Reveal from "./Reveal.jsx";
 import SectionLabel from "./SectionLabel.jsx";
 
@@ -44,12 +44,10 @@ export default function Contact() {
         <Reveal>
           <SectionLabel>04 — Contact</SectionLabel>
           <h2 className="mt-4 max-w-4xl text-balance font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-ink">
-            Looking for an OJT intern?
+            {contact.heading}
           </h2>
-          {/* &nbsp; keeps the dash at the end of a line, never the start. */}
           <p className="mt-6 max-w-lg text-pretty leading-relaxed text-inkmuted sm:text-lg">
-            I'm a final-year CS student, strongest on the frontend and learning
-            backend. Reach out directly&nbsp;— I usually reply within a day.
+            {contact.text}
           </p>
         </Reveal>
 

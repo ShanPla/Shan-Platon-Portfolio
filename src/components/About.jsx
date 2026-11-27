@@ -1,3 +1,4 @@
+import { about } from "../data/content.js";
 import Reveal from "./Reveal.jsx";
 import SectionLabel from "./SectionLabel.jsx";
 
@@ -9,13 +10,11 @@ export default function About() {
           <SectionLabel>01 — About</SectionLabel>
 
           <h2 className="mt-1.5 max-w-2xl font-display text-xl font-semibold leading-tight tracking-tight text-ink sm:text-2xl">
-            A frontend-focused developer building web and mobile systems.
+            {about.heading}
           </h2>
 
           <p className="mt-3 max-w-2xl text-pretty text-sm leading-6 text-inkmuted">
-            I'm a Computer Science student at De La Salle Lipa, currently
-            in my final year. I build with React, React Native, Expo, and
-            Supabase, with a growing focus on backend development.
+            {about.text}
           </p>
         </Reveal>
       </div>
